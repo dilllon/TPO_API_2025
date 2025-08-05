@@ -7,13 +7,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./resources/styles/style.css">
+    <link rel="icon" type="image/x-icon" href="./resources/images/favicon.webp">
     <title>Google</title>
 </head>
 <body>
     <div class="navbar">
         <div class="navbar-right">
-            <a href="https://gmail.com">Gmail</a>
-            <a href="#">Imágenes</a>
+            <a href="https://www.google.com/imghp?hl=es&authuser=0&ogbl">Gmail</a>
+            <a href="https://www.google.com/imghp?hl=es&authuser=0&ogbl">Imágenes</a>
             <button class="apps-button">
                 <img src="./resources/images/apps-icon.png" alt="Apps">
             </button>
@@ -21,18 +22,25 @@
         </div>
     </div>
     <div class="content">
-        <div class="google-container">
-            <img src="./resources/images/google-icon.png" alt="Google Icon">
-        </div>
+        <a href="https://google.com">
+            <div class="google-container">
+                <img src="./resources/images/google-icon.png" alt="Google Icon">
+            </div>
+        </a>
         <form action="https://www.google.com/search" method="GET">
             <div class="search-bar">
+                <img src="./resources/images/search.svg" alt="">
                 <input type="text" name="q" placeholder="Buscar en Google...">
+                <div class="left">
+                    <img src="./resources/images/mic.svg" alt="">
+                    <img src="./resources/images/camera.svg" alt="">
+                </div>
             </div>
             <div class="buttons">
                 <button type="submit">Buscar con Google</button>
                 <button type="button" onclick="location.href='https://www.google.com/doodles'">Voy a tener suerte</button>
             </div>
-        </form>  
+        </form>
     </div>
 </body>
 </html>
