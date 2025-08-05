@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./resources/styles/style.css">
+    <title>Google</title>
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-right">
+            <a href="https://gmail.com">Gmail</a>
+            <a href="#">Imágenes</a>
+            <button class="apps-button">
+                <img src="./resources/images/apps-icon.png" alt="Apps">
+            </button>
+            <img src="./resources/images/profile-icon.png" class="profile-picture" alt="Perfil">
+        </div>
+    </div>
+    <div class="content">
+        <div class="google-container">
+            <img src="./resources/images/google-icon.png" alt="Google Icon">
+        </div>
+        <form action="https://www.google.com/search" method="GET">
+            <div class="search-bar">
+                <input type="text" name="q" placeholder="Buscar en Google...">
+            </div>
+            <div class="buttons">
+                <button type="submit">Buscar con Google</button>
+                <button type="button" onclick="location.href='https://www.google.com/doodles'">Voy a tener suerte</button>
+            </div>
+        </form>  
+    </div>
+</body>
+</html>
