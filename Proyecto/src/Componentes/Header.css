@@ -1,0 +1,56 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+
+}
+
+.titulo {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.nav {
+  margin-top: 0.5rem;
+}
+
+.nav-link {
+  color: white;
+  margin-right: 1rem;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+.buscador {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.input-busqueda {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: none;
+  width: 200px;
+}
+
+.btn-buscar {
+  padding: 0.5rem 1rem;
+  margin-left: 0.5rem;
+  background-color: #555;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-buscar:hover {
+  background-color: #777;
+}

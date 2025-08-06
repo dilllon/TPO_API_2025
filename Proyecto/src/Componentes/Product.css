@@ -1,0 +1,36 @@
+.producto-card {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 8px;
+  width: 200px;
+  text-align: center;
+  background-color: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.producto-imagen {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.producto-titulo {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.producto-precio {
+  font-weight: bold;
+  color: green;
+  margin: 0.3rem 0;
+}
+
+.producto-stock {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.sin-stock {
+  color: red;
+  font-weight: bold;
+}
