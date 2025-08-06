@@ -2,7 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-
+import Carrousel from './Componentes/Carrousel';
 import Header from './Componentes/Header';
 import ProductoCard from './Componentes/Product';
 
@@ -10,6 +10,7 @@ function App() {
   return (
     <>
       <Header />
+      <Carrousel></Carrousel>
       <main style={{ padding: '0rem' }}>
         <h2>¡Bienvenido a nuestra tienda!</h2>
         <p>Explorá nuestros productos y hacé tu compra de forma fácil y rápida.</p>
