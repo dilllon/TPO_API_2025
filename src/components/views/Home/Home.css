@@ -1,0 +1,7 @@
+.productos-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 2rem;
+  gap: 0.5rem; 
+}
