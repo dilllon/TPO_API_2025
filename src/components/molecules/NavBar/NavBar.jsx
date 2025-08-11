@@ -1,38 +1,45 @@
-import './NavBar.css';
+import React, { useState } from "react";
+import "./NavBar.css";
 
 function NavBar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
-    <nav className="navbar navbar-dark navbar-expand-lg">
-        <div className="container-fluid">
-            <a className="titulo nav-link" href="#">Tienda Online</a>
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                <a className="nav-link" aria-current="page" href="#">Inicio</a>
-                </li>
-                <li className="nav-item">
-                <a className="nav-link" href="#">Catalogo</a>
-                </li>
-                <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Dropdown
-                </a>
-                <ul className="dropdown-menu">
-                    <li><a className="dropdown-item" href="#">Action</a></li>
-                    <li><a className="dropdown-item" href="#">Another action</a></li>
-                    <li><a className="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-                </li>
-            </ul>
-            <form className="d-flex" role="search">
-                <input className="input-busqueda form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                <button className="btn-buscar" type="submit">Search</button>
-            </form>
-            </div>
+    <nav className="navbar">
+      <div className="container">
+        <a className="titulo" href="#">Tienda Online</a>
+
+        {/* Botón hamburguesa */}
+        <button
+          className="burger"
+          aria-label="Toggle navigation"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          ☰
+        </button>
+
+        {/* Menú */}
+        <div className={`nav-menu ${menuOpen ? "show" : ""}`}>
+          <ul className="nav-list">
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">Catálogo</a></li>
+            <li className="dropdown">
+              <a href="#" className="dropdown-toggle">Dropdown ▼</a>
+              <ul className="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+              </ul>
+            </li>
+          </ul>
+
+          {/* Buscador */}
+          <form className="search-form" onSubmit={(e) => e.preventDefault()}>
+            <input type="search" placeholder="Buscar..." aria-label="Buscar" />
+            <button type="submit">Buscar</button>
+          </form>
         </div>
+      </div>
     </nav>
   );
 }

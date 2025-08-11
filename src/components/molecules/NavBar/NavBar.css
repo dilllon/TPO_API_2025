@@ -1,49 +1,126 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
 .navbar {
-  background-color: #333;
-  color: white;
-  padding: 1rem;
+  background-color: #222;
+  color: #fff;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1rem;
 }
 
 .titulo {
-  margin: 0;
-  font-size: 1.8rem;
-}
-
-.nav-link {
   color: white;
-  margin-right: 1rem;
   text-decoration: none;
-  font-weight: 500;
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
-.nav-link:hover {
-  text-decoration: underline;
-  color: rgb(145, 145, 53)
+.burger {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: none;
 }
 
-.buscador {
-  margin-top: 1rem;
+.nav-menu {
   display: flex;
   align-items: center;
 }
 
-.input-busqueda {
-  padding: 0.5rem;
-  border-radius: 20px;
-  border: none;
-  width: 200px;
+.nav-list {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
 }
 
-.btn-buscar {
-  padding: 0.5rem 1rem;
-  margin-left: 0.5rem;
-  background-color: #555;
+.nav-list li {
+  position: relative;
+}
+
+.nav-list a {
   color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  display: block;
 }
 
-.btn-buscar:hover {
-  background-color: #777;
+.nav-list a:hover {
+  background-color: #444;
+}
+
+/* Dropdown */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: #333;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  top: 100%;
+  left: 0;
+  min-width: 150px;
+}
+
+.dropdown-menu li a {
+  padding: 0.5rem 1rem;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+/* Buscador */
+.search-form {
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+}
+
+.search-form input {
+  padding: 0.4rem;
+  border: none;
+  border-radius: 3px;
+}
+
+.search-form button {
+  padding: 0.4rem 0.6rem;
+  margin-left: 0.3rem;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  background-color: #ff9800;
+  color: white;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .burger {
+    display: block;
+  }
+  .nav-menu {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background-color: #222;
+  }
+  .nav-menu.show {
+    display: flex;
+  }
+  .nav-list {
+    flex-direction: column;
+  }
+  .search-form {
+    padding: 1rem;
+    width: 100%;
+  }
 }
