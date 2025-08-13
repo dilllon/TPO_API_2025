@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { registerUser } from '@/store/slices/authSlice';
 import './Register.css';
 
 function Register() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     firstName: '',
