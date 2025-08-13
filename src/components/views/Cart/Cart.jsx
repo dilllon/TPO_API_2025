@@ -1,4 +1,5 @@
 import Header from '@/components/organisms/Header/Header';
+import icono from '@/assets/images/cart/cart-icon.png';
 import './Cart.css';
 
 function Cart() {
@@ -9,6 +10,7 @@ function Cart() {
       <div className="cart-message">
         <h2>Tu carrito de compras</h2>
         <p>Agrega productos a tu carrito</p>
+        <img src={icono} alt="cart-img" />
       </div>
     </div>
   </>
@@ -16,3 +18,4 @@ function Cart() {
 };
 
 export default Cart;
+
