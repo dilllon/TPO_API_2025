@@ -1,4 +1,37 @@
 .cart-container {
   display: flex;
   padding: 0.8rem 1rem;
+  border: 1px solid #e0e0e0;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center; /* Centra verticalmente */
+}
+
+.cart-container .cart-message {
+    width: 70%; /* El mensaje ocupa el 60% del ancho de la ventana */
+}
+
+.cart-container .icon {
+  display: block;
+  width: 30%;      /* El icono ocupa el 40% del ancho de la ventana */
+  max-width: 8rem;  /* No crece más de 8rem */
+  min-width: 3rem;  /* No se achica menos de 3rem */
+  margin: 0px auto;
+}
+
+@media (max-width: 600px) {
+  .cart-container {
+    flex-direction: column; /* Cambia a columna en pantallas pequeñas */
+    align-items: center; /* Centra los elementos horizontalmente */
+  }
+
+  .cart-container .cart-message {
+    width: 100%; /* El mensaje ocupa todo el ancho en pantallas pequeñas */
+    text-align: center; /* Centra el texto del mensaje */
+  }
+
+  .cart-container .icon {
+    width: 100%; /* El icono ocupa todo el ancho en pantallas pequeñas */
+    max-width: 5rem; /* Tamaño máximo del icono */
+  }
 }
