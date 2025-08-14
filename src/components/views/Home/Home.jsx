@@ -7,7 +7,7 @@ function Home() {
   return (
     <>
       <Header />
-      <Carrousel />
+      {/* <Carrousel /> */}
       <main>
         <section className='d-flex flex-column justify-content-center align-items-center'>
           <h2>¡Bienvenido a nuestra tienda!</h2>

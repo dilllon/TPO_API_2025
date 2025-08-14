@@ -2,17 +2,27 @@ import React, { useState } from "react";
 import "./NavBar.css";
 import icono from '../../../assets/images/icono.jpg';
 import carrito from '../../../assets/images/carritodecompras.jpg';
-
+import crearcuentaimg from '../../../assets/images/crearusuarioimg.jpg';
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <nav className="navbar">
-      <div className="container-fluid">
+      <div className="izquierda">
+        <a className="titulo" href="#">Tienda Online</a>
+      </div>
+      <div className="centro">
 
         <div className="PrimerRenglon">
         {/* Título de la tienda */}
-        <a className="titulo" href="#">Tienda Online</a>
+        
+
+        
+
+        {/* Buscador */}
+          <form className="search-form" onSubmit={(e) => e.preventDefault()}>
+            <input type="search" placeholder="Buscar..." aria-label="Buscar" />
+          </form>
 
         {/* Botón hamburguesa */}
         <button
@@ -22,12 +32,7 @@ function NavBar() {
         >
           ☰
         </button>
-
-        {/* Buscador */}
-          <form className="search-form" onSubmit={(e) => e.preventDefault()}>
-            <input type="search" placeholder="Buscar..." aria-label="Buscar" />
-            <button type="submit">Buscar</button>
-          </form>
+        
         </div>
 
         <div className="SegundoRenglon">
@@ -48,27 +53,45 @@ function NavBar() {
               <li><a href="#">Mis compras</a></li>
             </ul>
           </div>
-          {/* Botones de usuario */}
-          <div className="userbuttons">
-            <a className="user-btn" aria-label="Perfil" href="/register">
-              <img 
-                src={icono} 
-                alt="Perfil"
-              />
-            </a>
-            <a className="user-btn" aria-label="Perfil" href="/register">
-              <img 
-                src={carrito} 
-                alt="Perfil"
-              />
-            </a>
-          </div>
+          
+
+          
+
         </div>
 
 
-
+        
 
       </div>
+      <div className="derecha">
+      {/* Botones de usuario */}
+      <div className={`userbuttons nav-menu ${menuOpen ? "show" : ""}`}>
+
+        <div className="user-wrapper">
+          <a className="user-btn" aria-label="Perfil" href="/register">
+            <img src={icono} alt="Perfil" />
+            <span className="user-label">Ingresar</span>
+          </a>
+        </div>
+
+        <div className="user-wrapper">
+          <a className="user-btn" aria-label="Crear cuenta" href="/register">
+            <img src={crearcuentaimg} alt="Crear cuenta" />
+            <span className="user-label">Registrarse</span>
+          </a>
+        </div>
+
+        <div className="user-wrapper">
+          <a className="user-btn" aria-label="Carrito" href="/register">
+            <img src={carrito} alt="Carrito" />
+            <span className="user-label">Compras</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+
     </nav>
   );
 }
