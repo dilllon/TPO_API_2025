@@ -4,7 +4,7 @@ import icono from '../../../assets/images/editarperfil.jpg';
 import carrito from '../../../assets/images/carritodecompras.jpg';
 import crearcuentaimg from '../../../assets/images/crearusuarioimg.jpg';
 import Logo from "../../Logo/Logo.jsx";
-import Buscador from "../../atoms/Buscador/buscador.jsx";
+import Buscador from "../../atoms/Buscador/Buscador.jsx";
 
 
 
