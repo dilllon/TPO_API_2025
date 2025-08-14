@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./NavBar.css";
-import icono from '../../../assets/images/icono.jpg';
+import icono from '../../../assets/images/editarperfil.jpg';
 import carrito from '../../../assets/images/carritodecompras.jpg';
 import crearcuentaimg from '../../../assets/images/crearusuarioimg.jpg';
 import Logo from "../../Logo/Logo.jsx";
@@ -8,7 +8,7 @@ import Buscador from "../../atoms/Buscador/buscador.jsx";
 
 
 
-function NavBar() {
+function NavBarRegistrado() {
   const [menuOpen, setMenuOpen] = useState(false);
 
 
@@ -72,14 +72,14 @@ function NavBar() {
         <div className="user-wrapper">
           <a className="user-btn" aria-label="Perfil" href="/r">
             <img src={icono} alt="Perfil" />
-            <span className="user-label">Ingresar</span>
+            <span className="user-label">Perfil</span>
           </a>
         </div>
 
         <div className="user-wrapper">
-          <a className="user-btn" aria-label="Crear cuenta" href="/register">
+          <a className="user-btn" aria-label="Crear cuenta" href="/">
             <img src={crearcuentaimg} alt="Crear cuenta" />
-            <span className="user-label">Registrarse</span>
+            <span className="user-label">Salir</span>
           </a>
         </div>
 
@@ -98,4 +98,4 @@ function NavBar() {
   );
 }
 
-export default NavBar;
+export default NavBarRegistrado;

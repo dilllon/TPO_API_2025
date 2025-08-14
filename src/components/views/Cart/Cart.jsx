@@ -3,13 +3,13 @@ import './Cart.css';
 import {ProductCardCart} from '@/components/molecules/ProductCard/ProductCard';
 
 const exampleProduct = {
-  name: 'Producto de ejemplo',
+  name: 'Producto de ejemplo',  
   price: 100,
   image: 'https://dummyimage.com/200x200/cccccc/000000.png&text=Producto+de+ejemplo',
   stock: 10
 }
 
-const products = [exampleProduct,exampleProduct,exampleProduct];
+const products = [];
 
 function Cart() {
   return (
