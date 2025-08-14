@@ -76,7 +76,7 @@
 
 /*Sobreescritura de producto-card para el carrito*/
 
-.producto-card {
+.product-cart-card {
     display: flex;
     justify-content: space-evenly;
     width: 100%;
@@ -87,23 +87,23 @@
     color: #f5f5f5;
 }
 
-.producto-imagen {
+.product-cart-image {
     width: 20%;
     border-radius: 4px;
 }
 
-.producto-titulo {
+.product-cart-title {
     font-size: 1.2rem;
     margin: 0.5rem 0;
 }
 
-.producto-precio {
+.product-cart-price {
     font-weight: bold;
     color: #15a715;
     margin: 0.3rem 0;
 }
 
-.producto-stock {
+.product-cart-stock {
     font-size: 0.9rem;
     color: #f5f5f5;
 }

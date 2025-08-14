@@ -34,3 +34,37 @@
   color: red;
   font-weight: bold;
 }
+
+
+/* card cart*/
+.product-card-card {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 8px;
+  width: 200px;
+  text-align: center;
+  background-color: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.product-card-image {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.product-card-title {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.product-card-price {
+  font-weight: bold;
+  color: green;
+  margin: 0.3rem 0;
+}
+
+.product-card-stock {
+  font-size: 0.9rem;
+  color: #555;
+}
