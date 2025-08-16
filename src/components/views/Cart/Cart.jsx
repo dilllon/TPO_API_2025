@@ -1,6 +1,6 @@
+import ProductCard from '@/components/molecules/ProductCard/ProductCard';
 import Header from '@/components/organisms/Header/Header';
 import './Cart.css';
-import {ProductCardCart} from '@/components/molecules/ProductCard/ProductCard';
 
 const exampleProduct = {
   name: 'Producto de ejemplo',  
@@ -29,12 +29,13 @@ function Cart() {
         </div>
         <div className='cart-items'>
           {products.map((product, index) => (
-              <ProductCardCart
+              <ProductCard
                 key={index}
-                title={product.name}
-                price={product.price}
-                image={product.image}
+                titulo={product.name}
+                precio={product.price}
+                imagen={product.image}
                 stock={product.stock}
+                variant="cart"
               />
           ))}
         </div>

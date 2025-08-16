@@ -46,6 +46,39 @@
   background-color: #f3fff0;
 }
 
+.producto-card.cart {
+  display: flex;
+  justify-content: space-evenly;
+  width: 95%;
+  padding: 10px 0;
+  margin: 15px 0;
+  max-height: 10%;
+  border-radius: 0;
+  align-items: center;
+  background-color: #3f3d3d;
+  box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.596);
+  border: none;
+  color: #f5f5f5;
+}
+.producto-card.cart .producto-imagen {
+  max-width: 150px;
+  border-radius: 4px;
+  margin: 0px 10px;
+}
+.producto-card.cart .producto-titulo {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+.producto-card.cart .producto-precio {
+  font-weight: bold;
+  color: #15a715;
+  margin: 0.3rem 0;
+}
+.producto-card.cart .producto-stock {
+  font-size: 0.9rem;
+  color: #f5f5f5;
+}
+
 
 /* card cart*/
 .product-cart-card {
