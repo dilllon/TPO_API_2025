@@ -1,3 +1,8 @@
+/* Fondo gradiente para toda la app desde el header */
+.app-gradient {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #7b3da0, #000000);
+}
 /* Estilos generales de todo el proyecto */
 
 :root {
@@ -8,7 +13,7 @@
 
   /* Variables de color para el tema oscuro (por defecto) */
   --color-text: rgba(255, 255, 255, 0.87);
-  --color-background: #242424;
+  --color-background: #7b3da0;
   --color-link: #646cff;
   --color-link-hover: #535bf2;
   --color-button-bg: #1a1a1a;
@@ -30,7 +35,7 @@
 @media (prefers-color-scheme: light) {
   :root {
     --color-text: #213547;
-    --color-background: #ffffff;
+    --color-background: #7b3da0;
     --color-link-hover: #747bff;
     --color-button-bg: #f9f9f9;
   }
