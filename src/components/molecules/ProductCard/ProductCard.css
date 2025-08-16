@@ -17,6 +17,7 @@
 .producto-titulo {
   font-size: 1.2rem;
   margin: 0.5rem 0;
+  color: #000000;
 }
 
 .producto-precio {
@@ -33,6 +34,16 @@
 .sin-stock {
   color: red;
   font-weight: bold;
+}
+
+/* Estilos para variantes de categoría */
+.producto-card.cat1 {
+  border-color: #bbbbbb;
+  background-color: #f3fff0;
+}
+.producto-card.cat2 {
+  border-color: #bbbbbb;
+  background-color: #f3fff0;
 }
 
 

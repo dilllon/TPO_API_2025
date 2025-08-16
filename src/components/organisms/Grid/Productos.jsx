@@ -1,4 +1,3 @@
-import React from "react";
 import ProductoCard from "@/components/molecules/ProductCard/ProductCard";
 import "./Productos.css";
 
@@ -71,11 +70,9 @@ function ProductosGrid({onClick}) {
       {productoscat1.map((p, i) => (
         <ProductoCard
           key={`cat1-${i}`}
-          titulo={p.titulo}
-          precio={p.precio}
-          imagen={p.imagen}
-          stock={p.stock}
+          {...p}
           onClick={onClick}
+          variant="cat1"
         />
       ))}
     </div>
@@ -85,11 +82,9 @@ function ProductosGrid({onClick}) {
       {productoscat2.map((p, i) => (
         <ProductoCard
           key={`cat2-${i}`}
-          titulo={p.titulo}
-          precio={p.precio}
-          imagen={p.imagen}
-          stock={p.stock}
+          {...p}
           onClick={onClick}
+          variant="cat2"
         />
       ))}
     </div>
