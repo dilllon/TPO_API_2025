@@ -1,0 +1,48 @@
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #ff6600;
+  display: flex;
+
+  gap: 8px;
+}
+
+.logo-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.logo-text {
+  display: flex
+   
+}
+
+.logo-highlight {
+  color: #fff;
+}
+
+/* Efecto hover opcional */
+.logo:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease-in-out;
+}
+
+
+
+@media (max-width: 768px) {
+
+.logo {
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #ff6600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex-wrap: wrap
+}
+
+
+}
