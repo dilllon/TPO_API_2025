@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./NavBar.css";
 import icono from '../../../assets/images/icono.jpg';
-import carrito from '../../../assets/images/carritodecompras.jpg';
+import contactoimg from '../../../assets/images/contactoimg.jpg';
 import crearcuentaimg from '../../../assets/images/crearusuarioimg.jpg';
 import Logo from "../../Logo/Logo.jsx";
 import Buscador from "../../atoms/Buscador/Buscador.jsx";
@@ -52,7 +52,7 @@ function NavBar() {
                 </ul>
               </li>
               <li><a href="#">Categoria</a></li>
-              <li><a href="#">Mis compras</a></li>
+              <li><a href="/cart">Mis compras</a></li>
             </ul>
           </div>
           
@@ -85,8 +85,8 @@ function NavBar() {
 
         <div className="user-wrapper">
           <a className="user-btn" aria-label="Carrito" href="/register">
-            <img src={carrito} alt="Carrito" />
-            <span className="user-label">Compras</span>
+            <img src={contactoimg} alt="Carrito" />
+            <span className="user-label">Contacto</span>
           </a>
         </div>
 

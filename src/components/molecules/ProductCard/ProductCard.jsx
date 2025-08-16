@@ -1,6 +1,6 @@
 import './ProductCard.css';
 
-function ProductCard({ titulo, precio, imagen, stock }) {
+function ProductCard({ titulo, precio, imagen, stock, onClick }) {
   return (
     <div className="producto-card">
       <img src={imagen} alt={titulo} className="producto-imagen" />
@@ -10,6 +10,7 @@ function ProductCard({ titulo, precio, imagen, stock }) {
         Stock:{' '}
         {stock > 0 ? stock : <span className="sin-stock">Sin stock</span>}
       </p>
+      <button onClick={onClick}>Agregar al carrito</button>
     </div>
   );
 }

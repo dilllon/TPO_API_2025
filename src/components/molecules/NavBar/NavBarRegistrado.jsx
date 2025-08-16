@@ -52,7 +52,7 @@ function NavBarRegistrado() {
                 </ul>
               </li>
               <li><a href="#">Categoria</a></li>
-              <li><a href="#">Mis compras</a></li>
+              <li><a href="/cart">Mis compras</a></li>
             </ul>
           </div>
           

@@ -2,7 +2,7 @@ import React from "react";
 import ProductoCard from "@/components/molecules/ProductCard/ProductCard";
 import "./Productos.css";
 
-function ProductosGrid() {
+function ProductosGrid({onClick}) {
   const productoscat1 = [
     {
       titulo: "Mouse inalámbrico",
@@ -75,6 +75,7 @@ function ProductosGrid() {
           precio={p.precio}
           imagen={p.imagen}
           stock={p.stock}
+          onClick={onClick}
         />
       ))}
     </div>
@@ -88,6 +89,7 @@ function ProductosGrid() {
           precio={p.precio}
           imagen={p.imagen}
           stock={p.stock}
+          onClick={onClick}
         />
       ))}
     </div>
