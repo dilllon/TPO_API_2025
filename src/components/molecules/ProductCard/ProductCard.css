@@ -37,7 +37,7 @@
 
 
 /* card cart*/
-.product-card-card {
+.product-cart-card {
   border: 1px solid #ccc;
   padding: 1rem;
   border-radius: 8px;
@@ -47,24 +47,24 @@
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.product-card-image {
+.product-cart-image {
   width: 100%;
   height: auto;
   border-radius: 4px;
 }
 
-.product-card-title {
+.product-cart-title {
   font-size: 1.2rem;
   margin: 0.5rem 0;
 }
 
-.product-card-price {
+.product-cart-price {
   font-weight: bold;
   color: green;
   margin: 0.3rem 0;
 }
 
-.product-card-stock {
+.product-cart-stock {
   font-size: 0.9rem;
   color: #555;
 }

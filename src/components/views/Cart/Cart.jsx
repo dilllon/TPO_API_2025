@@ -9,7 +9,7 @@ const exampleProduct = {
   stock: 10
 }
 
-const products = [];
+const products = [exampleProduct,exampleProduct,exampleProduct];
 
 function Cart() {
   return (

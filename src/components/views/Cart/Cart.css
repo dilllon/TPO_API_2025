@@ -59,6 +59,10 @@
     width: 100%; /* El icono ocupa todo el ancho en pantallas pequeñas */
     max-width: 5rem; /* Tamaño máximo del icono */
   }
+
+  .product-cart-title {
+    font-size: 1rem; /* Tamaño de fuente más pequeño para pantallas pequeñas */
+  }
 }
 
 /* Box del carrito si no hay productos */
