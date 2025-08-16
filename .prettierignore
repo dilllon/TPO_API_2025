@@ -1,4 +1,0 @@
-# Ignorar dependencias y archivos de build
-node_modules
-dist
-.vite
