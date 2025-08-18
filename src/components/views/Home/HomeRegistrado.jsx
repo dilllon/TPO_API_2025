@@ -9,7 +9,7 @@ function HomeRegistrado() {
   const [cantItems, setCantItems] = useState(() => {
     try {
       const cart = JSON.parse(localStorage.getItem('cartItems') || '[]');
-      return cart.length;
+      return cart.reduce((total, item) => total + (item.qty || 1), 0);
     } catch {
       return 0;
     }

@@ -34,6 +34,11 @@ function Cart() {
       cart.splice(i, 1);
     }
     localStorage.setItem('cartItems', JSON.stringify(cart));
+    // Dispara un evento de storage para notificar a otros componentes
+    window.dispatchEvent(new StorageEvent('storage', {
+      key: 'cartItems',
+      newValue: JSON.stringify(cart)
+    }));
     setProducts([...cart]);
   };
 
@@ -44,6 +49,11 @@ function Cart() {
       cart[i].qty = Math.max(1, newQty);
     }
     localStorage.setItem('cartItems', JSON.stringify(cart));
+    // Dispara un evento de storage para notificar a otros componentes
+    window.dispatchEvent(new StorageEvent('storage', {
+      key: 'cartItems',
+      newValue: JSON.stringify(cart)
+    }));
     setProducts([...cart]);
   };
 
@@ -59,6 +69,11 @@ function Cart() {
     // Aquí iría la lógica de procesamiento de pago
     alert('¡Compra realizada con éxito!');
     localStorage.setItem('cartItems', '[]');
+    // Dispara un evento de storage para notificar a otros componentes
+    window.dispatchEvent(new StorageEvent('storage', {
+      key: 'cartItems',
+      newValue: '[]'
+    }));
     setProducts([]);
     setShowPopup(false);
   };
