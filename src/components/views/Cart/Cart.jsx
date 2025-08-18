@@ -30,8 +30,17 @@ function Cart() {
     const cart = JSON.parse(localStorage.getItem('cartItems') || '[]');
     const i = cart.findIndex(it => it.id === id);
     if (i >= 0) {
-      if ((cart[i].qty || 1) > 1) cart[i].qty -= 1;
-      else cart.splice(i, 1);
+      cart.splice(i, 1);
+    }
+    localStorage.setItem('cartItems', JSON.stringify(cart));
+    setProducts([...cart]);
+  };
+
+  const updateQuantity = (id, newQty) => {
+    const cart = JSON.parse(localStorage.getItem('cartItems') || '[]');
+    const i = cart.findIndex(it => it.id === id);
+    if (i >= 0) {
+      cart[i].qty = Math.max(1, newQty);
     }
     localStorage.setItem('cartItems', JSON.stringify(cart));
     setProducts([...cart]);
@@ -56,17 +65,17 @@ function Cart() {
 
           <div className='cart-items'>
             {products.map((p, index) => (
-              <div key={`${p.id}-${index}`} style={{ position: 'relative', width: '100%' }}>
+              <div key={`${p.id}-${index}`} className="cart-items-product">
                 <ProductCardAdded
                   title={p.title}
                   price={p.price}
                   image={p.image}
                   stock={p.stock}
-                  qty={p.qty}
+                  qty={p.qty || 1}
                   variant="cart"
                   onClick={() => removeOne(p.id)}
+                  onQuantityChange={(newQty) => updateQuantity(p.id, newQty)}
                 />
-                <div className="product-quantity">{p.qty || 1}</div>
               </div>
             ))}
           </div>
