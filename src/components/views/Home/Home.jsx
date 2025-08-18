@@ -1,7 +1,6 @@
-import './Home.css';
-import Carrousel from '@/components/organisms/Carrousel/Carrousel';
-import Header from '@/components/organisms/Header/Header';
 import ProductosGrid from '@/components/organisms/Grid/Products';
+import Header from '@/components/organisms/Header/Header';
+import './Home.css';
 
 function Home() {
   return (
@@ -9,13 +8,15 @@ function Home() {
       <Header />
       {/* <Carrousel /> */}
       <main>
-        <section >
-          <h2>¡Bienvenido a nuestra tienda!</h2>
+        <section>
+          <div className='welcome-message'>
+            <h2>¡Bienvenido a nuestra tienda!</h2>
+          </div>
           <p>
             Explorá nuestros productos y hacé tu compra de forma fácil y rápida.
           </p>
         </section>
-        <ProductosGrid/>
+        <ProductosGrid />
       </main>
     </>
   );
