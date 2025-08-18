@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import "./NavBar.css";
-import icono from '../../../assets/images/editarperfil.jpg';
+import { useState } from "react";
 import contactoimg from '../../../assets/images/contactoimg.jpg';
 import crearcuentaimg from '../../../assets/images/crearusuarioimg.jpg';
+import icono from '../../../assets/images/editarperfil.jpg';
 import Logo from "../../Logo/Logo.jsx";
 import Buscador from "../../atoms/Buscador/Buscador.jsx";
+import "./NavBar.css";
 
 
 

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import "./NavBar.css";
-import icono from '../../../assets/images/icono.jpg';
+import { useState } from "react";
 import contactoimg from '../../../assets/images/contactoimg.jpg';
 import crearcuentaimg from '../../../assets/images/crearusuarioimg.jpg';
+import icono from '../../../assets/images/icono.jpg';
 import Logo from "../../Logo/Logo.jsx";
 import Buscador from "../../atoms/Buscador/Buscador.jsx";
+import "./NavBar.css";
 
 
 
@@ -70,21 +70,21 @@ function NavBar() {
       <div className={`userbuttons nav-menu ${menuOpen ? "show" : ""}`}>
 
         <div className="user-wrapper">
-          <a className="user-btn" aria-label="Perfil" href="/clients/login">
+          <a className="user-btn" aria-label="Perfil" href="/r">
             <img src={icono} alt="Perfil" />
             <span className="user-label">Ingresar</span>
           </a>
         </div>
 
         <div className="user-wrapper">
-          <a className="user-btn" aria-label="Crear cuenta" href="/clients/register">
+          <a className="user-btn" aria-label="Crear cuenta" href="/register">
             <img src={crearcuentaimg} alt="Crear cuenta" />
             <span className="user-label">Registrarse</span>
-          </a>  
+          </a>
         </div>
 
         <div className="user-wrapper">
-          <a className="user-btn" aria-label="Carrito" href="/">
+          <a className="user-btn" aria-label="Carrito" href="/register">
             <img src={contactoimg} alt="Carrito" />
             <span className="user-label">Contacto</span>
           </a>

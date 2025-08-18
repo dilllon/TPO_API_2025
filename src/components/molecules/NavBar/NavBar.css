@@ -1,14 +1,15 @@
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .navbar {
-  background: linear-gradient(to bottom, #5c93f8, #111c30);
-  color: #fff;
+  background: linear-gradient(to bottom, #3498db, #2c3e50);
+  color: var(--text-light, #ecf0f1);
   display: flex;
   flex-direction: row;
   position: relative;
+  font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .centro {
@@ -64,31 +65,46 @@ body {
 }
 
 .nav-list a {
-  color: white;
+  color: var(--text-light, #ecf0f1);
   text-decoration: none;
-  padding: 0.5rem 1rem;
+  padding: 0.7rem 1.2rem;
   display: block;
+  font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  transition: all 0.3s ease;
+  border-radius: var(--border-radius-sm, 4px);
 }
 
 .nav-list a:hover {
-  background-color: #444;
+  background-color: rgba(52, 152, 219, 0.3);
+  transform: translateY(-2px);
 }
 
 /* Dropdown */
 .dropdown-menu {
   display: none;
   position: absolute;
-  background-color: #333;
+  background-color: var(--background-dark, #2c3e50);
   list-style: none;
   padding: 0;
   margin: 0;
   top: 100%;
   left: 0;
-  min-width: 150px;
+  min-width: 180px;
+  border-radius: var(--border-radius-sm, 4px);
+  box-shadow: var(--shadow-md, 0 4px 10px rgba(0,0,0,0.12));
+  overflow: hidden;
+  z-index: 1000;
 }
 
 .dropdown-menu li a {
-  padding: 0.5rem 1rem;
+  padding: 0.8rem 1.2rem;
+  font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  transition: all 0.2s ease;
+}
+
+.dropdown-menu li a:hover {
+  background-color: var(--primary-color, #3498db);
+  color: white;
 }
 
 .dropdown:hover .dropdown-menu {
@@ -157,14 +173,14 @@ body {
   flex-direction: column;
   align-items: center;
   text-align: center;
-
+  font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
   padding: 20px;
-  border-radius: 8px;
-  background-color: #2b2b2b; /* un gris oscuro que combine con el navbar */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4); /* sombra suave */
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: var(--border-radius-md, 8px);
+  background-color: rgba(44, 62, 80, 0.7); /* Dark blue that matches the navbar gradient */
+  box-shadow: var(--shadow-md, 0 4px 10px rgba(0,0,0,0.12)); 
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   width: 80px;   /* ancho fijo */
-  height: 90  px;  /* alto fijo */
+  height: 90px;  /* alto fijo */
 }
 
 .user-wrapper:hover {
