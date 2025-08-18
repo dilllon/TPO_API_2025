@@ -41,7 +41,7 @@ function NavBar() {
           {/* Menú */}
           <div className={`nav-menu ${menuOpen ? "show" : ""}`}>
             <ul className="nav-list">
-              <li><a href="#">Inicio</a></li>
+              <li><a href="/">Inicio</a></li>
               <li><a href="#">Catálogo</a></li>
               <li className="dropdown">
                 <a href="#" className="dropdown-toggle">Dropdown ▼</a>

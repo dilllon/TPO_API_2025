@@ -4,7 +4,7 @@ body {
 }
 
 .navbar {
-  background: linear-gradient(to bottom, #7b3da0, #000000);
+  background: linear-gradient(to bottom, #5c93f8, #111c30);
   color: #fff;
   display: flex;
   flex-direction: row;
