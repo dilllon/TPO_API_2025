@@ -1,3 +1,3 @@
 # Moleculas (Compuestos por atomos)
 
-## Ejemplo: Formulario de login (con inputs y botón)
+## Ejemplo: Modal/Formulario de login (con inputs y botón)

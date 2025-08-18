@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { registerUser } from '@/store/slices/authSlice';
+// import { useDispatch } from 'react-redux';
+// import { registerUser } from '@/store/slices/authSlice';
 import './Register.css';
 
 function Register() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -25,30 +25,28 @@ function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Validar que las contraseñas coincidan
-    if (formData.password !== formData.confirm) {
-      alert('Las contraseñas no coinciden.');
-      return;
-    }
+    // // Validar que las contraseñas coincidan
+    // if (formData.password !== formData.confirm) {
+    //   alert('Las contraseñas no coinciden.');
+    //   return;
+    // }
 
-    // Despachamos la acción a Redux para guardar los datos del usuario.
-    dispatch(registerUser(formData));
+    // // Despachamos la acción a Redux para guardar los datos del usuario.
+    // dispatch(registerUser(formData));
 
-    console.log(
-      'Usuario registrado y guardado en el estado de Redux:',
-      formData,
-    );
-    // Opcional: Redirigir al usuario a otra página (ej. dashboard o login)
-    // navigate('/dashboard');
+    // console.log(
+    //   'Usuario registrado y guardado en el estado de Redux:',
+    //   formData,
+    // );
   };
 
   return (
     <div className="register-container">
       <div className="container">
         <div className="topbar">
-          <div className="brand">NombreRandomEmpresa</div>
+          <div className="brand">AmaZone</div>
           <div className="signin">
-            ¿Ya tenés cuenta? <Link to="/login">Iniciá sesión</Link>
+            ¿Ya tenés cuenta? <Link to="/clients/login">Iniciá sesión</Link>
           </div>
         </div>
 
@@ -64,7 +62,7 @@ function Register() {
                 <input
                   id="firstName"
                   type="text"
-                  placeholder="Tomás"
+                  placeholder="Facundo"
                   value={formData.firstName}
                   onChange={handleChange}
                   required
@@ -75,7 +73,7 @@ function Register() {
                 <input
                   id="lastName"
                   type="text"
-                  placeholder="Nakasone"
+                  placeholder="Tassone"
                   value={formData.lastName}
                   onChange={handleChange}
                   required
@@ -142,7 +140,7 @@ function Register() {
             </div>
           </form>
 
-          <div className="footer">©Copyright 2030. RandomCompany llc.</div>
+          <div className="footer">©Copyright 2030. AmaZone LLC.</div>
         </div>
       </div>
     </div>
