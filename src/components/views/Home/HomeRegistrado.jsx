@@ -1,7 +1,7 @@
-import './Home.css';
-import HeaderRegistrado from '@/components/organisms/Header/HeaderRegistrado';
 import ProductosGrid from '@/components/organisms/Grid/Products';
+import HeaderRegistrado from '@/components/organisms/Header/HeaderRegistrado';
 import { useState } from 'react';
+import './Home.css';
 
 function HomeRegistrado() {
   // lee lo que haya guardado
