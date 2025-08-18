@@ -27,6 +27,7 @@ body {
   align-items: center;           /* centra verticalmente */
   width: 100%;                   /* ocupa todo el ancho */
   padding: 3px;
+  margin-top: 10px;
 }
 .PrimerRenglon{
   gap: 7%;}
