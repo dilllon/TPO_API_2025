@@ -23,6 +23,7 @@ body {
 /* Sutil halo detrás de la tarjeta */
 .auth {
   min-height: 100vh;
+  background: var(--bg-dark-grey);
   padding: 40px 20px 64px;
   position: relative;
   display: flex;
