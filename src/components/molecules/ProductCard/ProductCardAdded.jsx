@@ -1,14 +1,14 @@
 import './ProductCard.css';
 
-function ProductCardAdded({ titulo, precio, imagen, stock, onClick, variant = "default" }) {
+function ProductCardAdded({ title, price, image, stock, onClick, variant = "default" }) {
   return (
-    <div className={`producto-card ${variant}`}>
-      <img src={imagen} alt={titulo} className="producto-imagen" />
-      <h3 className="producto-titulo">{titulo}</h3>
-      <p className="producto-precio">${precio}</p>
-      <p className="producto-stock">
+    <div className={`product-card ${variant}`}>
+      <img src={image} alt={title} className="product-image" />
+      <h3 className="product-title">{title}</h3>
+      <p className="product-price">${price}</p>
+      <p className="product-stock">
         Stock:{' '}
-        {stock > 0 ? stock : <span className="sin-stock">Sin stock</span>}
+        {stock > 0 ? stock : <span className="out-of-stock">Sin stock</span>}
       </p>
       <button onClick={onClick}>Quitar del carrito</button>
     </div>

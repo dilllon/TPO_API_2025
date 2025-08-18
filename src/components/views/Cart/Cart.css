@@ -71,7 +71,7 @@
 
 
   /* CARITA DEL PRODUCTO-------------- */
-  .product-cart-card .product-cart-title {
+  .product-card-card .product-card-title {
     font-size: 1rem; /* Tamaño de fuente más pequeño para pantallas pequeñas */
   }
 }
@@ -112,7 +112,7 @@
 
 /*Sobreescritura de producto-card para el carrito----------------*/
 
-.product-cart-card {
+.product-card.cart {
     display: flex;
     justify-content: space-evenly;
     width: 95%;
@@ -125,31 +125,48 @@
     box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.596);
     border: none;
     color: #f5f5f5;
+    position: relative;
 }
 
-.product-cart-image {
+.product-quantity {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #15a715;
+    color: white;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.product-card-image.cart {
     max-width: 150px;
     border-radius: 4px;
     margin: 0px 10px;
 }
 
-.product-cart-title {
+.product-card-title.cart {
     font-size: 1.2rem;
     margin: 0.5rem 0;
 }
 
-.product-cart-price {
+.product-card-price.cart {
     font-weight: bold;
     color: #15a715;
     margin: 0.3rem 0;
 }
 
-.product-cart-stock {
+.product-card-stock.cart {
     font-size: 0.9rem;
     color: #f5f5f5;
 }
 
-.sin-stock {
+.out-of-stock {
     color: red;
     font-weight: bold;
 }

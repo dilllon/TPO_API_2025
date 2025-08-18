@@ -23,24 +23,19 @@ function Cart() {
     return () => window.removeEventListener('storage', onStorage);
   }, []);
 
+  const totalItems = products.reduce((a, p) => a + (p.qty || 1), 0);
+  const totalPrice = products.reduce((a, p) => a + (p.price || 0) * (p.qty || 1), 0);
 
-  
-  
-const totalItems = products.reduce((a, p) => a + (p.qty || 1), 0);
-const totalPrecio = products.reduce((a, p) => a + (p.precio || 0) * (p.qty || 1), 0);
-
-const removeOne = (id) => {
-  const cart = JSON.parse(localStorage.getItem('cartItems') || '[]');
-  const i = cart.findIndex(it => it.id === id);
-  if (i >= 0) {
-    if ((cart[i].qty || 1) > 1) cart[i].qty -= 1;
-    else cart.splice(i, 1);
-  }
-  localStorage.setItem('cartItems', JSON.stringify(cart));
-  setProducts([...cart]);
-};
-
-
+  const removeOne = (id) => {
+    const cart = JSON.parse(localStorage.getItem('cartItems') || '[]');
+    const i = cart.findIndex(it => it.id === id);
+    if (i >= 0) {
+      if ((cart[i].qty || 1) > 1) cart[i].qty -= 1;
+      else cart.splice(i, 1);
+    }
+    localStorage.setItem('cartItems', JSON.stringify(cart));
+    setProducts([...cart]);
+  };
 
   return (
     <>
@@ -61,16 +56,18 @@ const removeOne = (id) => {
 
           <div className='cart-items'>
             {products.map((p, index) => (
-              <ProductCardAdded
-                key={`${p.id}-${index}`} // ya no habrá duplicados en data, pero esto evita warnings
-                titulo={p.titulo}
-                precio={p.precio}
-                imagen={p.imagen}
-                stock={p.stock}
-                qty={p.qty}
-                variant="cart"
-                onClick={() => removeOne(p.id)}
-              />
+              <div key={`${p.id}-${index}`} style={{ position: 'relative', width: '100%' }}>
+                <ProductCardAdded
+                  title={p.title}
+                  price={p.price}
+                  image={p.image}
+                  stock={p.stock}
+                  qty={p.qty}
+                  variant="cart"
+                  onClick={() => removeOne(p.id)}
+                />
+                <div className="product-quantity">{p.qty || 1}</div>
+              </div>
             ))}
           </div>
 
@@ -79,7 +76,7 @@ const removeOne = (id) => {
               <p className='desc'>Total de productos: {totalItems}</p>
             </div>
             <div className="cart-price">
-              <p className='price'>Total: ${totalPrecio}</p>
+              <p className='price'>Total: ${totalPrice}</p>
             </div>
           </div>
         </div>

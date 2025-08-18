@@ -1,7 +1,7 @@
 import './Home.css';
 import Carrousel from '@/components/organisms/Carrousel/Carrousel';
 import Header from '@/components/organisms/Header/Header';
-import ProductosGrid from '@/components/organisms/Grid/Productos';
+import ProductosGrid from '@/components/organisms/Grid/Products';
 
 function Home() {
   return (

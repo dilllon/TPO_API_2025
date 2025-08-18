@@ -1,4 +1,4 @@
-.producto-card {
+.product-card {
   border: 1px solid #ccc;
   padding: 1rem;
   border-radius: 8px;
@@ -8,45 +8,45 @@
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.producto-imagen {
+.product-image {
   width: 100%;
   height: auto;
   border-radius: 4px;
 }
 
-.producto-titulo {
+.product-title {
   font-size: 1.2rem;
   margin: 0.5rem 0;
   color: #000000;
 }
 
-.producto-precio {
+.product-price {
   font-weight: bold;
   color: green;
   margin: 0.3rem 0;
 }
 
-.producto-stock {
+.product-stock {
   font-size: 0.9rem;
   color: #555;
 }
 
-.sin-stock {
+.out-of-stock {
   color: red;
   font-weight: bold;
 }
 
-/* Estilos para variantes de categoría */
-.producto-card.cat1 {
+/* Category variant styles */
+.product-card.cat1 {
   border-color: #bbbbbb;
   background-color: #f3fff0;
 }
-.producto-card.cat2 {
+.product-card.cat2 {
   border-color: #bbbbbb;
   background-color: #f3fff0;
 }
 
-.producto-card.cart {
+.product-card.cart {
   display: flex;
   justify-content: space-evenly;
   width: 95%;
@@ -60,55 +60,21 @@
   border: none;
   color: #f5f5f5;
 }
-.producto-card.cart .producto-imagen {
+.product-card.cart .product-image {
   max-width: 150px;
   border-radius: 4px;
   margin: 0px 10px;
 }
-.producto-card.cart .producto-titulo {
+.product-card.cart .product-title {
   font-size: 1.2rem;
   margin: 0.5rem 0;
 }
-.producto-card.cart .producto-precio {
+.product-card.cart .product-price {
   font-weight: bold;
   color: #15a715;
   margin: 0.3rem 0;
 }
-.producto-card.cart .producto-stock {
+.product-card.cart .product-stock {
   font-size: 0.9rem;
   color: #f5f5f5;
-}
-
-
-/* card cart*/
-.product-cart-card {
-  border: 1px solid #ccc;
-  padding: 1rem;
-  border-radius: 8px;
-  width: 200px;
-  text-align: center;
-  background-color: white;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.product-cart-image {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
-}
-
-.product-cart-title {
-  font-size: 1.2rem;
-  margin: 0.5rem 0;
-}
-
-.product-cart-price {
-  font-weight: bold;
-  color: green;
-  margin: 0.3rem 0;
-}
-
-.product-cart-stock {
-  font-size: 0.9rem;
-  color: #555;
 }
