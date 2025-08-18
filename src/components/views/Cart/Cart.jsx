@@ -4,6 +4,7 @@ import Header from '@/components/organisms/Header/Header';
 import './Cart.css';
 
 function Cart() {
+  const [showPopup, setShowPopup] = useState(false);
   const [products, setProducts] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem('cartItems') || '[]');
@@ -46,6 +47,22 @@ function Cart() {
     setProducts([...cart]);
   };
 
+  const handleConfirmPurchase = () => {
+    // Verificar stock de todos los productos
+    const hasStock = products.every(p => p.qty <= p.stock);
+    
+    if (!hasStock) {
+      alert('Algunos productos no tienen stock suficiente');
+      return;
+    }
+
+    // Aquí iría la lógica de procesamiento de pago
+    alert('¡Compra realizada con éxito!');
+    localStorage.setItem('cartItems', '[]');
+    setProducts([]);
+    setShowPopup(false);
+  };
+
   return (
     <>
       <Header/>
@@ -86,8 +103,40 @@ function Cart() {
             </div>
             <div className="cart-price">
               <p className='price'>Total: ${totalPrice}</p>
+              <button className="purchase-button" onClick={() => setShowPopup(true)}>
+                Realizar Compra
+              </button>
             </div>
           </div>
+
+          {showPopup && (
+            <div className="popup-overlay">
+              <div className="popup-content">
+                <h3>Confirmar Compra</h3>
+                <div className="purchase-details">
+                  <p><strong>Resumen de tu compra:</strong></p>
+                  {products.map((p, index) => (
+                    <div key={index} className="purchase-item">
+                      <span>{p.title}</span>
+                      <span>x{p.qty}</span>
+                      <span>${p.price * p.qty}</span>
+                    </div>
+                  ))}
+                  <div className="purchase-total">
+                    <strong>Total a pagar: ${totalPrice}</strong>
+                  </div>
+                </div>
+                <div className="popup-buttons">
+                  <button className="cancel-button" onClick={() => setShowPopup(false)}>
+                    Cancelar
+                  </button>
+                  <button className="confirm-button" onClick={handleConfirmPurchase}>
+                    Confirmar Compra
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
     </>
