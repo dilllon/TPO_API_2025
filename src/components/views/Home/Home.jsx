@@ -1,15 +1,15 @@
 import './Home.css';
 import Carrousel from '@/components/organisms/Carrousel/Carrousel';
 import Header from '@/components/organisms/Header/Header';
-import ProductosGrid from '@/components/organisms/Grid/Productos';
+import ProductosGrid from '@/components/organisms/Grid/Products';
 
 function Home() {
   return (
     <>
       <Header />
-      <Carrousel />
+      {/* <Carrousel /> */}
       <main>
-        <section className='d-flex flex-column justify-content-center align-items-center'>
+        <section >
           <h2>¡Bienvenido a nuestra tienda!</h2>
           <p>
             Explorá nuestros productos y hacé tu compra de forma fácil y rápida.
