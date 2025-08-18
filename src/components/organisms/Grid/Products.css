@@ -1,8 +1,29 @@
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* responsive */
-  gap: 1.5rem; /* espacio entre cards */
-  padding: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* responsive con cards más anchas */
+  gap: 2rem; /* mayor espacio entre cards */
+  padding: 2rem 1rem;
   justify-items: center; /* centra horizontalmente las cards */
+  margin-top: 1.5rem;
+  margin-bottom: 3rem; /* espacio inferior para evitar que se pegue al borde */
+}
+
+/* Animación para el hover de las cards */
+.products-grid > div {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.products-grid > div:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para los títulos de categorías */
+main h2:not(.welcome-message h2) {
+  color: var(--text-light, #ecf0f1);
+  text-align: center;
+  margin: 2rem 0 0.5rem;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
     
