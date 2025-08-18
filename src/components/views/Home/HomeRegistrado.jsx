@@ -2,7 +2,6 @@ import './Home.css';
 import HeaderRegistrado from '@/components/organisms/Header/HeaderRegistrado';
 import ProductosGrid from '@/components/organisms/Grid/Products';
 import { useState } from 'react';
-import { FaShoppingCart } from "react-icons/fa";
 
 function HomeRegistrado() {
   // lee lo que haya guardado
@@ -27,6 +26,9 @@ const handleAddToCart = (product) => {
 
   localStorage.setItem('cartItems', JSON.stringify(cart));
   setCantItems(cart.reduce((a, it) => a + (it.qty || 1), 0)); // badge correcto
+  
+  // Disparar evento personalizado para notificar al navbar
+  window.dispatchEvent(new Event('cartUpdated'));
 };
 
 
@@ -36,11 +38,7 @@ const handleAddToCart = (product) => {
       <main>
         <section>
           <div className='welcome-message'>
-            <h2>¡Bienvenido  Nombre a nuestra tienda!</h2>
-            <div className="cart-icon">
-              <FaShoppingCart size={28} />
-              <span className="cart-badge">{cantItems}</span>
-            </div>
+            <h2>¡Bienvenido Nombre a nuestra tienda!</h2>
           </div>
           <p>Explorá nuestros productos y hacé tu compra de forma fácil y rápida.</p>
         </section>

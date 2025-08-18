@@ -1,15 +1,53 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import contactoimg from '../../../assets/images/contactoimg.jpg';
 import crearcuentaimg from '../../../assets/images/crearusuarioimg.jpg';
 import icono from '../../../assets/images/editarperfil.jpg';
 import Logo from "../../Logo/Logo.jsx";
 import Buscador from "../../atoms/Buscador/Buscador.jsx";
+import { FaShoppingCart } from "react-icons/fa";
 import "./NavBar.css";
 
 
 
 function NavBarRegistrado() {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Estado para contar items del carrito
+  const [cantItems, setCantItems] = useState(() => {
+    try {
+      const cart = JSON.parse(localStorage.getItem('cartItems') || '[]');
+      return cart.reduce((total, item) => total + (item.qty || 1), 0);
+    } catch {
+      return 0;
+    }
+  });
+
+  // Función para actualizar el contador cuando se agreguen items
+  const updateCartCount = () => {
+    try {
+      const cart = JSON.parse(localStorage.getItem('cartItems') || '[]');
+      setCantItems(cart.reduce((total, item) => total + (item.qty || 1), 0));
+    } catch {
+      setCantItems(0);
+    }
+  };
+
+  // Escuchar cambios en localStorage
+  React.useEffect(() => {
+    const handleStorageChange = () => {
+      updateCartCount();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    
+    // También escuchar un evento personalizado para cambios en la misma pestaña
+    window.addEventListener('cartUpdated', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('cartUpdated', handleStorageChange);
+    };
+  }, []);
 
 
   // const [palabra, setPalabra] = useState('gato');
@@ -52,7 +90,15 @@ function NavBarRegistrado() {
                 </ul>
               </li>
               <li><a href="#">Categoria</a></li>
-              <li><a href="/cart">Mis compras</a></li>
+              <li>
+                <a href="/cart">Mis compras</a>
+              </li>
+              <li className="cart-nav-item">
+                <div className="cart-icon-nav">
+                  <FaShoppingCart size={20} />
+                  {cantItems > 0 && <span className="cart-badge-nav">{cantItems}</span>}
+                </div>
+              </li>
             </ul>
           </div>
           
