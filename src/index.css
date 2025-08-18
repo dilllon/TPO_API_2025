@@ -12,17 +12,20 @@
   font-weight: 400;
 
   /* Variables de color para el tema oscuro (por defecto) */
-  --color-text: rgba(255, 255, 255, 0.87);
-  --color-background: #7b3da0;
+  --white: #cecece;
+  --light-purple: #cfc2dc;
+  --accent:#00d1ff;
+  --primary-blue:#3b82f6;
+  --hover-blue:#2563eb;
+  --success-green:#22c55e;
+
   --color-link: #646cff;
   --color-link-hover: #535bf2;
   --color-button-bg: #1a1a1a;
   --color-button-border-hover: #646cff;
+  --bg-dark-grey: #1e1f24;
+  --darker-grey: #1d1d1d;
 
-  /* Aplica los estilos default (darkmode) a las fuente y bg */
-  color-scheme: light dark;
-  color: var(--color-text);
-  background-color: var(--color-background);
 
   /* Cosas para que funcionen mejor las fuentes en diferentes browser */
   font-synthesis: none;
@@ -34,10 +37,6 @@
 /* Media query que detecta si es light mode, y aplica los siguientes cambios */
 @media (prefers-color-scheme: light) {
   :root {
-    --color-text: #213547;
-    --color-background: #7b3da0;
-    --color-link-hover: #747bff;
-    --color-button-bg: #f9f9f9;
   }
 }
 
