@@ -63,7 +63,7 @@ function NavBar() {
 
         <div className="user-wrapper">
           {/* Temporalmente va directo al home registrado ya que no tenemos base de datos */}
-          <a className="user-btn" aria-label="Perfil" href="/r">
+          <a className="user-btn" aria-label="Perfil" href="/clients/login">
             {/* <a className="user-btn" aria-label="Perfil" href="/clients/login"> */}
             <img src={icono} alt="Perfil" />
             <span className="user-label">Ingresar</span>
