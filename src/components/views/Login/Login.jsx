@@ -50,10 +50,10 @@ function Login() {
               ¿Olvidaste tu contraseña?
             </a>
           </div>
-
-          <button className="btn btn-primary" type="submit">
+          
+          <Link to="/r" className="btn btn-primary">
             Ingresar
-          </button>
+          </Link>
         </form>
 
         <footer className="card_footer">©Copyright 2030. AmaZone LLC.</footer>

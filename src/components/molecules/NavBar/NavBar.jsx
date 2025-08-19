@@ -6,12 +6,11 @@ import { getCategoryNames } from '../../../constants/products';
 import Logo from "../../Logo/Logo.jsx";
 import Buscador from "../../atoms/Buscador/Buscador.jsx";
 import "./NavBar.css";
-
+import Categorias from "../../atoms/Categorias/Categorias";
 
 
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const categoryNames = getCategoryNames();
 
 
   // const [palabra, setPalabra] = useState('gato');
@@ -44,18 +43,7 @@ function NavBar() {
           <div className={`nav-menu ${menuOpen ? "show" : ""}`}>
             <ul className="nav-list">
               <li><a href="/">Inicio</a></li>
-              <li className="dropdown">
-                <a href="#" className="dropdown-toggle">Categorías ▼</a>
-                <ul className="dropdown-menu">
-                  {categoryNames.map((categoryName, index) => (
-                    <li key={index}>
-                      <a href={`/#category-${categoryName.toLowerCase()}`}>
-                        {categoryName}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </li>  
+              <Categorias/>
               <li><a href="/cart">Mis compras</a></li>
             </ul>
           </div>
