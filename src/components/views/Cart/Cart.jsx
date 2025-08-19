@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
 import ProductCardAdded from '@/components/molecules/ProductCard/ProductCardAdded';
 import Header from '@/components/organisms/Header/Header';
+import { useEffect, useState } from 'react';
 import './Cart.css';
 
 function Cart() {
@@ -99,6 +99,7 @@ function Cart() {
             {products.map((p, index) => (
               <div key={`${p.id}-${index}`} className="cart-items-product">
                 <ProductCardAdded
+                  id={p.id}
                   title={p.title}
                   price={p.price}
                   image={p.image}

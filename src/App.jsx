@@ -1,10 +1,10 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './components/views/Home/Home';
-import Register from './components/views/Register/Register';
-import Login from './components/views/Login/Login';
-import Profile from './components/views/Profile/Profile';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Cart from './components/views/Cart/Cart';
+import Home from './components/views/Home/Home';
 import HomeRegistrado from './components/views/Home/HomeRegistrado';
+import Login from './components/views/Login/Login';
+import Products from './components/views/Products/Products';
+import Register from './components/views/Register/Register';
 
 function App() {
   return (
@@ -16,6 +16,7 @@ function App() {
           <Route path="/clients/register" element={<Register />} />
           <Route path="/clients/login" element={<Login />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/products/:id" element={<Products />} />
         </Routes>
       </Router>
     </div>
