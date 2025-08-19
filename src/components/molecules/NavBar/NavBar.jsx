@@ -74,21 +74,21 @@ function NavBar() {
       <div className={`userbuttons nav-menu ${menuOpen ? "show" : ""}`}>
 
         <div className="user-wrapper">
-          <a className="user-btn" aria-label="Perfil" href="/r">
+          <a className="user-btn" aria-label="Perfil" href="/clients/login">
             <img src={icono} alt="Perfil" />
             <span className="user-label">Ingresar</span>
           </a>
         </div>
 
         <div className="user-wrapper">
-          <a className="user-btn" aria-label="Crear cuenta" href="/register">
+          <a className="user-btn" aria-label="Crear cuenta" href="/clients/register">
             <img src={crearcuentaimg} alt="Crear cuenta" />
             <span className="user-label">Registrarse</span>
           </a>
         </div>
 
         <div className="user-wrapper">
-          <a className="user-btn" aria-label="Carrito" href="/register">
+          <a className="user-btn" aria-label="Carrito" href="/contacto">
             <img src={contactoimg} alt="Carrito" />
             <span className="user-label">Contacto</span>
           </a>

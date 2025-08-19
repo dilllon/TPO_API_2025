@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getProductById, calculateDiscountedPrice, hasDiscount } from '../../../constants/products';
+import { calculateDiscountedPrice, getProductById, hasDiscount } from '../../../constants/products';
 import Header from '../../organisms/Header/Header';
 import HeaderRegistrado from '../../organisms/Header/HeaderRegistrado';
 import './ProductsView.css';
