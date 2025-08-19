@@ -1,8 +1,14 @@
 import ProductosGrid from '@/components/organisms/Grid/Products';
 import Header from '@/components/organisms/Header/Header';
+import { useEffect } from 'react';
 import './Home.css';
 
 function Home() {
+  // Asegurar que no hay token cuando estamos en modo no logueado
+  useEffect(() => {
+    localStorage.removeItem('token');
+  }, []);
+
   return (
     <>
       <Header />

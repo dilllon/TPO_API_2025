@@ -49,7 +49,7 @@ function NavBar() {
                 <ul className="dropdown-menu">
                   {categoryNames.map((categoryName, index) => (
                     <li key={index}>
-                      <a href={`#category-${categoryName.toLowerCase()}`}>
+                      <a href={`/#category-${categoryName.toLowerCase()}`}>
                         {categoryName}
                       </a>
                     </li>

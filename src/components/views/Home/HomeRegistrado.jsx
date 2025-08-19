@@ -1,9 +1,14 @@
 import ProductosGrid from '@/components/organisms/Grid/Products';
 import HeaderRegistrado from '@/components/organisms/Header/HeaderRegistrado';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Home.css';
 
 function HomeRegistrado() {
+  // Simular que el usuario está logueado guardando un token temporal
+  useEffect(() => {
+    localStorage.setItem('token', 'temp-logged-in');
+  }, []);
+
   // lee lo que haya guardado
   const [cantItems, setCantItems] = useState(() => {
     try {

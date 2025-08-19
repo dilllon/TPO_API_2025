@@ -81,13 +81,13 @@ function NavBarRegistrado() {
           {/* Menú */}
           <div className={`nav-menu ${menuOpen ? "show" : ""}`}>
             <ul className="nav-list">
-              <li><a href="/">Inicio</a></li>
+              <li><a href="/r">Inicio</a></li>
               <li className="dropdown">
                 <a href="#" className="dropdown-toggle">Categorías ▼</a>
                 <ul className="dropdown-menu">
                   {categoryNames.map((categoryName, index) => (
                     <li key={index}>
-                      <a href={`#category-${categoryName.toLowerCase()}`}>
+                      <a href={`/r#category-${categoryName.toLowerCase()}`}>
                         {categoryName}
                       </a>
                     </li>
@@ -125,8 +125,13 @@ function NavBarRegistrado() {
         </div>
 
         <div className="user-wrapper">
-          <a className="user-btn" aria-label="Crear cuenta" href="/">
-            <img src={crearcuentaimg} alt="Crear cuenta" />
+          <a 
+            className="user-btn" 
+            aria-label="Salir" 
+            href="/"
+            onClick={() => localStorage.removeItem('token')}
+          >
+            <img src={crearcuentaimg} alt="Salir" />
             <span className="user-label">Salir</span>
           </a>
         </div>
