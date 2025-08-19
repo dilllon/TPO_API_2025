@@ -1,6 +1,6 @@
 import ProductosGrid from '@/components/organisms/Grid/Products';
 import HeaderRegistrado from '@/components/organisms/Header/HeaderRegistrado';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './Home.css';
 
 function HomeRegistrado() {
