@@ -1,15 +1,34 @@
+// await fetch('https://dogapi.dog/api/v2/breeds')
+//     .then(response => {response.json()})
+//     .then(data => { 
+//         console.log(data);
+//         .. proceso
+//     })
+//     .catch(error => { 
+//         console.error('Error fetching data:', error);
+//     });
+
+
+// Cargar las razas cuando la página esté lista
+// document.addEventListener('DOMContentLoaded', fetchDogBreeds);
+
+// const startButton = document.getElementByClass('start-btn');
+const startButton = document.getElementById('start-btn');
+startButton.addEventListener('click', () => {
+    fetchDogBreeds(); 
+});
+
+
 async function fetchDogBreeds() {
     try {
-        const response = await fetch('https://dogapi.dog/api/v2/breeds', {
-            headers: {
-                'accept': 'application/json'
-            }
-        });
+        const response = await fetch('https://dogapi.dog/api/v2/breeds');
+        // mock de error
+        // throw new Error('Network response was not ok');
         
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error('Network response was not ok')
         }
-
+        
         const data = await response.json();
         displayBreeds(data.data);
     } catch (error) {
@@ -19,24 +38,22 @@ async function fetchDogBreeds() {
     }
 }
 
+
 function displayBreeds(breeds) {
-    const container = document.getElementById('breeds-container');
+    const tableBody = document.getElementById('breeds-table-body');
     
     breeds.forEach(breed => {
-        const breedCard = document.createElement('div');
-        breedCard.className = 'breed-card';
+        const row = document.createElement('tr');
         
-        breedCard.innerHTML = `
-            <h2>${breed.attributes.name}</h2>
-            <p><strong>Descripción:</strong> ${breed.attributes.description || 'No disponible'}</p>
-            <p><strong>Vida promedio:</strong> ${breed.attributes.life.min} - ${breed.attributes.life.max} años</p>
-            <p><strong>Peso hembra:</strong> ${breed.attributes.female_weight.min} - ${breed.attributes.female_weight.max} kg</p>
-            <p><strong>Peso macho:</strong> ${breed.attributes.male_weight.min} - ${breed.attributes.male_weight.max} kg</p>
+        row.innerHTML = `
+            <td>${breed.attributes.name}</td>
+            <td>${breed.attributes.description || 'No disponible'}</td>
+            <td>${breed.attributes.life.min} - ${breed.attributes.life.max} años</td>
+            <td>${breed.attributes.male_weight.min} - ${breed.attributes.male_weight.max} kg</td>
+            <td>${breed.attributes.female_weight.min} - ${breed.attributes.female_weight.max} kg</td>
         `;
         
-        container.appendChild(breedCard);
+        tableBody.appendChild(row);
     });
 }
 
-// Cargar las razas cuando la página esté lista
-document.addEventListener('DOMContentLoaded', fetchDogBreeds);

@@ -9,8 +9,22 @@
 <body>
     <div class="container">
         <h1>Razas de Perros</h1>
-        <div id="breeds-container" class="breeds-grid">
-            <!-- Aquí se cargarán las razas de perros -->
+        <button id="start-btn">Popular tabla</button>
+        <div id="breeds-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Promedio de Vida</th>
+                        <th>Peso Macho</th>
+                        <th>Peso Hembra</th>
+                    </tr>
+                </thead>
+                <tbody id="breeds-table-body">
+                    <!-- Aquí se cargarán las razas de perros -->
+                </tbody>
+            </table>
         </div>
     </div>
     <script src="./script.js"></script>
