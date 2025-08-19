@@ -28,7 +28,7 @@ export const productsData = [
     title: "Teclado mecánico",
     price: 19999,
     discount: 10, // 10% de descuento
-    image: "/src/assets/images/carrousel/foto2.jpg",
+    image: "/src/assets/images/productos/teclado.jpeg",
     images: [
       "/src/assets/images/carrousel/foto2.jpg",
       "/src/assets/images/carrousel/foto1.png"
@@ -51,10 +51,10 @@ export const productsData = [
     id: "cat1-2",
     title: "Monitor 24 pulgadas",
     price: 159999,
-    image: "/src/assets/images/carrousel/foto1.png",
+    image: "/src/assets/images/productos/pantalla.webp",
     images: [
-      "/src/assets/images/carrousel/foto1.png",
-      "/src/assets/images/carrousel/foto2.jpg"
+      "/src/assets/images/productos/pantalla.webp",
+      "/src/assets/images/productos/pantalla.webp"
     ],
     stock: 10,
     description: "Monitor LED de 24 pulgadas con resolución Full HD y frecuencia de actualización de 144Hz. Ideal para gaming y trabajo profesional con colores vibrantes y nitidez excepcional.",
@@ -74,7 +74,7 @@ export const productsData = [
     id: "cat1-3",
     title: "Laptop gamer",
     price: 899999,
-    image: "/src/assets/images/carrousel/foto2.jpg",
+    image: "/src/assets/images/productos/laptop.webp",
     images: [
       "/src/assets/images/carrousel/foto2.jpg",
       "/src/assets/images/carrousel/foto1.png"
@@ -97,7 +97,7 @@ export const productsData = [
     id: "cat1-4",
     title: "Smartphone 5G",
     price: 499999,
-    image: "/src/assets/images/carrousel/foto1.png",
+    image: "/src/assets/images/productos/smartphone.png",
     images: [
       "/src/assets/images/carrousel/foto1.png",
       "/src/assets/images/carrousel/foto2.jpg"
