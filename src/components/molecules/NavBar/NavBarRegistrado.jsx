@@ -3,6 +3,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import contactoimg from '../../../assets/images/contactoimg.jpg';
 import crearcuentaimg from '../../../assets/images/crearusuarioimg.jpg';
 import icono from '../../../assets/images/editarperfil.jpg';
+import { getCategoryNames } from '../../../constants/products';
 import Logo from "../../Logo/Logo.jsx";
 import Buscador from "../../atoms/Buscador/Buscador.jsx";
 import "./NavBar.css";
@@ -11,6 +12,7 @@ import "./NavBar.css";
 
 function NavBarRegistrado() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const categoryNames = getCategoryNames();
 
   // Estado para contar items del carrito
   const [cantItems, setCantItems] = useState(() => {
@@ -79,20 +81,20 @@ function NavBarRegistrado() {
           {/* Menú */}
           <div className={`nav-menu ${menuOpen ? "show" : ""}`}>
             <ul className="nav-list">
-              <li><a href="#">Inicio</a></li>
-              <li><a href="#">Catálogo</a></li>
+              <li><a href="/">Inicio</a></li>
               <li className="dropdown">
-                <a href="#" className="dropdown-toggle">Dropdown ▼</a>
+                <a href="#" className="dropdown-toggle">Categorías ▼</a>
                 <ul className="dropdown-menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
+                  {categoryNames.map((categoryName, index) => (
+                    <li key={index}>
+                      <a href={`#category-${categoryName.toLowerCase()}`}>
+                        {categoryName}
+                      </a>
+                    </li>
+                  ))}
                 </ul>
-              </li>
-              <li><a href="#">Categoria</a></li>
-              <li>
-                <a href="/cart">Mis compras</a>
-              </li>
+              </li>  
+              <li><a href="/cart">Mis compras</a></li>
               <li className="cart-nav-item">
                 <div className="cart-icon-nav">
                   <FaShoppingCart size={20} />
