@@ -144,7 +144,7 @@
   max-width: 120px;
   max-height: 120px;
   border-radius: 8px;
-  margin: 0 15px 0 0;
+  margin-left: 25px;
   object-fit: cover;
 }
 
@@ -155,20 +155,20 @@
 .product-card.cart .product-title {
   font-size: 1.3rem;
   margin: 0.5rem 0;
-  color: #f5f5f5;
+  color: #000000;
   font-weight: 500;
 }
 
 .product-card.cart .product-price {
   font-weight: bold;
-  color: #2ecc71;
+  color: green;
   margin: 0.5rem 0;
   font-size: 1.2rem;
 }
 
 .product-card.cart .product-stock {
   font-size: 0.95rem;
-  color: #ecf0f1;
+  color: #555;
   margin-top: 8px;
 }
 
@@ -195,6 +195,7 @@
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.2s ease;
+  margin-right: 15px;
 }
 
 .quantity-btn:hover:not(:disabled) {
@@ -214,6 +215,8 @@
   border-radius: 4px;
   background-color: #ecf0f1;
   color: #2c3e50;
+  margin-right: 15px;
+  margin-top: 13px;
 }
 
 .delete-button {
@@ -224,6 +227,7 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  margin-right: 15px;
 }
 
 .delete-button:hover {
