@@ -55,8 +55,7 @@ function NavBar() {
                     </li>
                   ))}
                 </ul>
-              </li>
-              <li><a href="#">Categoria</a></li>
+              </li>  
               <li><a href="/cart">Mis compras</a></li>
             </ul>
           </div>

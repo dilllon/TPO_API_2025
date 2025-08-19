@@ -1,12 +1,13 @@
 import { FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { calculateDiscountedPrice, hasDiscount } from '../../../constants/products';
 import './ProductCard.css';
 
-function ProductCardAdded({ id, title, price, image, stock, onClick, onQuantityChange, qty = 1, variant = "default" }) {
+function ProductCardAdded({ product, onClick, onQuantityChange, qty = 1, variant = "cart" }) {
   const navigate = useNavigate();
 
   const handleProductClick = () => {
-    navigate(`/products/${id}`);
+    navigate(`/products/${product.id}`);
   };
 
   const handleDeleteClick = (e) => {
@@ -23,16 +24,34 @@ function ProductCardAdded({ id, title, price, image, stock, onClick, onQuantityC
     }
   };
 
+  const productHasDiscount = hasDiscount(product);
+  const discountedPrice = calculateDiscountedPrice(product);
+  const displayPrice = productHasDiscount ? discountedPrice : product.price;
+
   return (
     <div className={`product-card ${variant}`}>
+      {productHasDiscount && (
+        <div className="discount-badge">
+          -{product.discount}%
+        </div>
+      )}
       <div className="product-clickable-area" onClick={handleProductClick}>
-        <img src={image} alt={title} className="product-image" />
+        <img src={product.image} alt={product.title} className="product-image" />
         <div className="product-desc">
-          <h3 className="product-title">{title}</h3>
-          <p className="product-price">${price}</p>
+          <h3 className="product-title">{product.title}</h3>
+          <div className="price-container">
+            {productHasDiscount ? (
+              <>
+                <p className="product-price original-price">${product.price}</p>
+                <p className="product-price discounted-price">${discountedPrice}</p>
+              </>
+            ) : (
+              <p className="product-price">${product.price}</p>
+            )}
+          </div>
           <p className="product-stock">
             Stock:{' '}
-            {stock > 0 ? stock : <span className="out-of-stock">Sin stock</span>}
+            {product.stock > 0 ? product.stock : <span className="out-of-stock">Sin stock</span>}
           </p>
         </div>
       </div>
@@ -48,15 +67,15 @@ function ProductCardAdded({ id, title, price, image, stock, onClick, onQuantityC
           <input
             type="number"
             min="1"
-            max={stock}
+            max={product.stock}
             value={qty}
             onChange={(e) => handleQuantityChange(e, parseInt(e.target.value) || 1)}
             className="quantity-input"
           />
           <button 
             className="quantity-btn"
-            onClick={(e) => handleQuantityChange(e, Math.min(stock, qty + 1))}
-            disabled={qty >= stock}
+            onClick={(e) => handleQuantityChange(e, Math.min(product.stock, qty + 1))}
+            disabled={qty >= product.stock}
           >
             +
           </button>

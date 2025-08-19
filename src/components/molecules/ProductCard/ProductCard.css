@@ -8,6 +8,22 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
   overflow: hidden;
+  position: relative;
+}
+
+/* Badge de descuento */
+.discount-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  z-index: 2;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .product-card:hover {
@@ -45,11 +61,31 @@
   line-height: 1.4;
 }
 
+/* Contenedor de precios */
+.price-container {
+  margin: 0.3rem 0;
+}
+
 .product-price {
   font-weight: bold;
   color: green !important;
-  margin: 0.3rem 0;
+  margin: 0.2rem 0;
   font-size: 0.9rem !important;
+}
+
+/* Precio original tachado */
+.original-price {
+  color: #e74c3c !important;
+  text-decoration: line-through;
+  font-size: 0.8rem !important;
+  opacity: 0.8;
+}
+
+/* Precio con descuento */
+.discounted-price {
+  color: #27ae60 !important;
+  font-size: 1rem !important;
+  font-weight: 700;
 }
 
 .product-stock {

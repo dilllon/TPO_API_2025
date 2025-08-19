@@ -35,7 +35,7 @@ function ProductsGrid({ onClick }) {
             {products.map((p) => (
               <ProductCard
                 key={p.id}
-                {...p}
+                product={p}
                 variant={categoryName}          // por si querés estilos/behaviour por categoría
                 onClick={() => onClick(p)}      // agrega al carrito
               />

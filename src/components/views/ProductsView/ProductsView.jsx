@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getProductById, calculateDiscountedPrice, hasDiscount } from '../../../constants/products';
 import Header from '../../organisms/Header/Header';
 import HeaderRegistrado from '../../organisms/Header/HeaderRegistrado';
-import { getProductById } from '../../../constants/products';
 import './ProductsView.css';
 
 function ProductsView() {
@@ -135,7 +135,13 @@ function ProductsView() {
             )}
           </div>
 
-          <div className="product-info-section">
+            <div className="product-info-section">
+            {hasDiscount(product) && (
+              <div className="discount-badge-large">
+                -{product.discount}% OFF
+              </div>
+            )}
+            
             <div className="product-header">
               <span className="product-category">{product.category}</span>
               <span className="product-brand">{product.brand}</span>
@@ -144,7 +150,15 @@ function ProductsView() {
             <h1 className="product-title">{product.title}</h1>
             
             <div className="product-price-section">
-              <span className="product-price">${product.price}</span>
+              {hasDiscount(product) ? (
+                <div className="price-with-discount">
+                  <span className="original-price-large">${product.price}</span>
+                  <span className="discounted-price-large">${calculateDiscountedPrice(product)}</span>
+                  <span className="savings">Ahorrás ${product.price - calculateDiscountedPrice(product)}</span>
+                </div>
+              ) : (
+                <span className="product-price">${product.price}</span>
+              )}
               <span className="product-stock">
                 {product.stock > 0 ? (
                   <>Stock disponible: <strong>{product.stock} unidades</strong></>

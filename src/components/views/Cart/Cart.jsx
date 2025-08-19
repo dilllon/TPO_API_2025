@@ -1,5 +1,6 @@
 import ProductCardAdded from '@/components/molecules/ProductCard/ProductCardAdded';
 import Header from '@/components/organisms/Header/Header';
+import { getProductById, calculateDiscountedPrice, hasDiscount } from '../../../constants/products';
 import { useEffect, useState } from 'react';
 import './Cart.css';
 
@@ -25,7 +26,11 @@ function Cart() {
   }, []);
 
   const totalItems = products.reduce((a, p) => a + (p.qty || 1), 0);
-  const totalPrice = products.reduce((a, p) => a + (p.price || 0) * (p.qty || 1), 0);
+  const totalPrice = products.reduce((a, p) => {
+    const product = getProductById(p.id);
+    const finalPrice = hasDiscount(product) ? calculateDiscountedPrice(product) : (p.price || 0);
+    return a + finalPrice * (p.qty || 1);
+  }, 0);
 
   const removeOne = (id) => {
     const cart = JSON.parse(localStorage.getItem('cartItems') || '[]');
@@ -96,21 +101,20 @@ function Cart() {
           </div>
 
           <div className='cart-items'>
-            {products.map((p, index) => (
-              <div key={`${p.id}-${index}`} className="cart-items-product">
-                <ProductCardAdded
-                  id={p.id}
-                  title={p.title}
-                  price={p.price}
-                  image={p.image}
-                  stock={p.stock}
-                  qty={p.qty || 1}
-                  variant="cart"
-                  onClick={() => removeOne(p.id)}
-                  onQuantityChange={(newQty) => updateQuantity(p.id, newQty)}
-                />
-              </div>
-            ))}
+            {products.map((p, index) => {
+              const fullProduct = getProductById(p.id);
+              return (
+                <div key={`${p.id}-${index}`} className="cart-items-product">
+                  <ProductCardAdded
+                    product={fullProduct}
+                    qty={p.qty || 1}
+                    variant="cart"
+                    onClick={() => removeOne(p.id)}
+                    onQuantityChange={(newQty) => updateQuantity(p.id, newQty)}
+                  />
+                </div>
+              );
+            })}
           </div>
 
           <div className="cart-desc-price">
@@ -131,13 +135,20 @@ function Cart() {
                 <h3>Confirmar Compra</h3>
                 <div className="purchase-details">
                   <p><strong>Resumen de tu compra:</strong></p>
-                  {products.map((p, index) => (
-                    <div key={index} className="purchase-item">
-                      <span>{p.title}</span>
-                      <span>x{p.qty}</span>
-                      <span>${p.price * p.qty}</span>
-                    </div>
-                  ))}
+                  {products.map((p, index) => {
+                    const fullProduct = getProductById(p.id);
+                    const finalPrice = hasDiscount(fullProduct) ? calculateDiscountedPrice(fullProduct) : p.price;
+                    return (
+                      <div key={index} className="purchase-item">
+                        <span>{p.title}</span>
+                        <span>x{p.qty}</span>
+                        <span>${finalPrice * p.qty}</span>
+                        {hasDiscount(fullProduct) && (
+                          <span className="discount-indicator">(-{fullProduct.discount}%)</span>
+                        )}
+                      </div>
+                    );
+                  })}
                   <div className="purchase-total">
                     <strong>Total a pagar: ${totalPrice}</strong>
                   </div>

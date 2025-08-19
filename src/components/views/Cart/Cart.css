@@ -371,3 +371,11 @@
 .confirm-button:hover {
     background-color: #128912;
 }
+
+/* Estilos para el indicador de descuento en la compra */
+.discount-indicator {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-left: 0.5rem;
+}
