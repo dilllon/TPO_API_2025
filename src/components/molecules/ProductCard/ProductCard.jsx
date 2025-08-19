@@ -18,8 +18,8 @@ function ProductCard({ id, title, price, image, stock, onClick, variant = "defau
   return (
     <div className={`product-card ${variant}`}>
       <div className="product-clickable-area" onClick={handleProductClick}>
-        <img src={image} alt={title} className="product-image" />
         <h3 className="product-title">{title}</h3>
+        <img src={image} alt={title} className="product-image" />
         <p className="product-price">${price}</p>
         <p className="product-stock">
           Stock:{' '}

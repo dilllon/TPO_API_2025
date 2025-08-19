@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../../organisms/Header/Header';
 import HeaderRegistrado from '../../organisms/Header/HeaderRegistrado';
-import './Products.css';
+import './ProductsView.css';
 
-function Products() {
+function ProductsView() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
@@ -21,10 +21,10 @@ function Products() {
       id: "cat1-0",
       title: "Mouse inalámbrico",
       price: 2999,
-      image: "/src/assets/images/carrousel/foto1.png",
+      image: "/src/assets/images/productos/52898-producto-logitech-g305-negro.jpg",
       images: [
-        "/src/assets/images/carrousel/foto1.png",
-        "/src/assets/images/carrousel/foto2.jpg"
+        "/src/assets/images/productos/52898-producto-logitech-g305-negro.jpg",
+        "/src/assets/images/productos/52898-producto-logitech-g305-negro.jpg"
       ],
       stock: 10,
       description: "Mouse inalámbrico de alta precisión con tecnología óptica avanzada. Ideal para gaming y uso profesional. Cuenta con una batería de larga duración y conectividad estable.",
@@ -411,4 +411,4 @@ function Products() {
   );
 }
 
-export default Products;
+export default ProductsView;

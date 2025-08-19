@@ -3,7 +3,7 @@ import Cart from './components/views/Cart/Cart';
 import Home from './components/views/Home/Home';
 import HomeRegistrado from './components/views/Home/HomeRegistrado';
 import Login from './components/views/Login/Login';
-import Products from './components/views/Products/Products';
+import ProductsView from './components/views/ProductsView/ProductsView';
 import Register from './components/views/Register/Register';
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
           <Route path="/clients/register" element={<Register />} />
           <Route path="/clients/login" element={<Login />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/products/:id" element={<Products />} />
+          <Route path="/products/:id" element={<ProductsView />} />
         </Routes>
       </Router>
     </div>

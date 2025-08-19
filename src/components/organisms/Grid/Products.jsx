@@ -1,6 +1,6 @@
 import ProductCard from "@/components/molecules/ProductCard/ProductCard";
-import "./Products.css";
 import { useMemo } from "react";
+import "./Products.css";
 
 // Ordena por título (ES-AR), devolviendo una COPIA
 function orderProducts(products) {
@@ -16,7 +16,7 @@ const categories = [
   {
     categoryName: "Electro",
     products: [
-      { id: "cat1-0", title: "Mouse inalámbrico",   price:  2999,  image: "...", stock: 10 },
+      { id: "cat1-0", title: "Mouse inalámbrico",   price:  2999,  image: "/src/assets/images/productos/52898-producto-logitech-g305-negro.jpg", stock: 10 },
       { id: "cat1-1", title: "Teclado mecánico",     price: 19999,  image: "...", stock: 10 },
       { id: "cat1-2", title: "Monitor 24 pulgadas",  price: 159999, image: "...", stock: 10 },
       { id: "cat1-3", title: "Laptop gamer",         price: 899999, image: "...", stock: 10 },
