@@ -74,7 +74,9 @@ function NavBar() {
       <div className={`userbuttons nav-menu ${menuOpen ? "show" : ""}`}>
 
         <div className="user-wrapper">
-          <a className="user-btn" aria-label="Perfil" href="/clients/login">
+          {/* Temporalmente va directo al home registrado ya que no tenemos base de datos */}
+          <a className="user-btn" aria-label="Perfil" href="/r">
+            {/* <a className="user-btn" aria-label="Perfil" href="/clients/login"> */}
             <img src={icono} alt="Perfil" />
             <span className="user-label">Ingresar</span>
           </a>
