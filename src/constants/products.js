@@ -27,6 +27,7 @@ export const productsData = [
     id: "cat1-1",
     title: "Teclado mecánico",
     price: 19999,
+    discount: 10, // 10% de descuento
     image: "/src/assets/images/carrousel/foto2.jpg",
     images: [
       "/src/assets/images/carrousel/foto2.jpg",
@@ -142,6 +143,7 @@ export const productsData = [
     id: "cat2-1",
     title: "Smartwatch",
     price: 79999,
+    discount: 15, // 15% de descuento
     image: "/src/assets/images/carrousel/foto1.png",
     images: [
       "/src/assets/images/carrousel/foto1.png",
@@ -250,4 +252,15 @@ export const searchProducts = (searchTerm) => {
     product.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
     product.brand.toLowerCase().includes(searchTerm.toLowerCase())
   );
+};
+
+// Función para calcular el precio con descuento
+export const calculateDiscountedPrice = (product) => {
+  if (!product.discount) return product.price;
+  return Math.round(product.price * (1 - product.discount / 100));
+};
+
+// Función para verificar si un producto tiene descuento
+export const hasDiscount = (product) => {
+  return product.discount && product.discount > 0;
 };

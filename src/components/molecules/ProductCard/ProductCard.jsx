@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom';
+import { calculateDiscountedPrice, hasDiscount } from '../../../constants/products';
 import './ProductCard.css';
 
-function ProductCard({ id, title, price, image, stock, onClick, variant = "default" }) {
+function ProductCard({ product, onClick, variant = "default" }) {
   const navigate = useNavigate();
 
   const handleProductClick = () => {
-    navigate(`/products/${id}`);
+    navigate(`/products/${product.id}`);
   };
 
   const handleAddToCart = (e) => {
@@ -15,15 +16,32 @@ function ProductCard({ id, title, price, image, stock, onClick, variant = "defau
     }
   };
 
+  const productHasDiscount = hasDiscount(product);
+  const discountedPrice = calculateDiscountedPrice(product);
+
   return (
     <div className={`product-card ${variant}`}>
+      {productHasDiscount && (
+        <div className="discount-badge">
+          -{product.discount}%
+        </div>
+      )}
       <div className="product-clickable-area" onClick={handleProductClick}>
-        <h3 className="product-title">{title}</h3>
-        <img src={image} alt={title} className="product-image" />
-        <p className="product-price">${price}</p>
+        <h3 className="product-title">{product.title}</h3>
+        <img src={product.image} alt={product.title} className="product-image" />
+        <div className="price-container">
+          {productHasDiscount ? (
+            <>
+              <p className="product-price original-price">${product.price}</p>
+              <p className="product-price discounted-price">${discountedPrice}</p>
+            </>
+          ) : (
+            <p className="product-price">${product.price}</p>
+          )}
+        </div>
         <p className="product-stock">
           Stock:{' '}
-          {stock > 0 ? stock : <span className="out-of-stock">Sin stock</span>}
+          {product.stock > 0 ? product.stock : <span className="out-of-stock">Sin stock</span>}
         </p>
       </div>
       <button onClick={handleAddToCart}>Agregar al carrito</button>
