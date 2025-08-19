@@ -30,6 +30,7 @@ export const productsData = [
     discount: 10, // 10% de descuento
     image: "/src/assets/images/productos/teclado.jpeg",
     images: [
+      "/src/assets/images/productos/teclado.jpeg",
       "/src/assets/images/carrousel/foto2.jpg",
       "/src/assets/images/carrousel/foto1.png"
     ],
@@ -76,6 +77,7 @@ export const productsData = [
     price: 899999,
     image: "/src/assets/images/productos/laptop.webp",
     images: [
+      "/src/assets/images/productos/laptop.webp",
       "/src/assets/images/carrousel/foto2.jpg",
       "/src/assets/images/carrousel/foto1.png"
     ],
@@ -99,6 +101,7 @@ export const productsData = [
     price: 499999,
     image: "/src/assets/images/productos/smartphone.png",
     images: [
+      "/src/assets/images/productos/smartphone.png",
       "/src/assets/images/carrousel/foto1.png",
       "/src/assets/images/carrousel/foto2.jpg"
     ],
