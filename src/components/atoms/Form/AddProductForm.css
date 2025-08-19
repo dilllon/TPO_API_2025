@@ -1,5 +1,6 @@
 .add-product-form {
   max-width: 600px;
+  width: 90%;
   margin: 2rem auto;
   padding: 2rem;
   background-color: var(--bg-dark-grey);
@@ -11,6 +12,7 @@
   color: var(--white);
   margin-bottom: 1.5rem;
   text-align: center;
+  font-size: clamp(1.5rem, 4vw, 2rem);
 }
 
 .form-group {
@@ -42,10 +44,11 @@
 .form-row {
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .form-row .form-group {
-  flex: 1;
+  flex: 1 1 250px;
 }
 
 .submit-button {
@@ -98,6 +101,55 @@
   cursor: pointer;
 }
 
+/* Media Queries para responsividad */
+@media screen and (max-width: 768px) {
+  .add-product-form {
+    width: 95%;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    padding: 0.5rem;
+  }
+
+  .submit-button {
+    padding: 0.75rem;
+  }
+
+  .form-row {
+    gap: 0.75rem;
+  }
+
+  .image-upload-container {
+    gap: 0.75rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .add-product-form {
+    width: 100%;
+    border-radius: 4px;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .form-row {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .form-row .form-group {
+    flex: 1 1 100%;
+  }
+
+  .submit-button {
+    font-size: 0.9rem;
+  }
+}
+
 .image-preview {
   width: 200px;
   height: 150px;
@@ -119,20 +171,3 @@
   display: block;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-  .form-row {
-    flex-direction: column;
-    gap: 0;
-  }
-  
-  .add-product-form {
-    margin: 1rem;
-    padding: 1rem;
-  }
-
-  .image-preview {
-    width: 160px;
-    height: 120px;
-  }
-}
