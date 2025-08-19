@@ -44,7 +44,7 @@ function NavBar() {
             <ul className="nav-list">
               <li><a href="/">Inicio</a></li>
               <Categorias/>
-              <li><a href="/cart">Mis compras</a></li>
+              <li><a href="/clients/login">Mis compras</a></li>
             </ul>
           </div>
           

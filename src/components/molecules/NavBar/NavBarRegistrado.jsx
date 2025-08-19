@@ -86,10 +86,10 @@ function NavBarRegistrado() {
               <Categorias/>
               <li><a href="/cart">Mis compras</a></li>
               <li className="cart-nav-item">
-                <div className="cart-icon-nav">
+                <a href='/cart'className="cart-icon-nav">
                   <FaShoppingCart size={20} />
                   {cantItems > 0 && <span className="cart-badge-nav">{cantItems}</span>}
-                </div>
+                </a>
               </li>
             </ul>
           </div>

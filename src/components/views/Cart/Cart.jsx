@@ -3,6 +3,7 @@ import Header from '@/components/organisms/Header/Header';
 import { getProductById, calculateDiscountedPrice, hasDiscount } from '../../../constants/products';
 import { useEffect, useState } from 'react';
 import './Cart.css';
+import HeaderRegistrado from '@/components/organisms/Header/HeaderRegistrado';
 
 function Cart() {
   const [showPopup, setShowPopup] = useState(false);
@@ -85,7 +86,7 @@ function Cart() {
 
   return (
     <>
-      <Header/>
+      <HeaderRegistrado/>
       <section className="cart-container">
         <div className={'cart-message-box ' + (totalItems <= 0 ? 'show' : '')}>
           <div className="cart-message">
