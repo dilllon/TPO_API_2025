@@ -2,6 +2,7 @@ import { useState } from "react";
 import contactoimg from '../../../assets/images/contactoimg.jpg';
 import crearcuentaimg from '../../../assets/images/crearusuarioimg.jpg';
 import icono from '../../../assets/images/icono.jpg';
+import { getCategoryNames } from '../../../constants/products';
 import Logo from "../../Logo/Logo.jsx";
 import Buscador from "../../atoms/Buscador/Buscador.jsx";
 import "./NavBar.css";
@@ -10,6 +11,7 @@ import "./NavBar.css";
 
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const categoryNames = getCategoryNames();
 
 
   // const [palabra, setPalabra] = useState('gato');
@@ -42,13 +44,16 @@ function NavBar() {
           <div className={`nav-menu ${menuOpen ? "show" : ""}`}>
             <ul className="nav-list">
               <li><a href="/">Inicio</a></li>
-              <li><a href="#">Catálogo</a></li>
               <li className="dropdown">
-                <a href="#" className="dropdown-toggle">Dropdown ▼</a>
+                <a href="#" className="dropdown-toggle">Categorías ▼</a>
                 <ul className="dropdown-menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
+                  {categoryNames.map((categoryName, index) => (
+                    <li key={index}>
+                      <a href={`#category-${categoryName.toLowerCase()}`}>
+                        {categoryName}
+                      </a>
+                    </li>
+                  ))}
                 </ul>
               </li>
               <li><a href="#">Categoria</a></li>
