@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
+import Logo from "../../Logo/Logo.jsx";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -25,9 +26,9 @@ function Login() {
     <div className="auth">
       {/* Topbar */}
       <div className="auth_topbar">
-        <div className="brand">
-          <span className="brand_name">AmaZone</span>
-        </div>
+        
+          <Logo/>
+        
 
         <div className="login-header">
           ¿No tenés cuenta? <Link to="/clients/register">Registrate</Link>

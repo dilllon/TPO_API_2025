@@ -29,7 +29,8 @@ function ProductsGrid({ onClick }) {
   return (
     <>
       {ordered.map(({ categoryName, products }) => (
-        <section key={categoryName} id={`category-${categoryName.toLowerCase()}`}>
+      
+        <section key={categoryName} id={`category-${categoryName.toLowerCase()}`} className="products-section">
           <h2>{categoryName}</h2>
           <div className="products-grid">
             {products.map((p) => (

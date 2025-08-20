@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from "react-router-dom";
 // import { useDispatch } from 'react-redux';
 // import { registerUser } from '@/store/slices/authSlice';
 import './Register.css';
 
 function Register() {
+  const navigate = useNavigate();
   // const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     firstName: '',
@@ -25,19 +26,23 @@ function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // // Validar que las contraseñas coincidan
-    // if (formData.password !== formData.confirm) {
-    //   alert('Las contraseñas no coinciden.');
-    //   return;
-    // }
+    // Validar que las contraseñas coincidan
+    if (formData.password !== formData.confirm) {
+      alert('Las contraseñas no coinciden.');
+      return;
+    }
+    for (const key in formData) {
+          localStorage.setItem(key, formData[key]);
+          }
 
-    // // Despachamos la acción a Redux para guardar los datos del usuario.
+    // Despachamos la acción a Redux para guardar los datos del usuario.
     // dispatch(registerUser(formData));
 
-    // console.log(
-    //   'Usuario registrado y guardado en el estado de Redux:',
-    //   formData,
-    // );
+    console.log(
+      'Usuario registrado y guardado en el estado de Redux:',
+      formData,
+    );
+    navigate("/r");
   };
 
   return (

@@ -43,7 +43,7 @@ const handleAddToCart = (product) => {
       <main>
         <section>
           <div className='welcome-message'>
-            <h2>¡Bienvenido Nombre a nuestra tienda!</h2>
+            <h2>¡Bienvenido {localStorage.getItem("firstName")} a nuestra tienda!</h2>
           </div>
           <p>Explorá nuestros productos y hacé tu compra de forma fácil y rápida.</p>
         </section>

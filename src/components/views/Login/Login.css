@@ -41,25 +41,6 @@ body {
   width: 100%;
 }
 
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 700;
-  letter-spacing: 0.2px;
-}
-
-.brand_dot {
-  width: 8px;
-  height: 8px;
-  background: var(--accent);
-  border-radius: 999px;
-  box-shadow: 0 0 16px var(--accent);
-}
-
-.brand_name {
-  color: #d8faff;
-}
 
 .login-header {
   color: var(--light-purple);
