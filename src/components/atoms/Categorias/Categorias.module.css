@@ -1,0 +1,59 @@
+/* Estilos para el contenedor principal del dropdown */
+.dropdown {
+  position: relative; /* Necesario para que el menú se posicione correctamente */
+}
+
+/* Estilos para el enlace que activa el dropdown */
+.dropdown-toggle {
+  /* Estos estilos son similares a los otros enlaces del nav-list para mantener la consistencia */
+  color: var(--white, #ecf0f1);
+  text-decoration: none;
+  padding: 0.7rem 1.2rem;
+  display: block;
+  font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  cursor: pointer; /* Es un enlace que actúa como botón */
+}
+
+.dropdown-toggle:hover {
+  background-color: rgba(52, 152, 219, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Estilos para el menú desplegable */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: var(--darker-grey, #2c3e50); /* Usando un color de la paleta existente */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  top: 100%;
+  left: 0;
+  min-width: 180px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  z-index: 1000;
+}
+
+/* Mostrar el menú cuando se hace hover sobre el contenedor .dropdown */
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+/* Estilos para los items dentro del menú desplegable */
+.dropdown-menu li a {
+  color: var(--white, #ecf0f1);
+  padding: 0.8rem 1.2rem;
+  display: block;
+  text-decoration: none;
+  font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-menu li a:hover {
+  background-color: var(--primary); /* Usando el color primario de la paleta */
+  color: white;
+}
