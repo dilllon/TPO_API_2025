@@ -1,6 +1,6 @@
 .navbar {
-  background: linear-gradient(to bottom, #3498db, #2c3e50);
-  color: var(--text-light, #ecf0f1);
+  background: var(--darker-grey);
+  color: var(--white, #ecf0f1);
   display: flex;
   flex-direction: row;
   position: relative;
@@ -67,7 +67,7 @@
 }
 
 .nav-list a {
-  color: var(--text-light, #ecf0f1);
+  color: var(--white, #ecf0f1);
   text-decoration: none;
   padding: 0.7rem 1.2rem;
   display: block;
@@ -182,7 +182,7 @@
   display: inline-block;
   cursor: pointer;
   transition: transform 0.2s ease;
-  color: var(--text-light, #ecf0f1);
+  color: var(--white, #ecf0f1);
   padding: 0.7rem 1.2rem;
   border-radius: var(--border-radius-sm, 4px);
 }
@@ -211,6 +211,12 @@
 
 /* Responsivo */
 @media (max-width: 720px) {
+  .navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+
   .burger {
     display: block;
   }

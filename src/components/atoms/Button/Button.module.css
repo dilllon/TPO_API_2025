@@ -45,9 +45,9 @@
 
 /* === Estilos de Color === */
 .color-primary {
-  background: var(--primary-blue);
+  background: var(--primary);
   color: #fff;
 }
 .color-primary:hover:not(:disabled) {
-  background: var(--hover-blue);
+  background: var(--primary-hover);
 }

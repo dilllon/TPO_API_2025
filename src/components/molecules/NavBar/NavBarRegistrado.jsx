@@ -1,19 +1,16 @@
-import React, { useState } from "react";
-import { FaShoppingCart } from "react-icons/fa";
+import React, { useState } from 'react';
+import { FaShoppingCart } from 'react-icons/fa';
 import contactoimg from '../../../assets/images/contactoimg.jpg';
 import crearcuentaimg from '../../../assets/images/crearusuarioimg.jpg';
 import icono from '../../../assets/images/editarperfil.jpg';
-import { getCategoryNames } from '../../../constants/products';
-import Logo from "../../Logo/Logo.jsx";
-import Buscador from "../../atoms/Buscador/Buscador.jsx";
-import "./NavBar.css";
-import Categorias from "../../atoms/Categorias/Categorias";
-
-
+// import { getCategoryNames } from '../../../constants/products';
+import Logo from '../../Logo/Logo.jsx';
+import Buscador from '../../atoms/Buscador/Buscador.jsx';
+import './NavBar.module.css';
+import Categorias from '../../atoms/Categorias/Categorias';
 
 function NavBarRegistrado() {
   const [menuOpen, setMenuOpen] = useState(false);
-
 
   // Estado para contar items del carrito
   const [cantItems, setCantItems] = useState(() => {
@@ -42,7 +39,7 @@ function NavBarRegistrado() {
     };
 
     window.addEventListener('storage', handleStorageChange);
-    
+
     // También escuchar un evento personalizado para cambios en la misma pestaña
     window.addEventListener('cartUpdated', handleStorageChange);
 
@@ -52,91 +49,80 @@ function NavBarRegistrado() {
     };
   }, []);
 
-
   // const [palabra, setPalabra] = useState('gato');
-  
-
 
   return (
     <nav className="navbar">
       <div className="izquierda">
-        <Logo/>
+        <Logo />
       </div>
       <div className="centro">
-
         <div className="PrimerRenglon">
-        <Buscador/>
+          <Buscador />
 
-        {/* Botón hamburguesa */}
-        <button
-          className="burger"
-          aria-label="Toggle navigation"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          ☰
-        </button>
-        
+          {/* Botón hamburguesa */}
+          <button
+            className="burger"
+            aria-label="Toggle navigation"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            ☰
+          </button>
         </div>
 
         <div className="SegundoRenglon">
           {/* Menú */}
-          <div className={`nav-menu ${menuOpen ? "show" : ""}`}>
+          <div className={`nav-menu ${menuOpen ? 'show' : ''}`}>
             <ul className="nav-list">
-              <li><a href="/r">Inicio</a></li>
-              <Categorias/>
-              <li><a href="/cart">Mis compras</a></li>
+              <li>
+                <a href="/r">Inicio</a>
+              </li>
+              <Categorias />
+              <li>
+                <a href="/cart">Mis compras</a>
+              </li>
               <li className="cart-nav-item">
-                <a href='/cart'className="cart-icon-nav">
+                <a href="/cart" className="cart-icon-nav">
                   <FaShoppingCart size={20} />
-                  {cantItems > 0 && <span className="cart-badge-nav">{cantItems}</span>}
+                  {cantItems > 0 && (
+                    <span className="cart-badge-nav">{cantItems}</span>
+                  )}
                 </a>
               </li>
             </ul>
           </div>
-          
-
-          
-
         </div>
-
-
-        
-
       </div>
       <div className="derecha">
-      {/* Botones de usuario */}
-      <div className={`userbuttons nav-menu ${menuOpen ? "show" : ""}`}>
+        {/* Botones de usuario */}
+        <div className={`userbuttons nav-menu ${menuOpen ? 'show' : ''}`}>
+          <div className="user-wrapper">
+            <a className="user-btn" aria-label="Perfil" href="/r">
+              <img src={icono} alt="Perfil" />
+              <span className="user-label">Perfil</span>
+            </a>
+          </div>
 
-        <div className="user-wrapper">
-          <a className="user-btn" aria-label="Perfil" href="/r">
-            <img src={icono} alt="Perfil" />
-            <span className="user-label">Perfil</span>
-          </a>
+          <div className="user-wrapper">
+            <a
+              className="user-btn"
+              aria-label="Salir"
+              href="/"
+              onClick={() => localStorage.removeItem('token')}
+            >
+              <img src={crearcuentaimg} alt="Salir" />
+              <span className="user-label">Salir</span>
+            </a>
+          </div>
+
+          <div className="user-wrapper">
+            <a className="user-btn" aria-label="Carrito" href="/register">
+              <img src={contactoimg} alt="Carrito" />
+              <span className="user-label">Contacto</span>
+            </a>
+          </div>
         </div>
-
-        <div className="user-wrapper">
-          <a 
-            className="user-btn" 
-            aria-label="Salir" 
-            href="/"
-            onClick={() => localStorage.removeItem('token')}
-          >
-            <img src={crearcuentaimg} alt="Salir" />
-            <span className="user-label">Salir</span>
-          </a>
-        </div>
-
-        <div className="user-wrapper">
-          <a className="user-btn" aria-label="Carrito" href="/register">
-            <img src={contactoimg} alt="Carrito" />
-            <span className="user-label">Contacto</span>
-          </a>
-        </div>
-
       </div>
-    </div>
-
-
     </nav>
   );
 }
