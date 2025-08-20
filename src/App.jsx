@@ -9,19 +9,17 @@ import Register from './components/views/Register/Register';
 
 function App() {
   return (
-    <div className="app-gradient">
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/r" element={<HomeRegistrado />} />
-          <Route path="/clients/register" element={<Register />} />
-          <Route path="/clients/login" element={<Login />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/products/:id" element={<ProductsView />} />
-          <Route path="/products/add" element={<AddProductView />} />
-        </Routes>
-      </Router>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/r" element={<HomeRegistrado />} />
+        <Route path="/clients/register" element={<Register />} />
+        <Route path="/clients/login" element={<Login />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/products/:id" element={<ProductsView />} />
+        <Route path="/products/add" element={<AddProductView />} />
+      </Routes>
+    </Router>
   );
 }
 

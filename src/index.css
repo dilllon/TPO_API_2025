@@ -1,9 +1,3 @@
-/* Fondo gradiente para toda la app desde el header */
-.app-gradient {
-  min-height: 100vh;
-  background: linear-gradient(to bottom, #5c93f8, #000000);
-}
-
 * {
   box-sizing: border-box;
 }

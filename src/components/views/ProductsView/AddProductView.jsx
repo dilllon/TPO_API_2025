@@ -11,10 +11,10 @@ function AddProductView() {
   };
 
   return (
-    <div className="app-gradient">
-        {isLoggedIn ? <HeaderRegistrado /> : <Header />}
-        <AddProductForm onSubmit={handleAddProduct} />
-    </div>
+    <>
+      {isLoggedIn ? <HeaderRegistrado /> : <Header />}
+      <AddProductForm onSubmit={handleAddProduct} />
+    </>
   );
 }
 

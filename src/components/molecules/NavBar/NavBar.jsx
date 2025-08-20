@@ -1,93 +1,96 @@
-import { useState } from "react";
-import contactoimg from '../../../assets/images/contactoimg.jpg';
-import crearcuentaimg from '../../../assets/images/crearusuarioimg.jpg';
+import { useState } from 'react';
+import contactoImg from '../../../assets/images/contactoimg.jpg';
+import crearCuentaImg from '../../../assets/images/crearusuarioimg.jpg';
 import icono from '../../../assets/images/icono.jpg';
-import { getCategoryNames } from '../../../constants/products';
-import Logo from "../../Logo/Logo.jsx";
-import Buscador from "../../atoms/Buscador/Buscador.jsx";
-import "./NavBar.css";
-import Categorias from "../../atoms/Categorias/Categorias";
-
+// import { getCategoryNames } from '../../../constants/products';
+import Logo from '../../Logo/Logo.jsx';
+import Buscador from '../../atoms/Buscador/Buscador.jsx';
+import Categorias from '../../atoms/Categorias/Categorias';
+import styles from './NavBar.module.css';
 
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
-
-
   // const [palabra, setPalabra] = useState('gato');
-  
-
 
   return (
-    <nav className="navbar">
-      <div className="izquierda">
-        <Logo/>
+    <nav className={styles['navbar']}>
+      <div className={styles['izquierda']}>
+        <Logo />
       </div>
-      <div className="centro">
+      <div className={styles['centro']}>
+        <div className={styles['primer-renglon']}>
+          <Buscador />
 
-        <div className="PrimerRenglon">
-        <Buscador/>
-
-        {/* Botón hamburguesa */}
-        <button
-          className="burger"
-          aria-label="Toggle navigation"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          ☰
-        </button>
-        
+          {/* Botón hamburguesa */}
+          <button
+            className={styles['burger']}
+            aria-label="Toggle navigation"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            ☰
+          </button>
         </div>
 
-        <div className="SegundoRenglon">
+        <div className={styles['segundo-renglon']}>
           {/* Menú */}
-          <div className={`nav-menu ${menuOpen ? "show" : ""}`}>
-            <ul className="nav-list">
-              <li><a href="/">Inicio</a></li>
-              <Categorias/>
-              <li><a href="/clients/login">Mis compras</a></li>
+          <div
+            className={`${styles['nav-menu']} ${menuOpen ? styles['show'] : ''}`}
+          >
+            <ul className={styles['nav-list']}>
+              <li>
+                <a href="/">Inicio</a>
+              </li>
+              <Categorias />
+              <li>
+                <a href="/clients/login">Mis compras</a>
+              </li>
             </ul>
           </div>
-          
-
-          
-
         </div>
-
-
-        
-
       </div>
-      <div className="derecha">
-      {/* Botones de usuario */}
-      <div className={`userbuttons nav-menu ${menuOpen ? "show" : ""}`}>
+      <div className={styles['derecha']}>
+        {/* Botones de usuario */}
+        <div
+          className={`${styles['userbuttons']} ${styles['nav-menu']} ${
+            menuOpen ? styles['show'] : ''
+          }`}
+        >
+          <div className={styles['user-wrapper']}>
+            {/* Temporalmente va directo al home registrado ya que no tenemos base de datos */}
+            <a
+              className={styles['user-btn']}
+              aria-label="Perfil"
+              href="/clients/login"
+            >
+              {/* <a className="user-btn" aria-label="Perfil" href="/clients/login"> */}
+              <img src={icono} alt="Perfil" />
+              <span className={styles['user-label']}>Ingresar</span>
+            </a>
+          </div>
 
-        <div className="user-wrapper">
-          {/* Temporalmente va directo al home registrado ya que no tenemos base de datos */}
-          <a className="user-btn" aria-label="Perfil" href="/clients/login">
-            {/* <a className="user-btn" aria-label="Perfil" href="/clients/login"> */}
-            <img src={icono} alt="Perfil" />
-            <span className="user-label">Ingresar</span>
-          </a>
+          <div className={styles['user-wrapper']}>
+            <a
+              className={styles['user-btn']}
+              aria-label="Crear cuenta"
+              href="/clients/register"
+            >
+              <img src={crearCuentaImg} alt="Crear cuenta" />
+              <span className={styles['user-label']}>Registrarse</span>
+            </a>
+          </div>
+
+          <div className={styles['user-wrapper']}>
+            <a
+              className={styles['user-btn']}
+              aria-label="Carrito"
+              href="/contacto"
+            >
+              <img src={contactoImg} alt="Carrito" />
+              <span className={styles['user-label']}>Contacto</span>
+            </a>
+          </div>
         </div>
-
-        <div className="user-wrapper">
-          <a className="user-btn" aria-label="Crear cuenta" href="/clients/register">
-            <img src={crearcuentaimg} alt="Crear cuenta" />
-            <span className="user-label">Registrarse</span>
-          </a>
-        </div>
-
-        <div className="user-wrapper">
-          <a className="user-btn" aria-label="Carrito" href="/contacto">
-            <img src={contactoimg} alt="Carrito" />
-            <span className="user-label">Contacto</span>
-          </a>
-        </div>
-
       </div>
-    </div>
-
-
     </nav>
   );
 }

@@ -94,13 +94,9 @@ section p {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Additional styles for text on gradient backgrounds */
-.app-gradient {
-  color: var(--text-light, #ecf0f1);
-}
 
-.app-gradient main > h2, 
-.app-gradient main > p {
+main > h2, 
+main > p {
   color: var(--text-light, #ecf0f1);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
