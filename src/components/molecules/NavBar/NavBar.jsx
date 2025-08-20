@@ -2,15 +2,26 @@ import { useState } from 'react';
 import contactoImg from '../../../assets/images/contactoimg.jpg';
 import crearCuentaImg from '../../../assets/images/crearusuarioimg.jpg';
 import icono from '../../../assets/images/icono.jpg';
-// import { getCategoryNames } from '../../../constants/products';
+import { getCategoryNames } from '../../../constants/products';
 import Logo from '../../Logo/Logo.jsx';
 import Buscador from '../../atoms/Buscador/Buscador.jsx';
-import Categorias from '../../atoms/Categorias/Categorias';
+import Dropdown from '../../atoms/Dropdown/Dropdown.jsx';
 import styles from './NavBar.module.css';
 
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  // const [palabra, setPalabra] = useState('gato');
+
+  // Lógica para construir los items de las categorías
+  const isLoggedIn =
+    typeof window !== 'undefined' &&
+    localStorage.getItem('isLoggedIn') === 'true';
+  const base = isLoggedIn ? '/r' : '/';
+
+  const categoryNames = getCategoryNames();
+  const categoryItems = categoryNames.map((name) => ({
+    label: name,
+    href: `${base}#category-${name.toLowerCase()}`,
+  }));
 
   return (
     <nav className={styles['navbar']}>
@@ -40,7 +51,7 @@ function NavBar() {
               <li>
                 <a href="/">Inicio</a>
               </li>
-              <Categorias />
+              <Dropdown title="Categorías" items={categoryItems} />
               <li>
                 <a href="/clients/login">Mis compras</a>
               </li>

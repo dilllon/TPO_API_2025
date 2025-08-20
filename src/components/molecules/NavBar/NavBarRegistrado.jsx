@@ -4,13 +4,26 @@ import contactoimg from '../../../assets/images/contactoimg.jpg';
 import crearcuentaimg from '../../../assets/images/crearusuarioimg.jpg';
 import icono from '../../../assets/images/editarperfil.jpg';
 // import { getCategoryNames } from '../../../constants/products';
+import { getCategoryNames } from '../../../constants/products';
 import Logo from '../../Logo/Logo.jsx';
 import Buscador from '../../atoms/Buscador/Buscador.jsx';
 import './NavBar.module.css';
-import Categorias from '../../atoms/Categorias/Categorias';
+import Dropdown from '../../atoms/Dropdown/Dropdown.jsx';
 
 function NavBarRegistrado() {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Lógica para construir los items de las categorías
+  const isLoggedIn =
+    typeof window !== 'undefined' &&
+    localStorage.getItem('isLoggedIn') === 'true';
+  const base = isLoggedIn ? '/r' : '/';
+
+  const categoryNames = getCategoryNames();
+  const categoryItems = categoryNames.map((name) => ({
+    label: name,
+    href: `${base}#category-${name.toLowerCase()}`,
+  }));
 
   // Estado para contar items del carrito
   const [cantItems, setCantItems] = useState(() => {
@@ -77,7 +90,7 @@ function NavBarRegistrado() {
               <li>
                 <a href="/r">Inicio</a>
               </li>
-              <Categorias />
+              <Dropdown title="Categorías" items={categoryItems} />
               <li>
                 <a href="/cart">Mis compras</a>
               </li>
