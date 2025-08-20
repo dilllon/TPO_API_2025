@@ -2,25 +2,6 @@
   --field-border: #3e2c58;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html,
-body,
-#root {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
-    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-  color: var(--white);
-  background: var(--bg-dark-grey);
-}
-
-/* Sutil halo detrás de la tarjeta */
 .auth {
   min-height: 100vh;
   background: var(--bg-dark-grey);
@@ -32,7 +13,7 @@ body {
 }
 
 /* ====== Topbar ====== */
-.auth_topbar {
+.auth-topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -49,6 +30,14 @@ body {
   letter-spacing: 0.2px;
 }
 
+/* El puntito antes del nombre de la empresa*/
+.brand::before {
+  content: "• ";
+  color: var(--accent);
+  font-size: 1.25rem;
+  vertical-align: baseline;
+}
+
 .brand_dot {
   width: 8px;
   height: 8px;
@@ -57,7 +46,7 @@ body {
   box-shadow: 0 0 16px var(--accent);
 }
 
-.brand_name {
+.brand-name {
   color: #d8faff;
 }
 
@@ -104,17 +93,14 @@ body {
   gap: 10px;
 }
 
-label {
+.form label {
   font-size: 14px;
   color: var(--light-purple);
 }
 
-input[type="email"],
-input[type="password"],
-input[type="text"] {
-  width: 100%;
-  height: 48px;
-  padding: 12px 14px;
+.form > .field > input {
+  height: 42px;
+  padding: 12px 12px; /* Ajustamos el padding vertical */
   border-radius: 12px;
   border: 1px solid var(--field-border);
   background: var(--darker-grey);
@@ -133,7 +119,7 @@ input:focus {
 }
 
 /* Meta row (remember + forgot) */
-.form_row-meta {
+.form-row-meta {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -150,6 +136,7 @@ input:focus {
 }
 
 .link-muted {
+  font-size: 0.8rem;
   color: var(--light-purple);
   text-decoration: none;
 }
@@ -157,32 +144,7 @@ input:focus {
   text-decoration: underline;
 }
 
-/* Button */
-.btn {
-  height: 52px;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 16px;
-}
-
-.btn-primary {
-  width: 100%;
-  color: white;
-  background: var(--primary-blue);
-  transition: transform 0.05s ease, filter 0.15s ease;
-}
-
-.btn-primary:hover {
-  filter: brightness(1.08);
-}
-
-.btn-primary:active {
-  transform: translateY(1px);
-}
-
-.card_footer {
+.card-footer {
   margin-top: 22px;
   text-align: center;
   color: var(--light-purple);
@@ -191,58 +153,58 @@ input:focus {
 
 /* ====== Responsive ====== */
 @media (min-width: 720px) {
-  .auth_topbar,
+  .auth-topbar,
   .card {
     max-width: 460px;
   }
 
   /* Tarjeta y títulos */
-  .auth { 
+  .auth {
     gap: 18px;
     padding: 28px 20px 56px;
     display: flex;
-    justify-content: center; 
+    justify-content: center;
   }
 
-  .card { 
+  .card {
     padding: 24px;
     border-radius: 16px;
   }
 
   .login-card h1 {
-    font-size: 1.8rem; 
+    font-size: 1.8rem;
     margin: 4px 0 12px;
   }
 
   /* Inputs y labels*/
   .form { gap: 14px; }
 
-  label { font-size: 13px; }
+  .form label { font-size: 13px; }
 
   .checkbox { font-size: 13px; }
 
   input[type="email"],
   input[type="password"],
   input[type="text"] {
-    height: 44px;
-    padding: 10px 12px;
+    height: 40px; /* Reducimos la altura */
+    padding: 8px 12px; /* Ajustamos el padding vertical */
     border-radius: 10px;
   }
 
   /* Botón */
   .btn {
-    height: 46px;
+    height: 40px; /* Hacemos que el botón coincida con la altura del input */
     font-size: 15px;
     border-radius: 10px;
   }
 
-  .card_footer {
+  .card-footer {
     font-size: 11px;
     margin-top: 18px;
   }
 
   /* Tipografías del topbar un poco más discretas */
-  .brand_name {
+  .brand-name {
     font-size: 16px;
   }
 }

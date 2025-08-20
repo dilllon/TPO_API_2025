@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 // import { useDispatch } from 'react-redux';
 // import { registerUser } from '@/store/slices/authSlice';
-import './Register.css';
+import Button from '@/components/atoms/Button/Button.jsx';
+import styles from './Register.module.css';
 
 function Register() {
   // const dispatch = useDispatch();
@@ -41,28 +42,29 @@ function Register() {
   };
 
   return (
-    <div className="register-container">
-      <div className="container">
-        <div className="topbar">
-          <div className="brand">AmaZone</div>
-          <div className="signin">
+    <div className={styles['register-container']}>
+      <div className={styles['container']}>
+        <div className={styles['topbar']}>
+          <div className={styles['brand']}>AmaZone</div>
+          <div className={styles['signin']}>
             ¿Ya tenés cuenta? <Link to="/clients/login">Iniciá sesión</Link>
           </div>
         </div>
 
         {/* Card */}
-        <div className="card">
+        <div className={styles['card']}>
           <h1>Crear Cuenta</h1>
 
           <form onSubmit={handleSubmit}>
             {/* Nombre / Apellido */}
-            <div className="grid">
+            <div className={styles['grid']}>
               <div>
                 <label htmlFor="firstName">Nombre</label>
                 <input
                   id="firstName"
                   type="text"
                   placeholder="Facundo"
+                  autoComplete="off"
                   value={formData.firstName}
                   onChange={handleChange}
                   required
@@ -74,6 +76,7 @@ function Register() {
                   id="lastName"
                   type="text"
                   placeholder="Tassone"
+                  autoComplete="off"
                   value={formData.lastName}
                   onChange={handleChange}
                   required
@@ -82,7 +85,7 @@ function Register() {
             </div>
 
             {/* Email / Address */}
-            <div className="grid">
+            <div className={styles['grid']}>
               <div>
                 <label htmlFor="email">Email</label>
                 <input
@@ -99,7 +102,7 @@ function Register() {
                 <input
                   id="address"
                   type="text"
-                  placeholder="Tu dirección..."
+                  placeholder="Av. Falsa 123"
                   value={formData.address}
                   onChange={handleChange}
                 />
@@ -107,13 +110,14 @@ function Register() {
             </div>
 
             {/* Passwords */}
-            <div className="row">
+            <div className={styles['row']}>
               <div>
                 <label htmlFor="password">Crear Contraseña</label>
                 <input
                   id="password"
                   type="password"
                   placeholder="••••••••"
+                  autoComplete="off"
                   value={formData.password}
                   onChange={handleChange}
                   required
@@ -125,6 +129,7 @@ function Register() {
                   id="confirm"
                   type="password"
                   placeholder="••••••••"
+                  autoComplete="off"
                   value={formData.confirm}
                   onChange={handleChange}
                   required
@@ -133,14 +138,14 @@ function Register() {
             </div>
 
             {/* Botones */}
-            <div className="actions">
-              <button className="btn btn-primary" type="submit">
+            <div className={styles['actions']}>
+              <Button type="submit" size="m">
                 Crear Cuenta
-              </button>
+              </Button>
             </div>
           </form>
 
-          <div className="footer">©Copyright 2030. AmaZone LLC.</div>
+          <div className={styles['footer']}>©Copyright 2030. AmaZone LLC.</div>
         </div>
       </div>
     </div>
