@@ -36,15 +36,7 @@
   padding: 3px;
   gap: 15px;
 }
-
-.primer-renglon {
-
-}
-
-.segundo-renglon {
-
-}
-
+ 
 .burger {
   background: none;
   border: none;
@@ -135,6 +127,7 @@
     position: fixed;
     top: 0;
     width: 100%;
+    z-index: 1000;
   }
 
   .burger {
@@ -143,33 +136,46 @@
   .nav-menu {
     display: none;
     width: 100%;
-    background-color: #222;
-
+    background-color: var(--darker-grey);
   }
   .nav-menu.show {
     display: flex;
+    flex-direction: column; /* Apila las listas de links verticalmente */
     position: absolute;
     top: 100%;
     width: 100% ;
     left: 0;
     z-index: 1000;
     padding: 1rem 0;
+    align-items: flex-start;
   }
   .nav-list {
     flex-direction: column;
+    width: 100%;
+    align-items: center;
   }
-  .search-form {
-    padding: 1rem;
+
+  .nav-list-right {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    margin-left: 0; /* Resetea el margen para el apilado vertical */
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #4a4a4a;
+  }
+
+  .nav-list a {
+    padding: 1rem; /* Aumenta el área de click para mejorar la UX móvil */
     width: 100%;
   }
 
-  .segundo-renglon{
-    flex-direction: column-reverse;
-    align-items: center;
+  .nav-list-right a {
+    padding: 0.5rem;
   }
-  .nav-menu .nav-list {
 
-  margin-top: 100px;  }
+  .segundo-renglon { /* Eliminamos estilos innecesarios que no aplican en móvil */ }
 
   .izquierda {
     margin-right: 0px;
