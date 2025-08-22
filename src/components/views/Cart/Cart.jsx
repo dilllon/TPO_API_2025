@@ -6,6 +6,8 @@ import './Cart.css';
 import HeaderRegistrado from '@/components/organisms/Header/HeaderRegistrado';
 
 function Cart() {
+  const [removing, setRemoving] = useState(new Set());
+  const ANIM_MS = 220; // misma duración que en el CSS  
   const [showPopup, setShowPopup] = useState(false);
   const [products, setProducts] = useState(() => {
     try {
@@ -33,20 +35,32 @@ function Cart() {
     return a + finalPrice * (p.qty || 1);
   }, 0);
 
-  const removeOne = (id) => {
+const removeOne = (id) => {
+  // 1) activar clase de animación
+  setRemoving(prev => new Set(prev).add(id));
+
+  // 2) al finalizar la transición, borrar de verdad
+  setTimeout(() => {
     const cart = JSON.parse(localStorage.getItem('cartItems') || '[]');
     const i = cart.findIndex(it => it.id === id);
-    if (i >= 0) {
-      cart.splice(i, 1);
-    }
+    if (i >= 0) cart.splice(i, 1);
+
     localStorage.setItem('cartItems', JSON.stringify(cart));
-    // Dispara un evento de storage para notificar a otros componentes
     window.dispatchEvent(new StorageEvent('storage', {
       key: 'cartItems',
       newValue: JSON.stringify(cart)
     }));
     setProducts([...cart]);
-  };
+
+    // limpiar flag
+    setRemoving(prev => {
+      const n = new Set(prev);
+      n.delete(id);
+      return n;
+    });
+  }, ANIM_MS + 20); // pequeño margen
+};
+
 
   const updateQuantity = (id, newQty) => {
     const cart = JSON.parse(localStorage.getItem('cartItems') || '[]');
@@ -102,10 +116,15 @@ function Cart() {
           </div>
 
           <div className='cart-items'>
-            {products.map((p, index) => {
+            {products.map((p) => {
               const fullProduct = getProductById(p.id);
+              const isRemoving = removing.has(p.id); // ✅ per-item
+
               return (
-                <div key={`${p.id}-${index}`} className="cart-items-product">
+                <div
+                  key={p.id}                                          // ✅ mejor key estable
+                  className={`cart-items-product ${isRemoving ? 'is-removing' : ''}`}
+                >
                   <ProductCardAdded
                     product={fullProduct}
                     qty={p.qty || 1}
@@ -116,18 +135,6 @@ function Cart() {
                 </div>
               );
             })}
-          </div>
-
-          <div className="cart-desc-price">
-            <div className="cart-desc">
-              <p className='desc'>Total de productos: {totalItems}</p>
-            </div>
-            <div className="cart-price">
-              <p className='price'>Total: ${totalPrice}</p>
-              <button className="purchase-button" onClick={() => setShowPopup(true)}>
-                Realizar Compra
-              </button>
-            </div>
           </div>
 
           {showPopup && (

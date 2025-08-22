@@ -403,3 +403,27 @@
     font-weight: bold;
     margin-left: 0.5rem;
 }
+
+
+
+.cart-items-product {
+  overflow: hidden; /* necesario para colapso vertical */
+  max-height: 400px; /* > altura máxima esperada del card */
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease,
+    margin 220ms ease,
+    padding 220ms ease,
+    max-height 220ms ease;
+}
+
+.cart-items-product.is-removing {
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  max-height: 0;
+  /* opcional: evitar dobles clics durante la animación */
+  pointer-events: none;
+}
