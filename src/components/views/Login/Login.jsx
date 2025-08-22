@@ -26,9 +26,11 @@ function Login() {
     <div className={styles['auth']}>
       {/* Topbar */}
       <div className={styles['auth-topbar']}>
-        <div className={styles['brand']}>
-          <span className={styles['brand-name']}>AmaZone</span>
-        </div>
+        <Link to="/">
+          <div className={styles['brand']}>
+            <span className={styles['brand-name']}>AmaZone</span>
+          </div>
+        </Link>
 
         <div className={styles['login-header']}>
           ¿No tenés cuenta? <Link to="/clients/register">Registrate</Link>

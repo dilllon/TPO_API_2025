@@ -2,7 +2,7 @@
   font-size: 1.8rem;
   font-weight: bold;
   text-decoration: none;
-  color: #ff6600;
+  color: var(--primary);
   display: flex;
 
   gap: 8px;
@@ -14,12 +14,11 @@
 }
 
 .logo-text {
-  display: flex
-   
+  display: flex;
 }
 
 .logo-highlight {
-  color: #fff;
+  color: var(--white);
 }
 
 /* Efecto hover opcional */
@@ -28,21 +27,16 @@
   transition: transform 0.2s ease-in-out;
 }
 
-
-
 @media (max-width: 768px) {
-
-.logo {
-  font-size: 0.8rem;
-  font-weight: bold;
-  text-decoration: none;
-  color: #ff6600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  flex-wrap: wrap
-}
-
-
+  .logo {
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
 }

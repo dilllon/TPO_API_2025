@@ -36,7 +36,7 @@
 }
 
 .brand-name {
-  color: var(--primary);
+  color: var(--text-primary);
 }
 
 .login-header {

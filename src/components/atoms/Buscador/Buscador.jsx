@@ -1,10 +1,20 @@
-import "./Buscador.css";
+import { FaSearch } from 'react-icons/fa';
+import styles from './Buscador.module.css';
 
 function Buscador() {
   return (
-          <form className="search-form" onSubmit={(e) => e.preventDefault()}>
-            <input type="search" placeholder="Buscar..." aria-label="Buscar" />
-          </form>
+    <form
+      className={styles['search-form']}
+      onSubmit={(e) => e.preventDefault()}
+    >
+      <FaSearch className={styles['search-icon']} />
+      <input
+        className={styles['search-input']}
+        type="search"
+        placeholder="Buscar productos, marcas y más..."
+        aria-label="Buscar"
+      />
+    </form>
   );
 }
 

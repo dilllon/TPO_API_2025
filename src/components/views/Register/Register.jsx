@@ -45,7 +45,9 @@ function Register() {
     <div className={styles['register-container']}>
       <div className={styles['container']}>
         <div className={styles['topbar']}>
-          <div className={styles['brand']}>AmaZone</div>
+          <Link to="/">
+            <div className={styles['brand']}>AmaZone</div>
+          </Link>
           <div className={styles['signin']}>
             ¿Ya tenés cuenta? <Link to="/clients/login">Iniciá sesión</Link>
           </div>

@@ -8,8 +8,9 @@
   /* Estos estilos son similares a los otros enlaces del nav-list para mantener la consistencia */
   color: var(--white, #ecf0f1);
   text-decoration: none;
-  padding: 0.7rem 1.2rem;
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 4px;
   font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
   transition: all 0.3s ease;
   border-radius: 4px;
@@ -17,8 +18,7 @@
 }
 
 .dropdown-toggle:hover {
-  background-color: rgba(52, 152, 219, 0.3);
-  transform: translateY(-2px);
+  color: var(--primary);
 }
 
 /* Estilos para el menú desplegable */
@@ -54,6 +54,5 @@
 }
 
 .dropdown-menu li a:hover {
-  background-color: var(--primary); /* Usando el color primario de la paleta */
-  color: white;
+  color: var(--primary);
 }

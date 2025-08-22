@@ -1,43 +1,48 @@
 .navbar {
+  width: 100%;
   background: var(--darker-grey);
   color: var(--white, #ecf0f1);
   display: flex;
   flex-direction: row;
   position: relative;
-  font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 0 50px;
+}
+
+.izquierda {
+    padding: 0 15px;
+    width: auto;
+    margin: 0 50px;
 }
 
 .centro {
-  display:block;
-  flex-direction: column;
-  padding: 0.8rem 1rem;
-  width: 80%;
-  max-width: 1200px;   /* Máximo ancho */
-  margin: 0 auto;      /* Centra el contenedor */
+    display: flex;
+    flex-direction: column;
+    padding: 20px 16px 15px;
+    width: 100%;
+    max-width: 1200px;
+    margin-right: auto;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 .primer-renglon,
 .segundo-renglon {
-  display: flex;                 /* contenido en horizontal */
-  justify-content: center; 
-  align-items: center;           /* centra verticalmente */
-  width: 100%;                   /* ocupa todo el ancho */
+  display: flex;
+  justify-content: flex-start; 
+  align-items: center;
+  width: 100%;
   padding: 3px;
-  margin-top: 10px;
+  gap: 15px;
 }
 
 .primer-renglon {
-  gap: 7%;
+
 }
 
 .segundo-renglon {
-  justify-content: center;
-  gap: 15%;
-}
 
-.izquierda,
-.derecha {
-  margin: 20px;
 }
 
 .burger {
@@ -52,90 +57,51 @@
 .nav-menu {
   display: flex;
   flex-direction: row;
-  align-items:end;
+  align-items: end;
+  width: 100%;
+  /* max-width: 500px; */
 }
 
-.nav-list {
+.nav-list,
+.nav-list-right {
   list-style: none;
   display: flex;
-  margin: 0;
+  margin: 5px 0;
   padding: 0;
+  gap: 20px;
 }
 
-.nav-list li {
+.nav-list li,
+.nav-list-right li {
   position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.nav-list a {
+.nav-list a,
+.nav-list-right a {
+  padding: 0 2px;
   color: var(--white, #ecf0f1);
   text-decoration: none;
-  padding: 0.7rem 1.2rem;
-  display: block;
-  font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  display: flex;
   transition: all 0.3s ease;
   border-radius: var(--border-radius-sm, 4px);
 }
 
-.nav-list a:hover {
-  background-color: rgba(52, 152, 219, 0.3);
-  transform: translateY(-2px);
+.nav-list a:hover,
+.nav-list-right a:hover {
+  color: var(--primary);
 }
 
-.user-wrapper {
+.nav-list-right {
+  margin-left: auto;
+}
+
+.nav-link-icon {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  text-align: center;
-  font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
-  padding: 20px;
-  border-radius: var(--border-radius-md, 8px);
-  background-color: rgba(44, 62, 80, 0.7); /* Dark blue that matches the navbar gradient */
-  box-shadow: var(--shadow-md, 0 4px 10px rgba(0,0,0,0.12)); 
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  width: 80px;   /* ancho fijo */
-  height: 90px;  /* alto fijo */
-}
-
-.user-wrapper:hover {
-  transform: translateY(-2px); /* levanta un poquito al pasar el mouse */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6); /* sombra más intensa */
-}
-
-
-.user-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none;
-  color: white; 
-}
-
-.user-label {
-  font-size: 0.8rem;
-  margin-top: 4px;
-}
-
-.user-btn img {
-  width: 36px;       
-  height: 36px;       
-  border-radius: 50%; 
-  object-fit: cover;  
-}
-.user-btn img:hover {
-  filter: brightness(0.8); 
-} 
-
-.userbuttons {
-  gap: 10px;
-  justify-content: space-evenly;
-  
-}
-
-.userbuttons .nav-menu.show{
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+  gap: 8px;
 }
 
 /* Estilos para el ícono del carrito en el navbar */
@@ -145,20 +111,6 @@
   padding: 0 0.5rem;
 }
 
-.cart-icon-nav {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-  color: var(--white, #ecf0f1);
-  padding: 0.7rem 1.2rem;
-  border-radius: var(--border-radius-sm, 4px);
-}
-
-.cart-icon-nav:hover {
-  transform: scale(1.1);
-  background-color: rgba(52, 152, 219, 0.3);
-}
 
 .cart-badge-nav {
   position: absolute;
@@ -219,9 +171,6 @@
 
   margin-top: 100px;  }
 
-  div .derecha {
-    margin: 0px;
-  }
   .izquierda {
     margin-right: 0px;
     margin-left: 15px;

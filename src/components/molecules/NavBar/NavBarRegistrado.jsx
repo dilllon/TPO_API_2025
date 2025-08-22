@@ -5,7 +5,7 @@ import crearcuentaimg from '../../../assets/images/crearusuarioimg.jpg';
 import icono from '../../../assets/images/editarperfil.jpg';
 // import { getCategoryNames } from '../../../constants/products';
 import { getCategoryNames } from '../../../constants/products';
-import Logo from '../../Logo/Logo.jsx';
+import Logo from '../../atoms/Logo/Logo.jsx';
 import Buscador from '../../atoms/Buscador/Buscador.jsx';
 import './NavBar.module.css';
 import Dropdown from '../../atoms/Dropdown/Dropdown.jsx';

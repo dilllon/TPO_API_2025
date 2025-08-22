@@ -1,15 +1,65 @@
 import { useState } from 'react';
-import contactoImg from '../../../assets/images/contactoimg.jpg';
-import crearCuentaImg from '../../../assets/images/crearusuarioimg.jpg';
-import icono from '../../../assets/images/icono.jpg';
+import { FaHeart, FaShoppingCart } from 'react-icons/fa';
+// import crearCuentaImg from '../../../assets/images/crearusuarioimg.jpg';
+// import icono from '../../../assets/images/icono.jpg';
 import { getCategoryNames } from '../../../constants/products';
-import Logo from '../../Logo/Logo.jsx';
+import Logo from '../../atoms/Logo/Logo.jsx';
 import Buscador from '../../atoms/Buscador/Buscador.jsx';
 import Dropdown from '../../atoms/Dropdown/Dropdown.jsx';
+import InfoDropdown from '../../atoms/InfoDropdown/InfoDropdown';
 import styles from './NavBar.module.css';
 
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Datos de muestra para las notificaciones. En una app real, vendrían de un estado global o una API.
+  const mockNotifications = [
+    {
+      id: 1,
+      message: 'Tu pedido #1234 ha sido enviado y llegará pronto.',
+      timestamp: 'Hoy, 10:30 AM',
+    },
+    {
+      id: 2,
+      message:
+        '¡Oferta especial! 20% de descuento en electrónicos hasta agotar stock.',
+      timestamp: 'Ayer, 08:15 PM',
+    },
+    {
+      id: 3,
+      message:
+        'Hemos procesado la devolución de tu producto. El reembolso se hará efectivo en 48hs.',
+      timestamp: '25/05, 11:00 AM',
+    },
+    {
+      id: 4,
+      message:
+        '¡Bienvenido a AmaZone! Completa tu perfil para una mejor experiencia.',
+      timestamp: '24/05, 09:00 AM',
+    },
+  ];
+
+  // Datos de muestra para los favoritos.
+  const mockFavorites = [
+    {
+      id: 1,
+      message: 'Smart TV 55" 4K UHD ahora en tus favoritos.',
+      timestamp: 'Hoy, 11:00 AM',
+      displayImage: 'https://picsum.photos/seed/tv/50',
+    },
+    {
+      id: 2,
+      message: 'Auriculares Inalámbricos con Cancelación de Ruido guardados.',
+      timestamp: 'Ayer, 09:30 PM',
+      displayImage: 'https://picsum.photos/seed/audio/50',
+    },
+    {
+      id: 3,
+      message: 'Zapatillas de Running - Talle 42 agregadas a favoritos.',
+      timestamp: '24/05, 01:15 PM',
+      displayImage: 'https://picsum.photos/seed/shoes/50',
+    },
+  ];
 
   // Lógica para construir los items de las categorías
   const isLoggedIn =
@@ -53,52 +103,42 @@ function NavBar() {
               </li>
               <Dropdown title="Categorías" items={categoryItems} />
               <li>
-                <a href="/clients/login">Mis compras</a>
+                <a
+                  href="/clients/previous-orders"
+                  className={styles['nav-link-icon']}
+                >
+                  <span>Mis compras</span>
+                </a>
               </li>
             </ul>
-          </div>
-        </div>
-      </div>
-      <div className={styles['derecha']}>
-        {/* Botones de usuario */}
-        <div
-          className={`${styles['userbuttons']} ${styles['nav-menu']} ${
-            menuOpen ? styles['show'] : ''
-          }`}
-        >
-          <div className={styles['user-wrapper']}>
-            {/* Temporalmente va directo al home registrado ya que no tenemos base de datos */}
-            <a
-              className={styles['user-btn']}
-              aria-label="Perfil"
-              href="/clients/login"
-            >
-              {/* <a className="user-btn" aria-label="Perfil" href="/clients/login"> */}
-              <img src={icono} alt="Perfil" />
-              <span className={styles['user-label']}>Ingresar</span>
-            </a>
-          </div>
-
-          <div className={styles['user-wrapper']}>
-            <a
-              className={styles['user-btn']}
-              aria-label="Crear cuenta"
-              href="/clients/register"
-            >
-              <img src={crearCuentaImg} alt="Crear cuenta" />
-              <span className={styles['user-label']}>Registrarse</span>
-            </a>
-          </div>
-
-          <div className={styles['user-wrapper']}>
-            <a
-              className={styles['user-btn']}
-              aria-label="Carrito"
-              href="/contacto"
-            >
-              <img src={contactoImg} alt="Carrito" />
-              <span className={styles['user-label']}>Contacto</span>
-            </a>
+            <ul className={styles['nav-list-right']}>
+              <li className={styles['profile']}>
+                {/* Insertar elemento de profile */}
+              </li>
+              <li>
+                <InfoDropdown
+                  title="Favoritos"
+                  items={mockFavorites}
+                  icon="fav"
+                />
+              </li>
+              <li>
+                <a
+                  href="clients/cart"
+                  className={styles['nav-link-icon']}
+                  title="Carrito"
+                >
+                  <FaShoppingCart />
+                </a>
+              </li>
+              <li>
+                <InfoDropdown
+                  title="Notificaciones"
+                  items={mockNotifications}
+                  icon="notif"
+                />
+              </li>
+            </ul>
           </div>
         </div>
       </div>

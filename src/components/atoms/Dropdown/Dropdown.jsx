@@ -1,4 +1,5 @@
 import styles from './Dropdown.module.css';
+import { IoIosArrowDown } from 'react-icons/io';
 
 /**
  * Componente genérico de Dropdown.
@@ -15,7 +16,8 @@ function Dropdown({ title, items = [] }) {
         onClick={(e) => e.preventDefault()}
         className={styles['dropdown-toggle']}
       >
-        {title} ▼
+        <IoIosArrowDown />
+        <span>{title}</span>
       </a>
       <ul className={styles['dropdown-menu']}>
         {items.map((item, index) => (
