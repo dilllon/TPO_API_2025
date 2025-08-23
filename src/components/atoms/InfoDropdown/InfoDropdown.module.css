@@ -38,7 +38,7 @@
 }
 
 .panel-header {
-  padding: 1rem;
+  padding: 16px 16px 12px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -51,15 +51,15 @@
 /* Lista de notificaciones */
 .notification-list {
   list-style: none;
-  padding: 0;
+  padding: 0 0 15px;
   margin: 0;
   max-height: 400px; /* Limita la altura y permite scroll si hay muchas notificaciones */
   overflow-y: auto;
 }
 
 /* Cada item de notificación */
-.notification-item {
-  padding: 1rem;
+.notification-list .notification-item {
+  padding: 3px 10px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   transition: background-color 0.2s ease;
   display: flex;
@@ -67,17 +67,17 @@
   gap: 1rem;
 }
 
-.notification-item:last-child {
+.notification-list .notification-item:last-child {
   border-bottom: none;
 }
 
-.notification-item:hover {
+.notification-list .notification-item:hover {
   background-color: rgba(255, 255, 255, 0.05);
 }
 
 .notification-image {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   object-fit: cover;
   border-radius: 6px;
   flex-shrink: 0; /* Evita que la imagen se encoja */

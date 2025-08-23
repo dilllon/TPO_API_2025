@@ -14,11 +14,11 @@ function Login() {
     // Simulación de login exitoso
     // En un proyecto real harías fetch a tu backend aquí
     if (email && password) {
-      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('token', 'fake-jwt-token'); // Usar 'token' para consistencia
       localStorage.setItem('userEmail', email);
 
       // Redirigir al home
-      navigate('/r');
+      navigate('/');
     }
   };
 

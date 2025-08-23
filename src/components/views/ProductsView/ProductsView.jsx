@@ -6,7 +6,6 @@ import {
   hasDiscount,
 } from '../../../constants/products';
 import Header from '../../organisms/Header/Header';
-import HeaderRegistrado from '../../organisms/Header/HeaderRegistrado';
 import './ProductsView.css';
 
 function ProductsView() {
@@ -16,9 +15,6 @@ function ProductsView() {
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
-
-  // Simulamos si el usuario está logueado (puedes usar tu store/context aquí)
-  const isLoggedIn = localStorage.getItem('token') !== null;
 
   useEffect(() => {
     // Simular carga de datos del producto
@@ -79,7 +75,7 @@ function ProductsView() {
   if (loading) {
     return (
       <>
-        {isLoggedIn ? <HeaderRegistrado /> : <Header />}
+        <Header />
         <div className="products-container">
           <div className="loading-spinner">
             <div className="spinner"></div>
@@ -93,7 +89,7 @@ function ProductsView() {
   if (!product) {
     return (
       <>
-        {isLoggedIn ? <HeaderRegistrado /> : <Header />}
+        <Header />
         <div className="products-container">
           <div className="error-message">
             <h2>Producto no encontrado</h2>
@@ -109,8 +105,7 @@ function ProductsView() {
 
   return (
     <>
-      {isLoggedIn ? <HeaderRegistrado /> : <Header />}
-
+      <Header />
       <div className="products-container">
         <button onClick={handleGoBack} className="back-button">
           ← Volver atrás

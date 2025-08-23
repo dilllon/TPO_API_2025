@@ -1,30 +1,35 @@
 .navbar {
   width: 100%;
-  background: var(--darker-grey);
+  /* position: fixed; */
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  /* --- Estilo Glassmorphism --- */
+  background: linear-gradient(to bottom, rgba(30, 31, 36, 0.9), rgba(30, 31, 36, 0.7));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Para compatibilidad con Safari */
   color: var(--white, #ecf0f1);
   display: flex;
   flex-direction: row;
-  position: relative;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   align-items: center;
   padding: 0 50px;
+  gap: 50px;
 }
 
 .izquierda {
-    padding: 0 15px;
-    width: auto;
-    margin: 0 50px;
+  flex-shrink: 0; /* Evita que el logo se encoja si no hay espacio */
 }
 
 .centro {
-    display: flex;
-    flex-direction: column;
-    padding: 20px 16px 15px;
-    width: 100%;
-    max-width: 1200px;
-    margin-right: auto;
-    justify-content: center;
-    align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px 15px;
+  width: 100vw;
+  min-width: 0;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .primer-renglon,
@@ -42,15 +47,20 @@
   border: none;
   color: white;
   font-size: 1.5rem;
+  /* Sombra para mejorar la legibilidad sobre el fondo de cristal */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   cursor: pointer;
   display: none;
 }
 
 .nav-menu {
   display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
   flex-direction: row;
   align-items: end;
   width: 100%;
+  align-items: center;
   /* max-width: 500px; */
 }
 
@@ -58,9 +68,9 @@
 .nav-list-right {
   list-style: none;
   display: flex;
-  margin: 5px 0;
+  justify-content: space-between;  
   padding: 0;
-  gap: 20px;
+  gap: 15px;
 }
 
 .nav-list li,
@@ -69,21 +79,26 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding: 0 2px;
 }
 
 .nav-list a,
-.nav-list-right a {
+.nav-list-right > li > a {
   padding: 0 2px;
   color: var(--white, #ecf0f1);
   text-decoration: none;
+  /* Sombra para mejorar la legibilidad sobre el fondo de cristal */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   display: flex;
   transition: all 0.3s ease;
   border-radius: var(--border-radius-sm, 4px);
 }
 
 .nav-list a:hover,
-.nav-list-right a:hover {
+.nav-list-right > li > a:hover {
   color: var(--primary);
+  /* Eliminamos la sombra en el hover para que no interfiera con el color primario */
+  text-shadow: none;
 }
 
 .nav-list-right {
@@ -94,6 +109,10 @@
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.profile {
+  margin-left: 15px;
 }
 
 /* Estilos para el ícono del carrito en el navbar */
@@ -120,6 +139,51 @@
   transition: all 0.2s ease;
 }
 
+/* Contenedor para los botones de autenticación */
+.authButtonsContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espacio entre los botones */
+}
+
+/* Estilo base para ambos botones para no repetir código */
+.authButton {
+  padding: 4px 6px; /* Padding deseado */
+  border-radius: var(--border-radius-sm, 4px);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid transparent;
+}
+
+/* Botón de Iniciar Sesión (contorno) */
+.loginButton {
+  composes: authButton;
+  border-color: var(--primary);
+  background-color: transparent;
+  color: var(--white);
+  /* Sombra para mejorar la legibilidad */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Efecto hover para el botón de Iniciar Sesión */
+.loginButton:hover {
+  color: var(--primary);
+}
+
+/* Botón de Registrarse (sólido) */
+.registerButton {
+  composes: authButton;
+  border-color: var(--primary);
+  background-color: var(--primary);
+  color: var(--text-primary);
+}
+
+/* Efecto hover para el botón de Registrarse */
+.registerButton:hover {
+  filter: brightness(1.1); /* Aclara ligeramente el botón para dar feedback visual */
+  color: var(--white);
+}
 
 /* Responsivo */
 @media (max-width: 720px) {
@@ -128,6 +192,8 @@
     top: 0;
     width: 100%;
     z-index: 1000;
+    padding: 0 20px;
+    gap: 20px; /* Reducimos el gap en móvil para un mejor ajuste */
   }
 
   .burger {
@@ -135,8 +201,6 @@
   }
   .nav-menu {
     display: none;
-    width: 100%;
-    background-color: var(--darker-grey);
   }
   .nav-menu.show {
     display: flex;
@@ -147,6 +211,10 @@
     left: 0;
     z-index: 1000;
     padding: 1rem 0;
+    /* Hacemos que el menú desplegable también tenga el efecto "glass" para consistencia */
+    background-color: rgba(30, 31, 36, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     align-items: flex-start;
   }
   .nav-list {
@@ -175,15 +243,8 @@
     padding: 0.5rem;
   }
 
-  .segundo-renglon { /* Eliminamos estilos innecesarios que no aplican en móvil */ }
-
-  .izquierda {
-    margin-right: 0px;
-    margin-left: 15px;
-  }
   .centro {
-    width: 100%;
-    padding-left: 0%;
-    padding-right: 0%;
+    /* En móvil, el padding del centro se resetea para aprovechar el espacio y se elimina el margen fijo de la izquierda */
+    padding: 20px 0 15px;
   }
 }

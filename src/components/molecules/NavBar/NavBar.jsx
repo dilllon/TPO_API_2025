@@ -1,16 +1,19 @@
 import { useState } from 'react';
-import { FaHeart, FaShoppingCart } from 'react-icons/fa';
+import { FaShoppingCart } from 'react-icons/fa';
 // import crearCuentaImg from '../../../assets/images/crearusuarioimg.jpg';
 // import icono from '../../../assets/images/icono.jpg';
 import { getCategoryNames } from '../../../constants/products';
 import Logo from '../../atoms/Logo/Logo.jsx';
 import Buscador from '../../atoms/Buscador/Buscador.jsx';
+import Profile from '../../atoms/Profile/Profile.jsx';
 import Dropdown from '../../atoms/Dropdown/Dropdown.jsx';
 import InfoDropdown from '../../atoms/InfoDropdown/InfoDropdown';
 import styles from './NavBar.module.css';
 
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const isLoggedIn = true;
 
   // Datos de muestra para las notificaciones. En una app real, vendrían de un estado global o una API.
   const mockNotifications = [
@@ -61,17 +64,12 @@ function NavBar() {
     },
   ];
 
-  // Lógica para construir los items de las categorías
-  const isLoggedIn =
-    typeof window !== 'undefined' &&
-    localStorage.getItem('isLoggedIn') === 'true';
-  const base = isLoggedIn ? '/r' : '/';
-
-  const categoryNames = getCategoryNames();
-  const categoryItems = categoryNames.map((name) => ({
-    label: name,
-    href: `${base}#category-${name.toLowerCase()}`,
-  }));
+  // Datos de muestra para el perfil de usuario.
+  const mockUser = {
+    userName: 'Tomás Nakasone',
+    imageUrl:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK7-GWRf4z46CrzTubYTvsFzLk1Ym2-lX7DA&s', // URL de Iron Man
+  };
 
   return (
     <nav className={styles['navbar']}>
@@ -101,7 +99,7 @@ function NavBar() {
               <li>
                 <a href="/">Inicio</a>
               </li>
-              <Dropdown title="Categorías" items={categoryItems} />
+              <Dropdown title="Categorías" items={getCategoryNames()} />
               <li>
                 <a
                   href="/clients/previous-orders"
@@ -112,8 +110,12 @@ function NavBar() {
               </li>
             </ul>
             <ul className={styles['nav-list-right']}>
-              <li className={styles['profile']}>
-                {/* Insertar elemento de profile */}
+              <li>
+                <InfoDropdown
+                  title="Notificaciones"
+                  items={mockNotifications}
+                  icon="notif"
+                />
               </li>
               <li>
                 <InfoDropdown
@@ -131,12 +133,25 @@ function NavBar() {
                   <FaShoppingCart />
                 </a>
               </li>
-              <li>
-                <InfoDropdown
-                  title="Notificaciones"
-                  items={mockNotifications}
-                  icon="notif"
-                />
+              <li className={styles['profile']}>
+                {isLoggedIn ? (
+                  <Profile
+                    userName={mockUser.userName}
+                    imageUrl={mockUser.imageUrl}
+                  />
+                ) : (
+                  <div className={styles.authButtonsContainer}>
+                    <a href="clients/login" className={styles.loginButton}>
+                      Iniciar Sesión
+                    </a>
+                    <a
+                      href="clients/register"
+                      className={styles.registerButton}
+                    >
+                      Registrarse
+                    </a>
+                  </div>
+                )}
               </li>
             </ul>
           </div>

@@ -1,0 +1,81 @@
+.profileContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 4px 15px 4px 4px;
+  border-radius: var(--border-radius-lg, 20px);
+  transition: background-color 0.2s ease;
+  outline: none;
+}
+
+/* Efecto visual al pasar el mouse o al enfocar con el teclado */
+.profileContainer:hover,
+.profileContainer:focus-visible {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.profileImage {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.profileUsername {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--white, #ecf0f1);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* El menú desplegable */
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 8px); /* Posiciónalo justo debajo del contenedor con un pequeño espacio */
+  right: 0;
+  background-color: var(--darker-grey, #2c2c3e); /* Fondo oscuro */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Borde sutil */
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+  list-style: none;
+  padding: 8px 0;
+  margin: 0;
+  z-index: 1000;
+  width: 200px;
+}
+
+/* Estilo para cada opción del menú (enlaces y botones) */
+.dropdownMenu li a,
+.dropdownMenu li button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 12px;
+  padding: 10px 16px; /* Ajuste ligero para un look más compacto */
+  color: var(--white, #ecf0f1); /* Texto blanco */
+  text-decoration: none;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+/* Efecto visual al pasar el ratón por encima */
+.dropdownMenu li a:hover,
+.dropdownMenu li button:hover {
+  background-color: rgba(255, 255, 255, 0.05); /* Efecto hover sutil */
+}
+
+/* La clase específica para el separador de "Cerrar sesión" */
+.logoutItem {
+  border-top: 1px solid rgba(255, 255, 255, 0.1); /* Separador claro */
+}
+
+.dropdownIcon {
+  flex-shrink: 0; /* Evita que el ícono se encoja */
+}
