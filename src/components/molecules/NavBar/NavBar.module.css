@@ -1,0 +1,256 @@
+.navbar {
+  width: 100%;
+  /* position: fixed; */
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  /* --- Estilo Glassmorphism Pulido --- */
+  background: radial-gradient(
+      ellipse 80% 70% at 50% -20%,
+      rgba(255, 255, 255, 0.08),
+      transparent
+    ),
+    linear-gradient(to bottom, rgba(10, 10, 12, 0.9), rgba(18, 18, 22, 0.95));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(10px); /* Para compatibilidad con Safari */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--white, #ecf0f1);
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 50px;
+  gap: 50px;
+}
+
+.izquierda {
+  flex-shrink: 0; /* Evita que el logo se encoja si no hay espacio */
+}
+
+.centro {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px 15px;
+  width: 100vw;
+  min-width: 0;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.primer-renglon,
+.segundo-renglon {
+  display: flex;
+  justify-content: flex-start; 
+  align-items: center;
+  width: 100%;
+  padding: 3px;
+  gap: 15px;
+}
+ 
+.burger {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  /* Sombra para mejorar la legibilidad sobre el fondo de cristal */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  display: none;
+}
+
+.nav-menu {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: end;
+  width: 100%;
+  align-items: center;
+  /* max-width: 500px; */
+}
+
+.nav-list,
+.nav-list-right {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;  
+  padding: 0;
+  gap: 15px;
+}
+
+.nav-list li,
+.nav-list-right li {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 2px;
+}
+
+.nav-list a,
+.nav-list-right > li > a {
+  padding: 0 2px;
+  color: var(--white, #ecf0f1);
+  text-decoration: none;
+  /* Sombra para mejorar la legibilidad sobre el fondo de cristal */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  display: flex;
+  transition: all 0.3s ease;
+  border-radius: var(--border-radius-sm, 4px);
+}
+
+.nav-list a:hover,
+.nav-list-right > li > a:hover {
+  color: var(--primary);
+  /* Eliminamos la sombra en el hover para que no interfiera con el color primario */
+  text-shadow: none;
+}
+
+.nav-list-right {
+  margin-left: auto;
+}
+
+.nav-link-icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile {
+  margin-left: 15px;
+}
+
+/* Estilos para el ícono del carrito en el navbar */
+.cart-nav-item {
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem;
+}
+
+
+.cart-badge-nav {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: #e74c3c;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 2px 5px;
+  min-width: 16px;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+/* Contenedor para los botones de autenticación */
+.authButtonsContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espacio entre los botones */
+}
+
+/* Estilo base para ambos botones para no repetir código */
+.authButton {
+  padding: 4px 6px; /* Padding deseado */
+  border-radius: var(--border-radius-sm, 4px);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid transparent;
+}
+
+/* Botón de Iniciar Sesión (contorno) */
+.loginButton {
+  composes: authButton;
+  border-color: var(--primary);
+  background-color: transparent;
+  color: var(--white);
+  /* Sombra para mejorar la legibilidad */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Efecto hover para el botón de Iniciar Sesión */
+.loginButton:hover {
+  color: var(--primary);
+}
+
+/* Botón de Registrarse (sólido) */
+.registerButton {
+  composes: authButton;
+  border-color: var(--primary);
+  background-color: var(--primary);
+  color: var(--text-primary);
+}
+
+/* Efecto hover para el botón de Registrarse */
+.registerButton:hover {
+  filter: brightness(1.1); /* Aclara ligeramente el botón para dar feedback visual */
+  color: var(--white);
+}
+
+/* Responsivo */
+@media (max-width: 720px) {
+  .navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 0 20px;
+    gap: 20px; /* Reducimos el gap en móvil para un mejor ajuste */
+  }
+
+  .burger {
+    display: block;
+  }
+  .nav-menu {
+    display: none;
+  }
+  .nav-menu.show {
+    display: flex;
+    flex-direction: column; /* Apila las listas de links verticalmente */
+    position: absolute;
+    top: 100%;
+    width: 100% ;
+    left: 0;
+    z-index: 1000;
+    padding: 1rem 0;
+    /* Hacemos que el menú desplegable también tenga el efecto "glass" para consistencia */
+    background-color: rgba(18, 18, 22, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    align-items: flex-start;
+  }
+  .nav-list {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
+
+  .nav-list-right {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    margin-left: 0; /* Resetea el margen para el apilado vertical */
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #4a4a4a;
+  }
+
+  .nav-list a {
+    padding: 1rem; /* Aumenta el área de click para mejorar la UX móvil */
+    width: 100%;
+  }
+
+  .nav-list-right a {
+    padding: 0.5rem;
+  }
+
+  .centro {
+    /* En móvil, el padding del centro se resetea para aprovechar el espacio y se elimina el margen fijo de la izquierda */
+    padding: 20px 0 15px;
+  }
+}

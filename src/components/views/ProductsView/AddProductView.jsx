@@ -1,8 +1,5 @@
 import AddProductForm from '@/components/atoms/Form/AddProductForm';
 import Header from '../../organisms/Header/Header';
-import HeaderRegistrado from '../../organisms/Header/HeaderRegistrado';
-
-const isLoggedIn = localStorage.getItem('token') !== null;
 
 function AddProductView() {
   const handleAddProduct = (productData) => {
@@ -11,10 +8,10 @@ function AddProductView() {
   };
 
   return (
-    <div className="app-gradient">
-        {isLoggedIn ? <HeaderRegistrado /> : <Header />}
-        <AddProductForm onSubmit={handleAddProduct} />
-    </div>
+    <>
+      <Header />
+      <AddProductForm onSubmit={handleAddProduct} />
+    </>
   );
 }
 

@@ -1,0 +1,114 @@
+/* Contenedor principal del dropdown */
+.notifications-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Botón que activa el dropdown (el ícono de la campana) */
+.trigger-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  transition: color 0.3s ease;
+  font-size: 1.2rem; /* Ícono un poco más grande */
+  padding: 0;
+}
+
+.trigger-button:hover {
+  color: var(--primary);
+}
+
+/* Panel que se despliega */
+.dropdown-panel {
+  position: absolute;
+  top: calc(100% + 10px); /* Se posiciona debajo del botón con un espacio */
+  right: 0;
+  width: 350px;
+  background-color: var(--darker-grey);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.panel-header {
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.panel-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--white);
+}
+
+/* Lista de notificaciones */
+.notification-list {
+  list-style: none;
+  padding: 0 0 15px;
+  margin: 0;
+  max-height: 400px; /* Limita la altura y permite scroll si hay muchas notificaciones */
+  overflow-y: auto;
+}
+
+/* Cada item de notificación */
+.notification-list .notification-item {
+  padding: 3px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.notification-list .notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-list .notification-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.notification-image {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0; /* Evita que la imagen se encoja */
+}
+
+.notification-body {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: flex-start;
+  flex-grow: 1;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.notification-message {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--white);
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.notification-timestamp {
+  font-size: 0.75rem;
+  color: var(--light-purple);
+  max-width: 70px;
+}
+
+.no-notifications {
+  padding: 1.5rem 1rem;
+  text-align: center;
+  color: var(--light-purple);
+  font-size: 0.9rem;
+}

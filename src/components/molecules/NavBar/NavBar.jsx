@@ -1,93 +1,163 @@
-import { useState } from "react";
-import contactoimg from '../../../assets/images/contactoimg.jpg';
-import crearcuentaimg from '../../../assets/images/crearusuarioimg.jpg';
-import icono from '../../../assets/images/icono.jpg';
+import { useState } from 'react';
+import { FaShoppingCart } from 'react-icons/fa';
+// import crearCuentaImg from '../../../assets/images/crearusuarioimg.jpg';
+// import icono from '../../../assets/images/icono.jpg';
 import { getCategoryNames } from '../../../constants/products';
-import Logo from "../../Logo/Logo.jsx";
-import Buscador from "../../atoms/Buscador/Buscador.jsx";
-import "./NavBar.css";
-import Categorias from "../../atoms/Categorias/Categorias";
-
+import Logo from '../../atoms/Logo/Logo.jsx';
+import Buscador from '../../atoms/Buscador/Buscador.jsx';
+import Profile from '../../atoms/Profile/Profile.jsx';
+import Dropdown from '../../atoms/Dropdown/Dropdown.jsx';
+import InfoDropdown from '../../atoms/InfoDropdown/InfoDropdown';
+import styles from './NavBar.module.css';
 
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // Cambiar de true a false dependiendo del NavBar que se quiere ver
+  const isLoggedIn = false;
 
-  // const [palabra, setPalabra] = useState('gato');
-  
+  // Datos de muestra para las notificaciones. En una app real, vendrían de un estado global o una API.
+  const mockNotifications = [
+    {
+      id: 1,
+      message: 'Tu pedido #1234 ha sido enviado y llegará pronto.',
+      timestamp: 'Hoy, 10:30 AM',
+    },
+    {
+      id: 2,
+      message:
+        '¡Oferta especial! 20% de descuento en electrónicos hasta agotar stock.',
+      timestamp: 'Ayer, 08:15 PM',
+    },
+    {
+      id: 3,
+      message:
+        'Hemos procesado la devolución de tu producto. El reembolso se hará efectivo en 48hs.',
+      timestamp: '25/05, 11:00 AM',
+    },
+    {
+      id: 4,
+      message:
+        '¡Bienvenido a AmaZone! Completa tu perfil para una mejor experiencia.',
+      timestamp: '24/05, 09:00 AM',
+    },
+  ];
 
+  // Datos de muestra para los favoritos.
+  const mockFavorites = [
+    {
+      id: 1,
+      message: 'Smart TV 55" 4K UHD ahora en tus favoritos.',
+      timestamp: 'Hoy, 11:00 AM',
+      displayImage: 'https://picsum.photos/seed/tv/50',
+    },
+    {
+      id: 2,
+      message: 'Auriculares Inalámbricos con Cancelación de Ruido guardados.',
+      timestamp: 'Ayer, 09:30 PM',
+      displayImage: 'https://picsum.photos/seed/audio/50',
+    },
+    {
+      id: 3,
+      message: 'Zapatillas de Running - Talle 42 agregadas a favoritos.',
+      timestamp: '24/05, 01:15 PM',
+      displayImage: 'https://picsum.photos/seed/shoes/50',
+    },
+  ];
+
+  // Datos de muestra para el perfil de usuario.
+  const mockUser = {
+    userName: 'Tomás Nakasone',
+    imageUrl:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK7-GWRf4z46CrzTubYTvsFzLk1Ym2-lX7DA&s', // URL de Iron Man
+  };
 
   return (
-    <nav className="navbar">
-      <div className="izquierda">
-        <Logo/>
+    <nav className={styles['navbar']}>
+      <div className={styles['izquierda']}>
+        <Logo />
       </div>
-      <div className="centro">
+      <div className={styles['centro']}>
+        <div className={styles['primer-renglon']}>
+          <Buscador />
 
-        <div className="PrimerRenglon">
-        <Buscador/>
-
-        {/* Botón hamburguesa */}
-        <button
-          className="burger"
-          aria-label="Toggle navigation"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          ☰
-        </button>
-        
+          {/* Botón hamburguesa */}
+          <button
+            className={styles['burger']}
+            aria-label="Toggle navigation"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            ☰
+          </button>
         </div>
 
-        <div className="SegundoRenglon">
+        <div className={styles['segundo-renglon']}>
           {/* Menú */}
-          <div className={`nav-menu ${menuOpen ? "show" : ""}`}>
-            <ul className="nav-list">
-              <li><a href="/">Inicio</a></li>
-              <Categorias/>
-              <li><a href="/clients/login">Mis compras</a></li>
+          <div
+            className={`${styles['nav-menu']} ${menuOpen ? styles['show'] : ''}`}
+          >
+            <ul className={styles['nav-list']}>
+              <li>
+                <a href="/">Inicio</a>
+              </li>
+              <Dropdown title="Categorías" items={getCategoryNames()} />
+              <li>
+                <a
+                  href="/clients/previous-orders"
+                  className={styles['nav-link-icon']}
+                >
+                  <span>Mis compras</span>
+                </a>
+              </li>
+            </ul>
+            <ul className={styles['nav-list-right']}>
+              <li>
+                <InfoDropdown
+                  title="Notificaciones"
+                  items={mockNotifications}
+                  icon="notif"
+                />
+              </li>
+              <li>
+                <InfoDropdown
+                  title="Favoritos"
+                  items={mockFavorites}
+                  icon="fav"
+                />
+              </li>
+              <li>
+                <a
+                  href="clients/cart"
+                  className={styles['nav-link-icon']}
+                  title="Carrito"
+                >
+                  <FaShoppingCart />
+                </a>
+              </li>
+              <li className={styles['profile']}>
+                {isLoggedIn ? (
+                  <Profile
+                    userName={mockUser.userName}
+                    imageUrl={mockUser.imageUrl}
+                  />
+                ) : (
+                  <div className={styles.authButtonsContainer}>
+                    <a href="clients/login" className={styles.loginButton}>
+                      Iniciar Sesión
+                    </a>
+                    <a
+                      href="clients/register"
+                      className={styles.registerButton}
+                    >
+                      Registrarse
+                    </a>
+                  </div>
+                )}
+              </li>
             </ul>
           </div>
-          
-
-          
-
         </div>
-
-
-        
-
       </div>
-      <div className="derecha">
-      {/* Botones de usuario */}
-      <div className={`userbuttons nav-menu ${menuOpen ? "show" : ""}`}>
-
-        <div className="user-wrapper">
-          {/* Temporalmente va directo al home registrado ya que no tenemos base de datos */}
-          <a className="user-btn" aria-label="Perfil" href="/clients/login">
-            {/* <a className="user-btn" aria-label="Perfil" href="/clients/login"> */}
-            <img src={icono} alt="Perfil" />
-            <span className="user-label">Ingresar</span>
-          </a>
-        </div>
-
-        <div className="user-wrapper">
-          <a className="user-btn" aria-label="Crear cuenta" href="/clients/register">
-            <img src={crearcuentaimg} alt="Crear cuenta" />
-            <span className="user-label">Registrarse</span>
-          </a>
-        </div>
-
-        <div className="user-wrapper">
-          <a className="user-btn" aria-label="Carrito" href="/contacto">
-            <img src={contactoimg} alt="Carrito" />
-            <span className="user-label">Contacto</span>
-          </a>
-        </div>
-
-      </div>
-    </div>
-
-
     </nav>
   );
 }
