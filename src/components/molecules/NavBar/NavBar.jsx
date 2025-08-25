@@ -14,7 +14,7 @@ function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Cambiar de true a false dependiendo del NavBar que se quiere ver
-  const isLoggedIn = false;
+  const isLoggedIn = true;
 
   // Datos de muestra para las notificaciones. En una app real, vendrían de un estado global o una API.
   const mockNotifications = [
