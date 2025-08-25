@@ -13,7 +13,8 @@ import styles from './NavBar.module.css';
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const isLoggedIn = true;
+  // Cambiar de true a false dependiendo del NavBar que se quiere ver
+  const isLoggedIn = false;
 
   // Datos de muestra para las notificaciones. En una app real, vendrían de un estado global o una API.
   const mockNotifications = [

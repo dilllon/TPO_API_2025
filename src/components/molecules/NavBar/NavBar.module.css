@@ -5,10 +5,16 @@
   top: 0;
   left: 0;
   z-index: 1000;
-  /* --- Estilo Glassmorphism --- */
-  background: linear-gradient(to bottom, rgba(30, 31, 36, 0.9), rgba(30, 31, 36, 0.7));
-  backdrop-filter: blur(10px);
+  /* --- Estilo Glassmorphism Pulido --- */
+  background: radial-gradient(
+      ellipse 80% 70% at 50% -20%,
+      rgba(255, 255, 255, 0.08),
+      transparent
+    ),
+    linear-gradient(to bottom, rgba(10, 10, 12, 0.9), rgba(18, 18, 22, 0.95));
+  backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(10px); /* Para compatibilidad con Safari */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   color: var(--white, #ecf0f1);
   display: flex;
   flex-direction: row;
@@ -212,7 +218,7 @@
     z-index: 1000;
     padding: 1rem 0;
     /* Hacemos que el menú desplegable también tenga el efecto "glass" para consistencia */
-    background-color: rgba(30, 31, 36, 0.9);
+    background-color: rgba(18, 18, 22, 0.95);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     align-items: flex-start;
