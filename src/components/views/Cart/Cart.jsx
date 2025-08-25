@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react';
 import './Cart.css';
 
 function Cart() {
+  const [removing, setRemoving] = useState(new Set());
+  const ANIM_MS = 220; // misma duración que en el CSS
   const [showPopup, setShowPopup] = useState(false);
   const [products, setProducts] = useState(() => {
     try {
@@ -39,20 +41,33 @@ function Cart() {
   }, 0);
 
   const removeOne = (id) => {
-    const cart = JSON.parse(localStorage.getItem('cartItems') || '[]');
-    const i = cart.findIndex((it) => it.id === id);
-    if (i >= 0) {
-      cart.splice(i, 1);
-    }
-    localStorage.setItem('cartItems', JSON.stringify(cart));
-    // Dispara un evento de storage para notificar a otros componentes
-    window.dispatchEvent(
-      new StorageEvent('storage', {
-        key: 'cartItems',
-        newValue: JSON.stringify(cart),
-      }),
-    );
-    setProducts([...cart]);
+    // 1) activar clase de animación
+    setRemoving((prev) => new Set(prev).add(id));
+
+    // 2) al finalizar la transición, borrar de verdad
+    setTimeout(() => {
+      const cart = JSON.parse(localStorage.getItem('cartItems') || '[]');
+      const i = cart.findIndex((it) => it.id === id);
+      if (i >= 0) {
+        cart.splice(i, 1);
+      }
+      localStorage.setItem('cartItems', JSON.stringify(cart));
+      // Dispara un evento de storage para notificar a otros componentes
+      window.dispatchEvent(
+        new StorageEvent('storage', {
+          key: 'cartItems',
+          newValue: JSON.stringify(cart),
+        }),
+      );
+      setProducts([...cart]);
+
+      // limpiar flag
+      setRemoving((prev) => {
+        const n = new Set(prev);
+        n.delete(id);
+        return n;
+      });
+    }, ANIM_MS + 20); // pequeño margen
   };
 
   const updateQuantity = (id, newQty) => {
@@ -124,8 +139,13 @@ function Cart() {
           <div className="cart-items">
             {products.map((p, index) => {
               const fullProduct = getProductById(p.id);
+              const isRemoving = removing.has(p.id); // ✅ per-item
+
               return (
-                <div key={`${p.id}-${index}`} className="cart-items-product">
+                <div
+                  key={p.id} // ✅ mejor key estable
+                  className={`cart-items-product ${isRemoving ? 'is-removing' : ''}`}
+                >
                   <ProductCardAdded
                     product={fullProduct}
                     qty={p.qty || 1}
@@ -138,19 +158,39 @@ function Cart() {
             })}
           </div>
 
-          <div className="cart-desc-price">
-            <div className="cart-desc">
-              <p className="desc">Total de productos: {totalItems}</p>
+          <div className="cart-summary">
+            <h3>Resumen del Carrito</h3>
+            {products.map((p) => {
+              const fullProduct = getProductById(p.id);
+              const finalPrice = hasDiscount(fullProduct)
+                ? calculateDiscountedPrice(fullProduct)
+                : fullProduct.price;
+              const subtotal = finalPrice * (p.qty || 1);
+
+              return (
+                <div key={p.id} className="cart-summary-item">
+                  <span>
+                    {fullProduct.title} (x{p.qty || 1})
+                  </span>
+                  <span>
+                    ${subtotal}
+                    {hasDiscount(fullProduct) && ` (-${fullProduct.discount}%)`}
+                  </span>
+                </div>
+              );
+            })}
+
+            <div className="cart-summary-total">
+              <h3>Total</h3>
+              <h3>${totalPrice}</h3>
             </div>
-            <div className="cart-price">
-              <p className="price">Total: ${totalPrice}</p>
-              <button
-                className="purchase-button"
-                onClick={() => setShowPopup(true)}
-              >
-                Realizar Compra
-              </button>
-            </div>
+
+            <button
+              className="confirm-purchase-btn"
+              onClick={() => setShowPopup(true)}
+            >
+              Confirmar Compra
+            </button>
           </div>
 
           {showPopup && (

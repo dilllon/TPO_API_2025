@@ -27,3 +27,8 @@ main h2:not(.welcome-message h2) {
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
     
+
+/* .products-section {
+  background-color: var(--background-light, #3b83f6b2);
+  border-radius: 24px;
+} */

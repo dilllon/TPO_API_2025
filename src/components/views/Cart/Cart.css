@@ -4,7 +4,30 @@
 }
 
 .title{
-    color: white
+    color: whitesmoke
+}
+
+/* Contenedor del carrito */
+.cart-contain.product-card.cart {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 10px 0;
+    margin: 15px 10px;
+    max-height: 10%;
+    border-radius: 10px;
+    align-items: center;
+    background-color: #3f3d3d;
+    box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.596);
+    border: none;
+    color: #f5f5f5;
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card.cart:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
 }
 
 /* Contenedor del carrito */
@@ -49,6 +72,14 @@
   margin: 0px auto;
 }
 
+.confirm-purchase-btn{
+    margin-top: 1rem;
+    padding: 0.6rem 1rem;
+    background-color: #3398db;
+    color: whitesmoke;
+    max-width: 200px;
+}
+
 /* Elementos de carritos en mobile */
 @media (max-width: 600px) {
   /* CUANDO NO HAY ITEMS ----------------- */
@@ -82,6 +113,38 @@
   /* CARITA DEL PRODUCTO-------------- */
   .product-card-card .product-card-title {
     font-size: 1rem; /* Tamaño de fuente más pequeño para pantallas pequeñas */
+  }
+  .product-card.cart {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .product-card.cart .product-desc {
+    padding: 10px;
+  }
+
+  .cart-summary {
+    background-color: whitesmoke;
+    color: black;
+    display: flex;
+    margin: 15px 10px;
+    border-radius: 10px;
+    flex-direction: column;
+    padding: 15px;
+  }
+  
+  .cart-summary .cart-summary-item{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .cart-summary .confirm-purchase-btn{
+    align-self: center;
+  }
+  .cart-summary .cart-summary-total {
+    display: flex;
+    justify-content: space-between;
   }
 }
 
@@ -133,9 +196,10 @@
   align-self: center;
   width: 100%;
   padding: 0.5rem 1rem;
-  margin: 25px 10px;
+  margin: 25px 10px 0px 20px;
   box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.596);
   max-width: 1200px;
+  border-radius: 15px;
 }
 
 /*Sobreescritura de producto-card para el carrito----------------*/
@@ -147,9 +211,9 @@
     padding: 10px 0;
     margin: 15px 10px;
     max-height: 10%;
-    border-radius: 0;
+    border-radius: 10px;
     align-items: center;
-    background-color: #3f3d3d;
+    background-color: #f3f2f2;
     box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.596);
     border: none;
     color: #f5f5f5;
@@ -161,7 +225,7 @@
     top: 10px;
     right: 10px;
     background-color: #15a715;
-    color: white;
+    color: whitesmoke;
     border-radius: 50%;
     width: 25px;
     height: 25px;
@@ -231,7 +295,7 @@
     border: 1px solid #666;
     border-radius: 4px;
     background-color: #444;
-    color: white;
+    color: whitesmoke;
     text-align: center;
     font-size: 0.9rem;
 }
@@ -247,7 +311,7 @@
     border-radius: 4px;
     border: 1px solid #666;
     background-color: #444;
-    color: white;
+    color: whitesmoke;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -274,14 +338,14 @@
 
 .purchase-button {
     background-color: #15a715;
-    color: white;
+    color: whitesmoke;
     border: none;
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
     transition: background-color 0.3s ease;
-    margin-top: 10px;
+    margin: -10px 0px 10px 20px;
 }
 
 .purchase-button:hover {
@@ -346,7 +410,7 @@
 
 .cancel-button {
     background-color: #666;
-    color: white;
+    color: whitesmoke;
     border: none;
     padding: 8px 16px;
     border-radius: 4px;
@@ -355,8 +419,8 @@
 }
 
 .confirm-button {
-    background-color: #15a715;
-    color: white;
+    background-color: #3498db;
+    color: whitesmoke;
     border: none;
     padding: 8px 16px;
     border-radius: 4px;
@@ -369,7 +433,7 @@
 }
 
 .confirm-button:hover {
-    background-color: #128912;
+    background-color: #0882d3;
 }
 
 /* Estilos para el indicador de descuento en la compra */
@@ -378,4 +442,28 @@
     font-size: 0.85rem;
     font-weight: bold;
     margin-left: 0.5rem;
+}
+
+
+
+.cart-items-product {
+  overflow: hidden; /* necesario para colapso vertical */
+  max-height: 400px; /* > altura máxima esperada del card */
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease,
+    margin 220ms ease,
+    padding 220ms ease,
+    max-height 220ms ease;
+}
+
+.cart-items-product.is-removing {
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  max-height: 0;
+  /* opcional: evitar dobles clics durante la animación */
+  pointer-events: none;
 }
