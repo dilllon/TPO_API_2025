@@ -137,6 +137,37 @@ const removeOne = (id) => {
             })}
           </div>
 
+          <div className="cart-summary">
+            <h3>Resumen del Carrito</h3>
+            {products.map((p) => {
+              const fullProduct = getProductById(p.id);
+              const finalPrice = hasDiscount(fullProduct) ? calculateDiscountedPrice(fullProduct) : fullProduct.price;
+              const subtotal = finalPrice * (p.qty || 1);
+
+              return (
+                <div key={p.id} className="cart-summary-item">
+                  <span>{fullProduct.title} (x{p.qty || 1})</span>
+                  <span>
+                    ${subtotal}
+                    {hasDiscount(fullProduct) && ` (-${fullProduct.discount}%)`}
+                  </span>
+                </div>
+              );
+            })}
+            
+            <div className="cart-summary-total">
+              <h3>Total</h3>
+              <h3>${totalPrice}</h3>
+            </div>
+
+            <button 
+              className="confirm-purchase-btn"
+              onClick={() => setShowPopup(true)}
+            >
+              Confirmar Compra
+            </button>
+          </div>
+
           {showPopup && (
             <div className="popup-overlay">
               <div className="popup-content">

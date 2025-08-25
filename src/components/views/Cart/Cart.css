@@ -4,7 +4,7 @@
 }
 
 .title{
-    color: white
+    color: whitesmoke
 }
 
 /* Contenedor del carrito */
@@ -72,6 +72,14 @@
   margin: 0px auto;
 }
 
+.confirm-purchase-btn{
+    margin-top: 1rem;
+    padding: 0.6rem 1rem;
+    background-color: #3398db;
+    color: whitesmoke;
+    max-width: 200px;
+}
+
 /* Elementos de carritos en mobile */
 @media (max-width: 600px) {
   /* CUANDO NO HAY ITEMS ----------------- */
@@ -105,6 +113,38 @@
   /* CARITA DEL PRODUCTO-------------- */
   .product-card-card .product-card-title {
     font-size: 1rem; /* Tamaño de fuente más pequeño para pantallas pequeñas */
+  }
+  .product-card.cart {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .product-card.cart .product-desc {
+    padding: 10px;
+  }
+
+  .cart-summary {
+    background-color: whitesmoke;
+    color: black;
+    display: flex;
+    margin: 15px 10px;
+    border-radius: 10px;
+    flex-direction: column;
+    padding: 15px;
+  }
+  
+  .cart-summary .cart-summary-item{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .cart-summary .confirm-purchase-btn{
+    align-self: center;
+  }
+  .cart-summary .cart-summary-total {
+    display: flex;
+    justify-content: space-between;
   }
 }
 
@@ -185,7 +225,7 @@
     top: 10px;
     right: 10px;
     background-color: #15a715;
-    color: white;
+    color: whitesmoke;
     border-radius: 50%;
     width: 25px;
     height: 25px;
@@ -255,7 +295,7 @@
     border: 1px solid #666;
     border-radius: 4px;
     background-color: #444;
-    color: white;
+    color: whitesmoke;
     text-align: center;
     font-size: 0.9rem;
 }
@@ -271,7 +311,7 @@
     border-radius: 4px;
     border: 1px solid #666;
     background-color: #444;
-    color: white;
+    color: whitesmoke;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -298,7 +338,7 @@
 
 .purchase-button {
     background-color: #15a715;
-    color: white;
+    color: whitesmoke;
     border: none;
     padding: 10px 20px;
     border-radius: 4px;
@@ -370,7 +410,7 @@
 
 .cancel-button {
     background-color: #666;
-    color: white;
+    color: whitesmoke;
     border: none;
     padding: 8px 16px;
     border-radius: 4px;
@@ -379,8 +419,8 @@
 }
 
 .confirm-button {
-    background-color: #15a715;
-    color: white;
+    background-color: #3498db;
+    color: whitesmoke;
     border: none;
     padding: 8px 16px;
     border-radius: 4px;
@@ -393,7 +433,7 @@
 }
 
 .confirm-button:hover {
-    background-color: #128912;
+    background-color: #0882d3;
 }
 
 /* Estilos para el indicador de descuento en la compra */
