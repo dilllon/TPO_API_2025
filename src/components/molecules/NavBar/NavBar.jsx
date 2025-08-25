@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
 // import crearCuentaImg from '../../../assets/images/crearusuarioimg.jpg';
 // import icono from '../../../assets/images/icono.jpg';
@@ -98,16 +99,16 @@ function NavBar() {
           >
             <ul className={styles['nav-list']}>
               <li>
-                <a href="/">Inicio</a>
+                <Link to="/">Inicio</Link>
               </li>
               <Dropdown title="Categorías" items={getCategoryNames()} />
               <li>
-                <a
-                  href="/clients/previous-orders"
+                <Link
+                  to="/clients/previous-orders"
                   className={styles['nav-link-icon']}
                 >
                   <span>Mis compras</span>
-                </a>
+                </Link>
               </li>
             </ul>
             <ul className={styles['nav-list-right']}>
@@ -126,13 +127,13 @@ function NavBar() {
                 />
               </li>
               <li>
-                <a
-                  href="clients/cart"
+                <Link
+                  to="/cart"
                   className={styles['nav-link-icon']}
                   title="Carrito"
                 >
                   <FaShoppingCart />
-                </a>
+                </Link>
               </li>
               <li className={styles['profile']}>
                 {isLoggedIn ? (
@@ -142,15 +143,15 @@ function NavBar() {
                   />
                 ) : (
                   <div className={styles.authButtonsContainer}>
-                    <a href="clients/login" className={styles.loginButton}>
+                    <Link to="/clients/login" className={styles.loginButton}>
                       Iniciar Sesión
-                    </a>
-                    <a
-                      href="clients/register"
+                    </Link>
+                    <Link
+                      to="/clients/register"
                       className={styles.registerButton}
                     >
                       Registrarse
-                    </a>
+                    </Link>
                   </div>
                 )}
               </li>
