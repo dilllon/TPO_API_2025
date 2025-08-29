@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
-// import crearCuentaImg from '../../../assets/images/crearusuarioimg.jpg';
-// import icono from '../../../assets/images/icono.jpg';
 import { getCategoryNames } from '../../../constants/products';
 import Logo from '../../atoms/Logo/Logo.jsx';
 import Buscador from '../../atoms/Buscador/Buscador.jsx';
@@ -10,13 +8,15 @@ import Profile from '../../atoms/Profile/Profile.jsx';
 import Dropdown from '../../atoms/Dropdown/Dropdown.jsx';
 import InfoDropdown from '../../atoms/InfoDropdown/InfoDropdown';
 import styles from './NavBar.module.css';
-import { useSelector } from "react-redux";
+// import { useSelector } from 'react-redux';
 
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Cambiar de true a false dependiendo del NavBar que se quiere ver
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  // const { isLoggedIn } = useSelector((state) => state.auth);
+  const isLoggedIn = true;
+
   // Datos de muestra para las notificaciones. En una app real, vendrían de un estado global o una API.
   const mockNotifications = [
     {
