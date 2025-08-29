@@ -17,6 +17,11 @@ function ProductCard({ product, onClick, variant = "default" }) {
     }
   };
 
+  const handleEdit = (e) => {
+    e.stopPropagation();
+    navigate(`/products/${product.id}/edit`);
+  }
+
   const productHasDiscount = hasDiscount(product);
   const discountedPrice = calculateDiscountedPrice(product);
 
@@ -47,7 +52,7 @@ function ProductCard({ product, onClick, variant = "default" }) {
       </div>
       <div className='product-btns'>
         <button onClick={handleAddToCart}>Agregar al carrito</button>
-        <button className='edit-button'><FaEdit /></button>
+        <button onClick={handleEdit} className='edit-button'><FaEdit /></button>
       </div>
     </div>
   );

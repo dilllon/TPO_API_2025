@@ -5,6 +5,7 @@ import Login from './components/views/Login/Login';
 import ProductsView from './components/views/ProductsView/ProductsView';
 import AddProductView from './components/views/ProductsView/AddProductView';
 import Register from './components/views/Register/Register';
+import EditProductView from './components/views/ProductsView/EditProductView';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/clients/login" element={<Login />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/products/:id" element={<ProductsView />} />
+        <Route path="/products/:id/edit" element={<EditProductView />} />
         <Route path="/products/add" element={<AddProductView />} />
       </Routes>
     </Router>

@@ -267,3 +267,11 @@ export const calculateDiscountedPrice = (product) => {
 export const hasDiscount = (product) => {
   return product.discount && product.discount > 0;
 };
+
+// Funcion para actualizar el producto en nuestro modelo de datos
+export const updateProduct = (updated) => {
+  const idx = productsData.findIndex(p => p.id === updated.id);
+  if (idx === -1) return false;
+  productsData[idx] = { ...productsData[idx], ...updated };
+  return true;
+};
