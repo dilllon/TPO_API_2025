@@ -10,12 +10,14 @@ import Profile from '../../atoms/Profile/Profile.jsx';
 import Dropdown from '../../atoms/Dropdown/Dropdown.jsx';
 import InfoDropdown from '../../atoms/InfoDropdown/InfoDropdown';
 import styles from './NavBar.module.css';
+import { useSelector } from "react-redux";
 
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Cambiar de true a false dependiendo del NavBar que se quiere ver
-  const isLoggedIn = true;
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  console.log("isLoggedIn:", isLoggedIn);
 
   // Datos de muestra para las notificaciones. En una app real, vendrían de un estado global o una API.
   const mockNotifications = [

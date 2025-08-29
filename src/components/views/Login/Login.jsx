@@ -3,24 +3,27 @@ import { useNavigate, Link } from 'react-router-dom';
 import Button from '@/components/atoms/Button/Button.jsx';
 import styles from './Login.module.css';
 
+import { useDispatch } from "react-redux";              // 👈 importás useDispatch
+import { login } from "@/store/slices/authSlice";              // 👈 importás la acción
+
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+const handleSubmit = (e) => {
+  e.preventDefault();
+  if (email && password) {
+    // actualizar Redux
+    dispatch(login({
+      userName: email.split("@")[0],
+      imageUrl: "https://picsum.photos/50", // o la que tengas
+    }));
 
-    // Simulación de login exitoso
-    // En un proyecto real harías fetch a tu backend aquí
-    if (email && password) {
-      localStorage.setItem('token', 'fake-jwt-token'); // Usar 'token' para consistencia
-      localStorage.setItem('userEmail', email);
-
-      // Redirigir al home
-      navigate('/');
-    }
-  };
+    navigate("/");
+  }
+};
 
   return (
     <div className={styles['auth']}>
@@ -74,7 +77,7 @@ function Login() {
           </div>
 
           <Button type="submit" size="m">
-            Crear Cuenta
+            Iniciar sesion
           </Button>
         </form>
 

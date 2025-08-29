@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect, useRef } from 'react';
 import styles from './Profile.module.css';
+import { useDispatch } from "react-redux";
+import { logout } from "../../../store/slices/authSlice"; // ajustá la ruta
 
 /**
  * Componente de perfil de usuario para la barra de navegación.
@@ -13,6 +15,7 @@ import styles from './Profile.module.css';
 const Profile = ({ userName, imageUrl }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+    const dispatch = useDispatch()
 
   const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
 
@@ -148,11 +151,12 @@ const Profile = ({ userName, imageUrl }) => {
                   d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"
                 />
               </svg>
-              <span>Cerrar sesión</span>
+              
+              <span onClick={() => dispatch(logout())}>Cerrar sesión</span>
             </button>
           </li>
         </ul>
-      )}
+      )}    
     </div>
   );
 };
