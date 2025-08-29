@@ -9,10 +9,10 @@ function ProductCard({ product, onClick, variant = "default" }) {
     navigate(`/products/${product.id}`);
   };
 
-  const handleAddToCart = (e) => {
+  const  onAddToCart   = (e) => {
     e.stopPropagation(); // Evita que se active la navegación
     if (onClick) {
-      onClick();
+      onClick(product);
     }
   };
 
@@ -44,7 +44,7 @@ function ProductCard({ product, onClick, variant = "default" }) {
           {product.stock > 0 ? product.stock : <span className="out-of-stock">Sin stock</span>}
         </p>
       </div>
-      <button onClick={handleAddToCart}>Agregar al carrito</button>
+      <button onClick={onAddToCart}>Agregar al carrito</button>
     </div>
   );
 }

@@ -17,8 +17,6 @@ function NavBar() {
 
   // Cambiar de true a false dependiendo del NavBar que se quiere ver
   const { isLoggedIn } = useSelector((state) => state.auth);
-  console.log("isLoggedIn:", isLoggedIn);
-
   // Datos de muestra para las notificaciones. En una app real, vendrían de un estado global o una API.
   const mockNotifications = [
     {
