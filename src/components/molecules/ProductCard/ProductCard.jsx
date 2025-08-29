@@ -45,9 +45,9 @@ function ProductCard({ product, onClick, variant = "default" }) {
           {product.stock > 0 ? product.stock : <span className="out-of-stock">Sin stock</span>}
         </p>
       </div>
-      <div>
+      <div className='product-btns'>
         <button onClick={handleAddToCart}>Agregar al carrito</button>
-        <button className='edit-button'><FaEdit/></button>
+        <button className='edit-button'><FaEdit /></button>
       </div>
     </div>
   );
