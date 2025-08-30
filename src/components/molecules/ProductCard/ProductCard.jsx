@@ -13,7 +13,7 @@ function ProductCard({ product, onClick, variant = "default" }) {
   const handleAddToCart = (e) => {
     e.stopPropagation(); // Evita que se active la navegación
     if (onClick) {
-      onClick();
+      onClick(product);
     }
   };
 
