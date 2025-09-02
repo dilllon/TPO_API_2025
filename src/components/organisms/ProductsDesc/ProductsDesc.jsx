@@ -4,7 +4,7 @@ import { useProducts } from '@/context/ProductContext';
 import './ProductsDesc.css';
 
 function ProductsDesc() {
-  const { productsData, getProductById, hasDiscount, isLoading } = useProducts();
+  const { productsData, getProductById, hasDiscount, isLoading, calculateDiscountedPrice } = useProducts();
   const navigate = useNavigate();
   const { id } = useParams();
   const [product, setProduct] = useState(null);
