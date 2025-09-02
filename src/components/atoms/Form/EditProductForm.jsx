@@ -1,9 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getProductById, updateProduct } from "../../../constants/products";
+import { useProducts } from '@/context/ProductContext';
 import './EditProductForm.css';
 
 function EditProductForm() {
+    const { productsData, getProductById, updateProduct } = useProducts();
     const { id } = useParams();
     const navigate = useNavigate();
     const [form, setForm] = useState(null);
@@ -11,6 +12,7 @@ function EditProductForm() {
 
     useEffect(() => {
         const p = getProductById(id);
+        console.log('Producto encontrado:', p);
         if (!p) {
             setError("Producto no encontrado");
             return;
@@ -27,7 +29,7 @@ function EditProductForm() {
             category: p.category,
             image: p.image
         });
-    }, [id]);
+    }, [productsData,id]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;

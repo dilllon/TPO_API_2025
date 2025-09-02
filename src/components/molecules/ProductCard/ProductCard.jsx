@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import { calculateDiscountedPrice, hasDiscount } from '../../../constants/products';
+import { useProducts } from '@/context/ProductContext';
 import './ProductCard.css';
 import { FaEdit } from 'react-icons/fa';
 
 function ProductCard({ product, onClick, variant = "default" }) {
+  const { calculateDiscountedPrice, hasDiscount } = useProducts();
   const navigate = useNavigate();
 
   const handleProductClick = () => {

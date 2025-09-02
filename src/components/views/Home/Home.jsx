@@ -1,22 +1,9 @@
-import ProductosGrid from '@/components/organisms/Grid/Products';
+import ProductsGrid from '@/components/organisms/Grid/Products';
 import Header from '@/components/organisms/Header/Header';
 import './Home.css';
+import { ProductsProvider } from '@/context/ProductContext';
 
 function Home() {
-
-   const onAddToCart = (product) => {
-    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    
-
-    const existingItem = cartItems.find(item => item.id === product.id);
-    if (existingItem) {
-    existingItem.qty = (existingItem.qty || 1) + 1;
-    } else {
-    cartItems.push({ ...product, qty: 1 });
-  }
-
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-  };
 
   return (
     <>
@@ -31,7 +18,9 @@ function Home() {
             Explorá nuestros productos y hacé tu compra de forma fácil y rápida.
           </p>
         </section>
-        <ProductosGrid onAddToCart={onAddToCart} />
+        <ProductsProvider>
+          <ProductsGrid />
+        </ProductsProvider>
       </main>
     </>
   );

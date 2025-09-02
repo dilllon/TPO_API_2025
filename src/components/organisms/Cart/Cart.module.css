@@ -6,6 +6,10 @@
 .title{
     color: black
 }
+.message {
+  padding: 0;
+  text-align:start;
+}
 
 /* Contenedor del carrito */
 .cart-contain.product-card.cart {

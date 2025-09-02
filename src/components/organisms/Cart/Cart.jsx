@@ -1,24 +1,30 @@
 import ProductCardAdded from '@/components/molecules/ProductCard/ProductCardAdded';
-import Header from '@/components/organisms/Header/Header';
-import {
-  getProductById,
-  calculateDiscountedPrice,
-  hasDiscount,
-} from '../../../constants/products';
 import { useEffect, useState } from 'react';
-import './Cart.css';
+import styles from './Cart.module.css';
+import { useProducts } from '@/context/ProductContext';
 
 function Cart() {
+  const { productsData, getProductById, hasDiscount, calculateDiscountedPrice, isLoading } = useProducts();
   const [removing, setRemoving] = useState(new Set());
+
   const ANIM_MS = 220; // misma duración que en el CSS
   const [showPopup, setShowPopup] = useState(false);
   const [products, setProducts] = useState(() => {
     try {
-      return JSON.parse(localStorage.getItem('cartItems') || '[]');
+      const items = JSON.parse(localStorage.getItem('cartItems') || '[]');
+      // Convertir IDs a números si son strings
+      return items.map(item => ({
+        ...item,
+        id: typeof item.id === 'string' ? parseInt(item.id) : item.id
+      }));
     } catch {
       return [];
     }
   });
+
+  useEffect(() => {
+    console.log('ProductsData in Cart:', productsData);
+  }, [productsData]);
 
   // Opcional: si querés refrescar cuando cambie desde otra pestaña
   useEffect(() => {
@@ -29,14 +35,24 @@ function Cart() {
     };
     window.addEventListener('storage', onStorage);
     return () => window.removeEventListener('storage', onStorage);
-  }, []);
+  }, [productsData]);
 
   const totalItems = products.reduce((a, p) => a + (p.qty || 1), 0);
   const totalPrice = products.reduce((a, p) => {
+    if (isLoading) return a;
+    
     const product = getProductById(p.id);
+    console.log('Calculating price for product:', product, 'with ID:', p.id);
+    
+    if (!product) {
+      console.log('Producto no encontrado para ID:', p.id);
+      return a;
+    }
+    
     const finalPrice = hasDiscount(product)
       ? calculateDiscountedPrice(product)
-      : p.price || 0;
+      : product.price;
+      
     return a + finalPrice * (p.qty || 1);
   }, 0);
 
@@ -110,17 +126,24 @@ function Cart() {
     setShowPopup(false);
   };
 
+  if (isLoading) {
+    return (
+      <div className={styles["cart-container"]}>
+        <p>Cargando productos...</p>
+      </div>
+    );
+  }
+
   return (
     <>
-      <Header />
-      <section className="cart-container">
-        <div className={'cart-message-box ' + (totalItems <= 0 ? 'show' : '')}>
-          <div className="cart-message">
-            <h2 className="title">Tu carrito de compras está vacío :c</h2>
-            <p className="message">Agregá productos a tu carrito</p>
+      <section className={styles["cart-container"]}>
+        <div className={`${styles["cart-message-box"]} ${totalItems <= 0 ? styles.show : ''}`}>
+          <div className={styles["cart-message"]}>
+            <h2 className={styles.title}>Tu carrito de compras está vacío :c</h2>
+            <p className={styles.message}>Agregá productos a tu carrito</p>
           </div>
           <svg
-            className="icon"
+            className={styles["icon"]}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 640 640"
           >
@@ -131,12 +154,12 @@ function Cart() {
           </svg>
         </div>
 
-        <div className={'cart-box ' + (totalItems >= 1 ? 'show' : '')}>
-          <div className="cart-message">
-            <h2 className="title">Tu carrito de compras</h2>
+        <div className={`${styles["cart-box"]} ${totalItems >= 1 ? styles.show : ''}`}>
+          <div className={styles["cart-message"]}>
+            <h2 className={styles.title}>Tu carrito de compras</h2>
           </div>
 
-          <div className="cart-items">
+          <div className={styles["cart-items"]}>
             {products.map((p, index) => {
               const fullProduct = getProductById(p.id);
               const isRemoving = removing.has(p.id); // ✅ per-item
@@ -144,7 +167,7 @@ function Cart() {
               return (
                 <div
                   key={p.id} // ✅ mejor key estable
-                  className={`cart-items-product ${isRemoving ? 'is-removing' : ''}`}
+                  className={`${styles["cart-items-product"]} ${isRemoving ? styles["is-removing"] : ''}`}
                 >
                   <ProductCardAdded
                     product={fullProduct}
@@ -158,7 +181,7 @@ function Cart() {
             })}
           </div>
 
-          <div className="cart-summary">
+          <div className={styles["cart-summary"]}>
             <h3>Resumen del Carrito</h3>
             {products.map((p) => {
               const fullProduct = getProductById(p.id);
@@ -168,7 +191,7 @@ function Cart() {
               const subtotal = finalPrice * (p.qty || 1);
 
               return (
-                <div key={p.id} className="cart-summary-item">
+                <div key={p.id} className={styles["cart-summary-item"]}>
                   <span>
                     {fullProduct.title} (x{p.qty || 1})
                   </span>
@@ -180,13 +203,13 @@ function Cart() {
               );
             })}
 
-            <div className="cart-summary-total">
+            <div className={styles["cart-summary-total"]}>
               <h3>Total</h3>
               <h3>${totalPrice}</h3>
             </div>
 
             <button
-              className="confirm-purchase-btn"
+              className={styles["confirm-purchase-btn"]}
               onClick={() => setShowPopup(true)}
             >
               Confirmar Compra
@@ -194,10 +217,10 @@ function Cart() {
           </div>
 
           {showPopup && (
-            <div className="popup-overlay">
-              <div className="popup-content">
+            <div className={styles["popup-overlay"]}>
+              <div className={styles["popup-content"]}>
                 <h3>Confirmar Compra</h3>
-                <div className="purchase-details">
+                <div className={styles["purchase-details"]}>
                   <p>
                     <strong>Resumen de tu compra:</strong>
                   </p>
@@ -207,31 +230,31 @@ function Cart() {
                       ? calculateDiscountedPrice(fullProduct)
                       : p.price;
                     return (
-                      <div key={index} className="purchase-item">
+                      <div key={index} className={styles["purchase-item"]}>
                         <span>{p.title}</span>
                         <span>x{p.qty}</span>
                         <span>${finalPrice * p.qty}</span>
                         {hasDiscount(fullProduct) && (
-                          <span className="discount-indicator">
+                          <span className={styles["discount-indicator"]}>
                             (-{fullProduct.discount}%)
                           </span>
                         )}
                       </div>
                     );
                   })}
-                  <div className="purchase-total">
+                  <div className={styles["purchase-total"]}>
                     <strong>Total a pagar: ${totalPrice}</strong>
                   </div>
                 </div>
-                <div className="popup-buttons">
+                <div className={styles["popup-buttons"]}>
                   <button
-                    className="cancel-button"
+                    className={styles["cancel-button"]}
                     onClick={() => setShowPopup(false)}
                   >
                     Cancelar
                   </button>
                   <button
-                    className="confirm-button"
+                    className={styles["confirm-button"]}
                     onClick={handleConfirmPurchase}
                   >
                     Confirmar Compra

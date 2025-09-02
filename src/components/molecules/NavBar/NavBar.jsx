@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
 // import crearCuentaImg from '../../../assets/images/crearusuarioimg.jpg';
 // import icono from '../../../assets/images/icono.jpg';
-import { getCategoryNames } from '../../../constants/products';
+// import { getCategoryNames } from '../../../constants/products';
+import { useProducts } from '@/context/ProductContext';
 import Logo from '../../atoms/Logo/Logo.jsx';
 import Buscador from '../../atoms/Buscador/Buscador.jsx';
 import Profile from '../../atoms/Profile/Profile.jsx';
@@ -13,6 +14,7 @@ import styles from './NavBar.module.css';
 import { useSelector } from "react-redux";
 
 function NavBar() {
+  const { getCategories  } = useProducts();
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Cambiar de true a false dependiendo del NavBar que se quiere ver
@@ -101,7 +103,7 @@ function NavBar() {
               <li>
                 <Link to="/">Inicio</Link>
               </li>
-              <Dropdown title="Categorías" items={getCategoryNames()} />
+              <Dropdown title="Categorías" items={getCategories()} />
               <li>
                 <Link
                   to="/clients/previous-orders"

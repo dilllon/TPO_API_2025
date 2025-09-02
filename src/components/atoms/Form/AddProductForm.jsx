@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import styles from './AddProductForm.module.css';
+import { useProducts } from '@/context/ProductContext';
 
-function AddProductForm({ onSubmit }) {
+function AddProductForm() {
+  const { productsData, setProducts } = useProducts();
+
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -11,6 +14,10 @@ function AddProductForm({ onSubmit }) {
     image: null
   });
   
+  const handleAddProduct = (productData) => {
+    console.log('Nuevo producto:', productData);
+    // Aquí puedes agregar la lógica para guardar el producto
+  };
   const [previewImage, setPreviewImage] = useState(null);
 
   const handleChange = (e) => {
@@ -43,7 +50,7 @@ function AddProductForm({ onSubmit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData);
+    handleAddProduct(formData);
     setFormData({
       name: '',
       description: '',
@@ -132,7 +139,6 @@ function AddProductForm({ onSubmit }) {
             onChange={handleChange}
             accept="image/*"
             className={styles["file-input"]}
-            required
           />
           {previewImage && (
             <div className={styles["image-preview"]}>
