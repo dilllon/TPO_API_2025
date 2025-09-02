@@ -194,7 +194,7 @@
 /* Responsivo */
 @media (max-width: 720px) {
   .navbar {
-    position: fixed;
+    /* position: fixed; */
     top: 0;
     width: 100%;
     z-index: 1000;

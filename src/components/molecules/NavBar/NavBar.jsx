@@ -110,6 +110,14 @@ function NavBar() {
                   <span>Mis compras</span>
                 </Link>
               </li>
+              {isLoggedIn && (<li>
+                <Link
+                  to="/products/add"
+                  title='Agregar un nuevo producto'
+                >
+                  Agregar Producto
+                </Link>
+              </li>)}
             </ul>
             <ul className={styles['nav-list-right']}>
               <li>
