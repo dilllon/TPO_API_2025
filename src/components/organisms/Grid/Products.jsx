@@ -14,7 +14,7 @@ function orderProducts(products) {
   );
 }
 
-function ProductsGrid({ onClick }) {
+function ProductsGrid({ onAddToCart }) {
   // Separa por categoría y ordena los productos de cada categoría
   const ordered = useMemo(() => {
     const categories = getProductsGroupedByCategory();
@@ -41,7 +41,7 @@ function ProductsGrid({ onClick }) {
                 key={p.id}
                 product={p}
                 variant={categoryName}         // por si querés estilos por categoría
-                onClick={() => onClick?.(p)}   // agrega al carrito si se pasó prop
+                onClick={() => onAddToCart?.(p)}   // agrega al carrito si se pasó prop
               />
             )}
           />

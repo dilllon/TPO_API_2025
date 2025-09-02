@@ -10,7 +10,7 @@ function ProductCard({ product, onClick, variant = "default" }) {
     navigate(`/products/${product.id}`);
   };
 
-  const handleAddToCart = (e) => {
+  const  onAddToCart   = (e) => {
     e.stopPropagation(); // Evita que se active la navegación
     if (onClick) {
       onClick(product);
@@ -51,7 +51,7 @@ function ProductCard({ product, onClick, variant = "default" }) {
         </p>
       </div>
       <div className='product-btns'>
-        <button onClick={handleAddToCart}>Agregar al carrito</button>
+        <button onClick={onAddToCart}>Agregar al carrito</button>
         <button onClick={handleEdit} className='edit-button'><FaEdit /></button>
       </div>
     </div>
