@@ -1,7 +1,6 @@
 import ProductsGrid from '@/components/organisms/Grid/Products';
 import Header from '@/components/organisms/Header/Header';
 import './Home.css';
-import { ProductsProvider } from '@/context/ProductContext';
 
 function Home() {
 
@@ -18,9 +17,7 @@ function Home() {
             Explorá nuestros productos y hacé tu compra de forma fácil y rápida.
           </p>
         </section>
-        <ProductsProvider>
-          <ProductsGrid />
-        </ProductsProvider>
+        <ProductsGrid />
       </main>
     </>
   );

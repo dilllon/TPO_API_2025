@@ -4,13 +4,21 @@ import { useProducts } from '@/context/ProductContext';
 import './EditProductForm.css';
 
 function EditProductForm() {
-    const { productsData, getProductById, updateProduct } = useProducts();
+    const { productsData, getProductById, updateProduct, isLoading } = useProducts();
     const { id } = useParams();
     const navigate = useNavigate();
     const [form, setForm] = useState(null);
     const [error, setError] = useState("");
 
     useEffect(() => {
+        if (isLoading) {
+            console.log('Productos cargando...');
+            return;
+        }
+        
+        console.log('Buscando producto con ID:', id);
+        console.log('Products data disponible:', productsData);
+        
         const p = getProductById(id);
         console.log('Producto encontrado:', p);
         if (!p) {
@@ -39,7 +47,19 @@ function EditProductForm() {
         }));
     };
 
-    const handleSubmit = (e) => {
+    if (isLoading) {
+        return <div>Cargando...</div>;
+    }
+
+    if (error) {
+        return <div className="error-message">{error}</div>;
+    }
+
+    if (!form) {
+        return <div>Cargando datos del producto...</div>;
+    }
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!form.title || !form.price) return setError("Titulo y precio son obligatorios.");
 

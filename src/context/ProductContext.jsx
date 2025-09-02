@@ -7,7 +7,8 @@ export function ProductsProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchProducts = async () => {
+  useEffect(() => {
+    const fetchProducts = async () => {
     setIsLoading(true);
     setError(null);
     try {
@@ -33,9 +34,6 @@ export function ProductsProvider({ children }) {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    console.log("ProductsProvider montado");
     fetchProducts();
   }, []);
 
@@ -53,7 +51,7 @@ export function ProductsProvider({ children }) {
   
   // Función para obtener un producto por ID
   const getProductById = (id) => {
-    return productsData.find(product => product.id === id);
+    return productsData.find(product => product.id == id);
   };
   
   // Función para obtener productos organizados por categorías (para el grid)
@@ -89,11 +87,29 @@ export function ProductsProvider({ children }) {
   };
   
   // Funcion para actualizar el producto en nuestro modelo de datos
-  const updateProduct = (updated) => {
-    const idx = productsData.findIndex(p => p.id === updated.id);
-    if (idx === -1) return false;
-    productsData[idx] = { ...productsData[idx], ...updated };
-    return true;
+  const updateProduct = async (updated) => {
+    try {
+      const response = await fetch(`http://localhost:9000/products/${updated.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updated)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const updatedProduct = await response.json();
+      setProducts(prevProducts => 
+        prevProducts.map(p => p.id == updated.id ? updatedProduct : p)
+      );
+      return true;
+    } catch (error) {
+      console.error("Error al actualizar el producto:", error);
+      return false;
+    }
   };
 
   const addProduct = (product) => {

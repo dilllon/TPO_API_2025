@@ -4,20 +4,22 @@ import { useProducts } from '@/context/ProductContext';
 import './ProductsDesc.css';
 
 function ProductsDesc() {
-  const { productsData, getProductById, hasDiscount } = useProducts();
+  const { productsData, getProductById, hasDiscount, isLoading } = useProducts();
   const navigate = useNavigate();
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
 
   useEffect(() => {
-    // Simular carga de datos del producto
-    const foundProduct = getProductById(id);
-    setProduct(foundProduct);
-    setLoading(false);
-  }, [id, productsData]);
+    console.log('ProductsDesc - Estado actual:', { isLoading, productsDataLength: productsData?.length, id });
+    
+    if (!isLoading && productsData?.length > 0) {
+      const foundProduct = getProductById(id);
+      console.log('Producto encontrado:', foundProduct);
+      setProduct(foundProduct);
+    }
+  }, [id, productsData, isLoading]);
 
   const handleAddToCart = () => {
     // Lógica para agregar al carrito (similar a la del proyecto)
@@ -66,7 +68,7 @@ function ProductsDesc() {
     navigate(-1);
   };
 
-  if (loading) {
+  if (isLoading || !productsData?.length) {
     return (
       <>
         <div className="products-container">
