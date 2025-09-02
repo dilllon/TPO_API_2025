@@ -5,6 +5,7 @@ import './ProductsDesc.css';
 
 function ProductsDesc() {
   const { productsData, getProductById, hasDiscount } = useProducts();
+  const navigate = useNavigate();
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
