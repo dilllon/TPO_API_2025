@@ -1,0 +1,70 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/* Estilos generales de todo el proyecto */
+
+:root {
+  /* Tipografía y layout */
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  /* Colores basicos */
+  --light-purple: #cfc2dc;
+  
+  /* Colores Primarios (Naranja) */
+  --primary: #F97316; /* Naranja principal para botones "Comprar" y CTAs */
+  --primary-hover: #EA580C; /* Tono más oscuro para el hover */
+  --primary-light: #FFF7ED; /* Tono muy claro para fondos de banners o alertas */
+  --white: #cecece;
+
+  /* Colores de Acento (Azul) */
+  --accent:#00d1ff;
+  --primary-blue:#3b82f6;
+  --hover-blue:#2563eb;
+
+  /* Colores Neutrales */
+  --text-primary: #1E293B;    /* Gris oscuro para texto principal (más suave que el negro) */
+  --text-secondary: #64748B;  /* Gris medio para texto secundario o placeholders */
+  --bg-dark-grey: #1e1f24;    /*  */
+  --darker-grey: #1d1d1d;     /*  */
+  --bg-main: #F8FAFC;         /* Blanco roto para el fondo general de la página */
+  --bg-card: #FFFFFF;         /* Blanco puro para las tarjetas de producto, para que resalten */
+  --border-color: #E2E8F0;    /* Gris claro para bordes y separadores */
+
+  /* Colores Semanticos */
+  --success-green:#22c55e;    /* Verd para mensajes de exito */
+  --color-error: #DC2626;     /* Rojo para mensajes de error */
+  --color-warning: #F59E0B;   /* Amarillo/Ámbar para advertencias */
+
+
+  /* Reemplazo del color de los links default */
+  --color-link: #646cff;
+  --color-link-hover: #535bf2;
+
+
+  /* Cosas para que funcionen mejor las fuentes en diferentes browser */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+/* Media query que detecta si es light mode, y aplica los siguientes cambios */
+@media (prefers-color-scheme: light) {
+  :root {
+  }
+}
+
+a {
+  font-weight: 500;
+  color: var(--color-link);
+  text-decoration: inherit;
+}
+a:hover {
+  color: var(--color-link-hover);
+}

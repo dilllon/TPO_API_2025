@@ -1,0 +1,53 @@
+/* === Estilos Base === */
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid transparent; /* Borde base para consistencia */
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.04s ease, opacity 0.2s ease, background 0.2s ease,
+    border 0.2s ease;
+  user-select: none;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* === Estilos de Tamaño === */
+.size-s {
+  padding: 8px 14px;
+  font-size: 0.875rem; /* 14px */
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.size-m {
+  padding: 12px 18px;
+  font-size: 1rem; /* 16px */
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.size-l {
+  padding: 16px 24px;
+  font-size: 1.125rem; /* 18px */
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+/* === Estilos de Color === */
+.color-primary {
+  background: var(--primary);
+  color: #fff;
+}
+.color-primary:hover:not(:disabled) {
+  background: var(--primary-hover);
+}

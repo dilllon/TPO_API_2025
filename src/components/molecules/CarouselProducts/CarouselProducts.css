@@ -1,0 +1,13 @@
+.embla { overflow: hidden; width: 100%; }
+.embla__container { display: flex; gap: 16px; }
+.embla__slide { flex: 0 0 calc((100% - 16px*3) / 4); }
+
+@media (max-width: 1200px) { .embla__slide { flex-basis: calc((100% - 16px*2) / 3); } }
+@media (max-width: 900px)  { .embla__slide { flex-basis: calc((100% - 16px*1) / 2); } }
+@media (max-width: 600px)  { .embla__slide { flex-basis: 100%; } }
+
+.embla, .embla * {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

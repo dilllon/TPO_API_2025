@@ -1,0 +1,130 @@
+.register-container {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text-primary);
+  background: var(--bg-main);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.container {
+  width:min(600px, 100%);
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: .95rem;
+  margin: auto auto 15px;
+}
+
+.brand {
+  font-weight: 800;
+  letter-spacing: .5px;
+  color: var(--text-primary);
+}
+
+.brand::before {
+  content: "• ";
+  color: var(--primary);
+  font-size: 1.25rem;
+  vertical-align: baseline;
+}
+
+.signin {
+  color: var(--text-secondary);
+}
+
+.signin a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.signin a:hover {
+  text-decoration: underline;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.card h1 {
+  margin: 0 0 18px;
+  font-size: 1.8rem;
+}
+
+.card form {
+  display: grid;
+  gap: 18px;
+}
+
+.grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+}
+
+.card label {
+  display: block;
+  font-size: .85rem;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.card input[type="text"],
+.card input[type="email"],
+.card input[type="password"] {
+  width: 100%;
+  height: 42px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-main);
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input::placeholder { color: var(--text-secondary); }
+
+.card input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2); /* Sombra de foco naranja */
+}
+
+.terms {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--light-purple);
+  font-size: .9rem;
+  line-height: 1.4;
+}
+
+.actions {
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin-top:4px;
+}
+
+.footer {
+  margin-top:20px;
+  font-size:.8rem;
+  color:var(--text-secondary);
+  text-align:center;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 780px) {
+  .grid { grid-template-columns: 1fr; }
+  .topbar{ flex-direction:column; gap:6px; }
+  .card h1{ font-size:1.6rem; }
+}
