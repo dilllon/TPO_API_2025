@@ -167,52 +167,6 @@ export const productsData = [
     warranty: "2 años"
   },
   {
-    id: "cat1-0",
-    title: "Mouse inalámbrico",
-    price: 2999,
-    image: "/src/assets/images/productos/52898-producto-logitech-g305-negro.jpg",
-    images: [
-      "/src/assets/images/productos/52898-producto-logitech-g305-negro.jpg",
-      "/src/assets/images/productos/52898-producto-logitech-g305-negro.jpg"
-    ],
-    stock: 10,
-    description: "Mouse inalámbrico de alta precisión con tecnología óptica avanzada. Ideal para gaming y uso profesional. Cuenta con una batería de larga duración y conectividad estable.",
-    features: [
-      "Sensor óptico de alta precisión",
-      "Conectividad inalámbrica 2.4GHz",
-      "Batería de larga duración (hasta 12 meses)",
-      "Diseño ergonómico",
-      "Compatible con Windows y Mac",
-      "3 botones programables"
-    ],
-    category: "Electro",
-    brand: "TechPro",
-    warranty: "1 año"
-  },
-  {
-    id: "cat1-0",
-    title: "Mouse inalámbrico",
-    price: 2999,
-    image: "/src/assets/images/productos/52898-producto-logitech-g305-negro.jpg",
-    images: [
-      "/src/assets/images/productos/52898-producto-logitech-g305-negro.jpg",
-      "/src/assets/images/productos/52898-producto-logitech-g305-negro.jpg"
-    ],
-    stock: 10,
-    description: "Mouse inalámbrico de alta precisión con tecnología óptica avanzada. Ideal para gaming y uso profesional. Cuenta con una batería de larga duración y conectividad estable.",
-    features: [
-      "Sensor óptico de alta precisión",
-      "Conectividad inalámbrica 2.4GHz",
-      "Batería de larga duración (hasta 12 meses)",
-      "Diseño ergonómico",
-      "Compatible con Windows y Mac",
-      "3 botones programables"
-    ],
-    category: "Electro",
-    brand: "TechPro",
-    warranty: "1 año"
-  },
-  {
     id: "cat2-2",
     title: "Auriculares Bluetooth",
     price: 24999,
@@ -312,4 +266,12 @@ export const calculateDiscountedPrice = (product) => {
 // Función para verificar si un producto tiene descuento
 export const hasDiscount = (product) => {
   return product.discount && product.discount > 0;
+};
+
+// Funcion para actualizar el producto en nuestro modelo de datos
+export const updateProduct = (updated) => {
+  const idx = productsData.findIndex(p => p.id === updated.id);
+  if (idx === -1) return false;
+  productsData[idx] = { ...productsData[idx], ...updated };
+  return true;
 };

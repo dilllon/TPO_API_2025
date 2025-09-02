@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { calculateDiscountedPrice, hasDiscount } from '../../../constants/products';
 import './ProductCard.css';
+import { FaEdit } from 'react-icons/fa';
 
 function ProductCard({ product, onClick, variant = "default" }) {
   const navigate = useNavigate();
@@ -15,6 +16,11 @@ function ProductCard({ product, onClick, variant = "default" }) {
       onClick(product);
     }
   };
+
+  const handleEdit = (e) => {
+    e.stopPropagation();
+    navigate(`/products/${product.id}/edit`);
+  }
 
   const productHasDiscount = hasDiscount(product);
   const discountedPrice = calculateDiscountedPrice(product);
@@ -44,7 +50,10 @@ function ProductCard({ product, onClick, variant = "default" }) {
           {product.stock > 0 ? product.stock : <span className="out-of-stock">Sin stock</span>}
         </p>
       </div>
-      <button onClick={onAddToCart}>Agregar al carrito</button>
+      <div className='product-btns'>
+        <button onClick={onAddToCart}>Agregar al carrito</button>
+        <button onClick={handleEdit} className='edit-button'><FaEdit /></button>
+      </div>
     </div>
   );
 }
