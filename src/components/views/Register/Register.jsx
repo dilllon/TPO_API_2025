@@ -11,6 +11,7 @@ function Register() {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
+    username: '',
     email: '',
     address: '',
     password: '',
@@ -85,6 +86,22 @@ function Register() {
                   placeholder="Tassone"
                   autoComplete="off"
                   value={formData.lastName}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Username */}
+            <div className={styles['row']}>
+              <div>
+                <label htmlFor="username">Nombre de Usuario</label>
+                <input
+                  id="username"
+                  type="text"
+                  placeholder="mi_usuario123"
+                  autoComplete="username"
+                  value={formData.username}
                   onChange={handleChange}
                   required
                 />

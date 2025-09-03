@@ -7,17 +7,21 @@ import { useDispatch } from "react-redux";              // 👈 importás useDis
 import { login } from "@/store/slices/authSlice";              // 👈 importás la acción
 
 function Login() {
-  const [email, setEmail] = useState('');
+  const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch()
 
 const handleSubmit = (e) => {
   e.preventDefault();
-  if (email && password) {
+  if (emailOrUsername && password) {
+    // Determinar si es email o username
+    const isEmail = emailOrUsername.includes('@');
+    const userName = isEmail ? emailOrUsername.split("@")[0] : emailOrUsername;
+    
     // actualizar Redux
     dispatch(login({
-      userName: email.split("@")[0],
+      userName: userName,
       imageUrl: "https://picsum.photos/50", // o la que tengas
     }));
 
@@ -46,14 +50,14 @@ const handleSubmit = (e) => {
 
         <form className={styles['form']} onSubmit={handleSubmit}>
           <div className={styles['field']}>
-            <label htmlFor="email">Email</label>
+            <label htmlFor="emailOrUsername">Email o Nombre de Usuario</label>
             <input
-              id="email"
-              type="email"
-              placeholder="email@ejemplo.com"
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              id="emailOrUsername"
+              type="text"
+              placeholder="email@ejemplo.com o mi_usuario123"
+              autoComplete="username"
+              value={emailOrUsername}
+              onChange={(e) => setEmailOrUsername(e.target.value)}
               required
             />
           </div>
