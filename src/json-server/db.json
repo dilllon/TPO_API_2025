@@ -17,7 +17,7 @@
         "country": "Argentina"
       },
       "createdAt": "2024-01-15T10:30:00Z",
-      "lastLogin": "2025-09-04T04:43:29.129Z",
+      "lastLogin": "2025-09-04T16:27:29.841Z",
       "isActive": true
     },
     {
@@ -65,7 +65,7 @@
         "country": "Argentina"
       },
       "createdAt": "2023-12-01T12:00:00Z",
-      "lastLogin": "2025-09-04T04:29:56.596Z",
+      "lastLogin": "2025-09-04T16:26:52.869Z",
       "isActive": true,
       "adminProfile": {
         "permissions": [
@@ -386,48 +386,6 @@
       "rating": {
         "average": 4.5,
         "count": 33
-      }
-    },
-    {
-      "id": "cat2-3",
-      "title": "Tablet Android",
-      "price": 199999,
-      "image": "/src/assets/images/carrousel/foto1.png",
-      "images": [
-        "/src/assets/images/carrousel/foto1.png",
-        "/src/assets/images/carrousel/foto2.jpg"
-      ],
-      "stock": 10,
-      "description": "Tablet Android de 10 pulgadas con procesador potente y pantalla de alta resolución. Ideal para productividad, entretenimiento y creatividad.",
-      "features": [
-        "Pantalla IPS de 10.1\" 2K",
-        "Procesador Octa-core",
-        "4GB RAM + 128GB almacenamiento",
-        "Cámaras frontal y trasera",
-        "Batería de 8000mAh",
-        "Soporte para stylus"
-      ],
-      "category": "Cocina",
-      "brand": "TabletPro",
-      "warranty": "2 años",
-      "sellerId": "2",
-      "sellerUsername": "vendedor",
-      "sku": "TP-TABLET-009",
-      "weight": "520g",
-      "dimensions": "24.7 x 17.1 x 0.7 cm",
-      "createdAt": "2025-02-25T14:55:00Z",
-      "updatedAt": "2025-08-20T13:10:00Z",
-      "isActive": true,
-      "tags": [
-        "tablet",
-        "android",
-        "10 pulgadas",
-        "2k",
-        "stylus"
-      ],
-      "rating": {
-        "average": 4.3,
-        "count": 19
       }
     }
   ],
