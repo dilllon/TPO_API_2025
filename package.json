@@ -10,8 +10,7 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-  "json-server": "json-server --watch src/json-server/db.json --port 3001",
-  "dev": "concurrently \"vite\" \"json-server --watch src/json-server/db.json --port 3001\""
+    "json-server": "json-server --watch src/json-server/db.json --port 3000"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
