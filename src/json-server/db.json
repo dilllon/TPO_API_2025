@@ -17,7 +17,7 @@
         "country": "Argentina"
       },
       "createdAt": "2024-01-15T10:30:00Z",
-      "lastLogin": "2025-09-04T16:27:29.841Z",
+      "lastLogin": "2025-09-04T16:51:49.707Z",
       "isActive": true
     },
     {
@@ -39,7 +39,7 @@
         "country": "Argentina"
       },
       "createdAt": "2024-02-20T14:45:00Z",
-      "lastLogin": "2025-09-04T16:29:29.213Z",
+      "lastLogin": "2025-09-04T16:52:19.116Z",
       "isActive": true,
       "sellerProfile": {
         "rating": 4.8,
@@ -179,7 +179,7 @@
     },
     {
       "id": "cat1-3",
-      "title": "Laptop gamer",
+      "title": "Laptop gamer promax",
       "price": 899999,
       "image": "/src/assets/images/productos/laptop.webp",
       "images": [
@@ -206,7 +206,7 @@
       "weight": "2.3kg",
       "dimensions": "35.6 x 25.4 x 2.2 cm",
       "createdAt": "2025-02-01T10:15:00Z",
-      "updatedAt": "2025-09-03T11:20:00Z",
+      "updatedAt": "2025-09-04T16:47:45.086Z",
       "isActive": true,
       "tags": [
         "laptop",
@@ -218,7 +218,8 @@
       "rating": {
         "average": 4.9,
         "count": 12
-      }
+      },
+      "discount": 5
     },
     {
       "id": "cat1-4",
@@ -249,7 +250,7 @@
       "weight": "195g",
       "dimensions": "16.2 x 7.4 x 0.8 cm",
       "createdAt": "2025-02-05T13:45:00Z",
-      "updatedAt": "2025-08-28T14:30:00Z",
+      "updatedAt": "2025-09-04T16:50:56.455Z",
       "isActive": true,
       "tags": [
         "smartphone",
@@ -261,7 +262,8 @@
       "rating": {
         "average": 4.7,
         "count": 45
-      }
+      },
+      "discount": 50
     },
     {
       "id": "cat2-0",
@@ -388,6 +390,36 @@
       "rating": {
         "average": 4.5,
         "count": 33
+      }
+    },
+    {
+      "id": "product-1757005053906",
+      "title": "Cuchillos",
+      "description": "Cuchillos de cocina tramontina",
+      "price": 20000,
+      "stock": 20,
+      "category": "Cocina",
+      "image": "/src/assets/images/productos/ShenCirujano.png",
+      "images": [
+        "/src/assets/images/productos/ShenCirujano.png"
+      ],
+      "sellerId": "2",
+      "sellerUsername": "vendedor",
+      "brand": "Generic",
+      "warranty": "1 año",
+      "features": [],
+      "sku": "COCINA-product-1757005053906",
+      "weight": "N/A",
+      "dimensions": "N/A",
+      "createdAt": "2025-09-04T16:57:33.906Z",
+      "updatedAt": "2025-09-04T16:57:33.906Z",
+      "isActive": true,
+      "tags": [
+        "cocina"
+      ],
+      "rating": {
+        "average": 0,
+        "count": 0
       }
     }
   ],

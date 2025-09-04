@@ -1,19 +1,26 @@
 import { useEffect, useState } from 'react';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   calculateDiscountedPrice,
   hasDiscount,
 } from '../../../constants/products';
+import { useAuth } from '../../../context/AuthContext';
 import { useProduct } from '../../../hooks/useProducts';
+import { productAPI } from '../../../services/api';
+import AuthAlert from '../../molecules/AuthAlert/AuthAlert';
 import Header from '../../organisms/Header/Header';
 import './ProductsView.css';
 
 function ProductsView() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { isAuthenticated, canEditProduct, canDeleteProduct } = useAuth();
   const { product, loading, error } = useProduct(id);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [showAuthAlert, setShowAuthAlert] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     // Reset selected image when product changes
@@ -23,6 +30,12 @@ function ProductsView() {
   }, [product]);
 
   const handleAddToCart = () => {
+    // Verificar si el usuario está autenticado
+    if (!isAuthenticated) {
+      setShowAuthAlert(true);
+      return;
+    }
+
     // Lógica para agregar al carrito (similar a la del proyecto)
     const cart = JSON.parse(localStorage.getItem('cartItems') || '[]');
 
@@ -56,6 +69,38 @@ function ProductsView() {
     );
 
     alert(`Se agregaron ${quantity} unidades de "${product.title}" al carrito`);
+  };
+
+  const handleEdit = () => {
+    if (!canEditProduct(product.sellerId)) {
+      setShowAuthAlert(true);
+      return;
+    }
+    
+    navigate(`/products/${product.id}/edit`);
+  };
+
+  const handleDelete = async () => {
+    if (!canDeleteProduct(product.sellerId)) {
+      setShowAuthAlert(true);
+      return;
+    }
+
+    const confirmDelete = window.confirm(`¿Estás seguro de que quieres eliminar "${product.title}"?`);
+    if (confirmDelete) {
+      setIsDeleting(true);
+      try {
+        await productAPI.delete(product.id);
+        console.log('Producto eliminado exitosamente');
+        alert('Producto eliminado exitosamente');
+        navigate('/'); // Redirigir al home después de eliminar
+      } catch (error) {
+        console.error('Error al eliminar el producto:', error);
+        alert('Error al eliminar el producto. Por favor, intenta de nuevo.');
+      } finally {
+        setIsDeleting(false);
+      }
+    }
   };
 
   const handleQuantityChange = (e) => {
@@ -159,8 +204,37 @@ function ProductsView() {
                   </span>
                 </div>
               ) : (
-                <span className="product-price">${product.price}</span>
+                <span className="product-price-medium">${product.price}</span>
               )}
+            </div>
+
+            {product.stock > 0 && (
+              <div className="add-to-cart-section">
+                <div className="quantity-selector">
+                  <label htmlFor="quantity">Cantidad:</label>
+                  <input
+                    type="number"
+                    id="quantity"
+                    min="1"
+                    max={product.stock}
+                    value={quantity}
+                    onChange={handleQuantityChange}
+                  />
+                </div>
+
+                <button onClick={handleAddToCart} className="add-to-cart-btn">
+                  Agregar al carrito
+                </button>
+              </div>
+            )}
+
+            {product.sellerUsername && (
+              <div className="seller-info">
+                <span className="seller-tag">Publicado por: {product.sellerUsername}</span>
+              </div>
+            )}
+
+            <div className="product-stock-section">
               <span className="product-stock">
                 {product.stock > 0 ? (
                   <>
@@ -171,6 +245,27 @@ function ProductsView() {
                 )}
               </span>
             </div>
+
+            {/* Botones de editar y eliminar */}
+            {isAuthenticated && (canEditProduct(product.sellerId) || canDeleteProduct(product.sellerId)) && (
+              <div className="product-actions">
+                {canEditProduct(product.sellerId) && (
+                  <button onClick={handleEdit} className="edit-button" title="Editar producto">
+                    <FaEdit />
+                  </button>
+                )}
+                {canDeleteProduct(product.sellerId) && (
+                  <button 
+                    onClick={handleDelete} 
+                    className="delete-button" 
+                    title="Eliminar producto"
+                    disabled={isDeleting}
+                  >
+                    <FaTrash />
+                  </button>
+                )}
+              </div>
+            )}
 
             {product.description && (
               <div className="product-description">
@@ -197,29 +292,16 @@ function ProductsView() {
                 </p>
               </div>
             )}
-
-            {product.stock > 0 && (
-              <div className="add-to-cart-section">
-                <div className="quantity-selector">
-                  <label htmlFor="quantity">Cantidad:</label>
-                  <input
-                    type="number"
-                    id="quantity"
-                    min="1"
-                    max={product.stock}
-                    value={quantity}
-                    onChange={handleQuantityChange}
-                  />
-                </div>
-
-                <button onClick={handleAddToCart} className="add-to-cart-btn">
-                  Agregar al carrito
-                </button>
-              </div>
-            )}
           </div>
         </div>
       </div>
+      
+      {showAuthAlert && (
+        <AuthAlert 
+          onClose={() => setShowAuthAlert(false)}
+          message="Necesitas iniciar sesión para realizar esta acción"
+        />
+      )}
     </>
   );
 }
