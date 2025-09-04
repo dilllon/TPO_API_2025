@@ -259,13 +259,13 @@ export const searchProducts = (searchTerm) => {
 
 // Función para calcular el precio con descuento
 export const calculateDiscountedPrice = (product) => {
-  if (!product.discount) return product.price;
+  if (!hasDiscount(product)) return product.price;
   return Math.round(product.price * (1 - product.discount / 100));
 };
 
 // Función para verificar si un producto tiene descuento
 export const hasDiscount = (product) => {
-  return product.discount && product.discount > 0;
+  return product.discount && typeof product.discount === 'number' && product.discount > 0;
 };
 
 // Funcion para actualizar el producto en nuestro modelo de datos

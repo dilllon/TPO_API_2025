@@ -25,6 +25,15 @@ function ProductCard({ product, onClick, variant = "default" }) {
   const productHasDiscount = hasDiscount(product);
   const discountedPrice = calculateDiscountedPrice(product);
 
+  // Debug: agregar logs para identificar el problema
+  console.log('ProductCard Debug:', {
+    productId: product.id,
+    productTitle: product.title,
+    discount: product.discount,
+    discountType: typeof product.discount,
+    hasDiscount: productHasDiscount
+  });
+
   return (
     <div className={`product-card ${variant}`}>
       {productHasDiscount && (

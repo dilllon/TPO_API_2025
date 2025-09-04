@@ -21,7 +21,7 @@ function EditProductForm() {
             title: p.title,
             price: p.price,
             stock: p.stock,
-            discount: p.discount ?? 0,
+            discount: p.discount && p.discount > 0 ? p.discount : undefined,
             description: p.description,
             brand: p.brand,
             category: p.category,
@@ -31,10 +31,23 @@ function EditProductForm() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setForm(prev => ({
-            ...prev,
-            [name]: name === 'price' || name === 'stock' || name === 'discount' ? Number(value) : value
-        }));
+        setForm(prev => {
+            let processedValue = value;
+            
+            if (name === 'price' || name === 'stock') {
+                processedValue = Number(value);
+            } else if (name === 'discount') {
+                // Manejo especial para descuento
+                const numValue = Number(value);
+                // Si es 0 o valor vacío, no asignar la propiedad discount
+                processedValue = numValue > 0 ? numValue : undefined;
+            }
+            
+            return {
+                ...prev,
+                [name]: processedValue
+            };
+        });
     };
 
     const handleSubmit = (e) => {
@@ -83,7 +96,15 @@ function EditProductForm() {
                 <div className="form-group">
                     <label>
                         Descuento (%)
-                        <input type="number" name="discount" value={form.discount} onChange={handleChange} />
+                        <input 
+                            type="number" 
+                            name="discount" 
+                            value={form.discount || ''} 
+                            onChange={handleChange}
+                            placeholder="0 para sin descuento"
+                            min="0"
+                            max="100"
+                        />
                     </label>
                 </div>
                 <div className="form-group">
