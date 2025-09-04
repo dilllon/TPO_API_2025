@@ -1,22 +1,18 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
-// import crearCuentaImg from '../../../assets/images/crearusuarioimg.jpg';
-// import icono from '../../../assets/images/icono.jpg';
+import { Link } from 'react-router-dom';
 import { getCategoryNames } from '../../../constants/products';
-import Logo from '../../atoms/Logo/Logo.jsx';
+import { useAuth } from '../../../context/AuthContext.jsx';
 import Buscador from '../../atoms/Buscador/Buscador.jsx';
-import Profile from '../../atoms/Profile/Profile.jsx';
 import Dropdown from '../../atoms/Dropdown/Dropdown.jsx';
 import InfoDropdown from '../../atoms/InfoDropdown/InfoDropdown';
+import Logo from '../../atoms/Logo/Logo.jsx';
+import Profile from '../../atoms/Profile/Profile.jsx';
 import styles from './NavBar.module.css';
-import { useSelector } from "react-redux";
 
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
-
-  // Cambiar de true a false dependiendo del NavBar que se quiere ver
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { user, isAuthenticated, isSeller, isAdmin, logout } = useAuth();
   // Datos de muestra para las notificaciones. En una app real, vendrían de un estado global o una API.
   const mockNotifications = [
     {
@@ -110,14 +106,16 @@ function NavBar() {
                   <span>Mis compras</span>
                 </Link>
               </li>
-              {isLoggedIn && (<li>
-                <Link
-                  to="/products/add"
-                  title='Agregar un nuevo producto'
-                >
-                  Agregar Producto
-                </Link>
-              </li>)}
+              {(isSeller() || isAdmin()) && (
+                <li>
+                  <Link
+                    to="/products/add"
+                    title='Agregar un nuevo producto'
+                  >
+                    Agregar Producto
+                  </Link>
+                </li>
+              )}
             </ul>
             <ul className={styles['nav-list-right']}>
               <li>
@@ -144,10 +142,11 @@ function NavBar() {
                 </Link>
               </li>
               <li className={styles['profile']}>
-                {isLoggedIn ? (
+                {isAuthenticated ? (
                   <Profile
-                    userName={mockUser.userName}
-                    imageUrl={mockUser.imageUrl}
+                    userName={user?.username || 'Usuario'}
+                    imageUrl="https://picsum.photos/50"
+                    onLogout={logout}
                   />
                 ) : (
                   <div className={styles.authButtonsContainer}>

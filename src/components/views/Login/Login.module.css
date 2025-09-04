@@ -107,6 +107,25 @@ input:focus {
   box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2); /* Sombra de foco naranja */
 }
 
+/* Error message styles */
+.error-message {
+  background-color: #fee2e2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.error-message::before {
+  content: "⚠️";
+  font-size: 1rem;
+}
+
 /* Meta row (remember + forgot) */
 .form-row-meta {
   display: flex;

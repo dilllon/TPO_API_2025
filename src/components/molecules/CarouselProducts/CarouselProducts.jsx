@@ -1,7 +1,7 @@
 // CarouselProducts.jsx
 import useEmblaCarousel from "embla-carousel-react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useCallback, useEffect, useState } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import "./CarouselProducts.css";
 
 export default function CarouselProducts({ products, renderCard }) {

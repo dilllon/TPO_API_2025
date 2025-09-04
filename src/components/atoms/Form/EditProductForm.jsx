@@ -1,33 +1,48 @@
-import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getProductById, updateProduct } from "../../../constants/products";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
+import { useProduct, useProducts } from "../../../hooks/useProducts";
 import './EditProductForm.css';
 
 function EditProductForm() {
     const { id } = useParams();
     const navigate = useNavigate();
+    const { canEditProduct } = useAuth();
+    const { product, loading: productLoading, error: productError } = useProduct(id);
+    const { updateProduct } = useProducts();
     const [form, setForm] = useState(null);
     const [error, setError] = useState("");
+    const [updating, setUpdating] = useState(false);
 
     useEffect(() => {
-        const p = getProductById(id);
-        if (!p) {
-            setError("Producto no encontrado");
+        if (productError) {
+            setError("Error al cargar el producto");
+            return;
+        }
+
+        if (!product) return;
+
+        // Verificar permisos para editar este producto
+        if (!canEditProduct(product.sellerId || product.sellerUsername)) {
+            setError("No tienes permisos para editar este producto");
             return;
         }
 
         setForm({
-            id: p.id,
-            title: p.title,
-            price: p.price,
-            stock: p.stock,
-            discount: p.discount && p.discount > 0 ? p.discount : undefined,
-            description: p.description,
-            brand: p.brand,
-            category: p.category,
-            image: p.image
+            // Preservar todos los campos del producto original
+            ...product,
+            // Solo permitir editar estos campos específicos
+            id: product.id,
+            title: product.title,
+            price: product.price,
+            stock: product.stock,
+            discount: product.discount && product.discount > 0 ? product.discount : undefined,
+            description: product.description,
+            brand: product.brand,
+            category: product.category,
+            image: product.image
         });
-    }, [id]);
+    }, [product, productError, canEditProduct]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -50,18 +65,35 @@ function EditProductForm() {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!form.title || !form.price) return setError("Titulo y precio son obligatorios.");
 
-        const ok = updateProduct(form);
-        if (!ok) return setError("No se pudo actualizar el producto");
+        setUpdating(true);
+        setError("");
 
-        navigate(-1)
+        // Agregar timestamp de actualización
+        const updatedData = {
+            ...form,
+            updatedAt: new Date().toISOString()
+        };
+
+        const result = await updateProduct(form.id, updatedData);
+        
+        if (result.success) {
+            // Forzar una recarga de productos en el navegador para sincronizar
+            window.dispatchEvent(new Event('products-updated'));
+            navigate(-1);
+        } else {
+            setError(result.error || "No se pudo actualizar el producto");
+        }
+        
+        setUpdating(false);
     };
 
+    if (productLoading) return <p>Cargando producto...</p>
     if (error) return <p style={{ color: "crimson" }}>{error}</p>;
-    if (!form) return <p>Cargando...</p>
+    if (!form) return <p>Cargando formulario...</p>
 
     return (
         <div className="edit-product-form">
@@ -126,8 +158,12 @@ function EditProductForm() {
                     </label>
                 </div>
                 <div style={{ display: "flex", gap: 12, marginTop: 12 }}>
-                    <button type="submit" className="submit-button">Guardar cambios</button>
-                    <button type="button" className="cancel-btn" onClick={() => navigate(-1)}>Cancelar</button>
+                    <button type="submit" className="submit-button" disabled={updating}>
+                        {updating ? 'Guardando...' : 'Guardar cambios'}
+                    </button>
+                    <button type="button" className="cancel-btn" onClick={() => navigate(-1)} disabled={updating}>
+                        Cancelar
+                    </button>
                 </div>
             </form>
         </div>

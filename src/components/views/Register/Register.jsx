@@ -1,18 +1,17 @@
-import { useState } from 'react';
-import { useNavigate, Link } from "react-router-dom";
-// import { useDispatch } from 'react-redux';
-// import { registerUser } from '@/store/slices/authSlice';
 import Button from '@/components/atoms/Button/Button.jsx';
+import { useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from '../../../context/AuthContext.jsx';
 import styles from './Register.module.css';
 
 function Register() {
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const { register, error, clearError } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
     username: '',
     email: '',
+    phone: '',
     address: '',
     password: '',
     confirm: '',
@@ -26,25 +25,47 @@ function Register() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    clearError();
+    
     // Validar que las contraseñas coincidan
     if (formData.password !== formData.confirm) {
       alert('Las contraseñas no coinciden.');
       return;
     }
-    for (const key in formData) {
-          localStorage.setItem(key, formData[key]);
-          }
 
-    // Despachamos la acción a Redux para guardar los datos del usuario.
-    // dispatch(registerUser(formData));
+    // Validar campos requeridos
+    if (!formData.username || !formData.email || !formData.password) {
+      alert('Por favor, completa todos los campos requeridos.');
+      return;
+    }
 
-    console.log(
-      'Usuario registrado y guardado en el estado de Redux:',
-      formData,
-    );
-    navigate("/r");
+    setIsLoading(true);
+
+    // Preparar datos para el registro
+    const userData = {
+      username: formData.username,
+      email: formData.email,
+      phone: formData.phone || '',
+      password: formData.password,
+      address: {
+        street: formData.address || '',
+        city: '',
+        province: '',
+        zipCode: '',
+        country: 'Argentina'
+      }
+    };
+
+    const result = await register(userData);
+    
+    if (result.success) {
+      console.log('Usuario registrado exitosamente:', result.user);
+      navigate('/');
+    }
+    
+    setIsLoading(false);
   };
 
   return (
@@ -64,33 +85,11 @@ function Register() {
           <h1>Crear Cuenta</h1>
 
           <form onSubmit={handleSubmit}>
-            {/* Nombre / Apellido */}
-            <div className={styles['grid']}>
-              <div>
-                <label htmlFor="firstName">Nombre</label>
-                <input
-                  id="firstName"
-                  type="text"
-                  placeholder="Facundo"
-                  autoComplete="off"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  required
-                />
+            {error && (
+              <div className={styles['error-message']}>
+                {error}
               </div>
-              <div>
-                <label htmlFor="lastName">Apellido</label>
-                <input
-                  id="lastName"
-                  type="text"
-                  placeholder="Tassone"
-                  autoComplete="off"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            </div>
+            )}
 
             {/* Username */}
             <div className={styles['row']}>
@@ -104,11 +103,12 @@ function Register() {
                   value={formData.username}
                   onChange={handleChange}
                   required
+                  disabled={isLoading}
                 />
               </div>
             </div>
 
-            {/* Email / Address */}
+            {/* Email / Phone */}
             <div className={styles['grid']}>
               <div>
                 <label htmlFor="email">Email</label>
@@ -119,22 +119,39 @@ function Register() {
                   value={formData.email}
                   onChange={handleChange}
                   required
+                  disabled={isLoading}
                 />
               </div>
               <div>
-                <label htmlFor="address">Dirección</label>
+                <label htmlFor="phone">Teléfono (opcional)</label>
+                <input
+                  id="phone"
+                  type="tel"
+                  placeholder="+54 11 1234-5678"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                />
+              </div>
+            </div>
+
+            {/* Address */}
+            <div className={styles['row']}>
+              <div>
+                <label htmlFor="address">Dirección (opcional)</label>
                 <input
                   id="address"
                   type="text"
                   placeholder="Av. Falsa 123"
                   value={formData.address}
                   onChange={handleChange}
+                  disabled={isLoading}
                 />
               </div>
             </div>
 
             {/* Passwords */}
-            <div className={styles['row']}>
+            <div className={styles['grid']}>
               <div>
                 <label htmlFor="password">Crear Contraseña</label>
                 <input
@@ -145,26 +162,35 @@ function Register() {
                   value={formData.password}
                   onChange={handleChange}
                   required
+                  disabled={isLoading}
                 />
               </div>
               <div>
-                <label htmlFor="confirm">Confirmar Contraseña</label>
+                <label htmlFor="confirmPassword">Confirmar Contraseña</label>
                 <input
-                  id="confirm"
+                  id="confirmPassword"
                   type="password"
                   placeholder="••••••••"
                   autoComplete="off"
-                  value={formData.confirm}
+                  value={formData.confirmPassword}
                   onChange={handleChange}
                   required
+                  disabled={isLoading}
                 />
               </div>
             </div>
 
+            {/* Error message */}
+            {error && (
+              <div className={styles['error-message']}>
+                {error}
+              </div>
+            )}
+
             {/* Botones */}
             <div className={styles['actions']}>
-              <Button type="submit" size="m">
-                Crear Cuenta
+              <Button type="submit" size="m" disabled={isLoading}>
+                {isLoading ? 'Creando cuenta...' : 'Crear Cuenta'}
               </Button>
             </div>
           </form>

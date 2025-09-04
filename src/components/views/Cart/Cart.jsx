@@ -1,18 +1,16 @@
 import ProductCardAdded from '@/components/molecules/ProductCard/ProductCardAdded';
 import Header from '@/components/organisms/Header/Header';
-import {
-  getProductById,
-  calculateDiscountedPrice,
-  hasDiscount,
-} from '../../../constants/products';
 import { useEffect, useState } from 'react';
+import { calculateDiscountedPrice, hasDiscount } from '../../../constants/products';
+import { useProducts } from '../../../hooks/useProducts';
 import './Cart.css';
 
 function Cart() {
   const [removing, setRemoving] = useState(new Set());
   const ANIM_MS = 220; // misma duración que en el CSS
   const [showPopup, setShowPopup] = useState(false);
-  const [products, setProducts] = useState(() => {
+  const { products: allProducts, loading, getProductById } = useProducts();
+  const [cartProducts, setCartProducts] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem('cartItems') || '[]');
     } catch {
@@ -24,19 +22,20 @@ function Cart() {
   useEffect(() => {
     const onStorage = (e) => {
       if (e.key === 'cartItems') {
-        setProducts(JSON.parse(e.newValue || '[]'));
+        setCartProducts(JSON.parse(e.newValue || '[]'));
       }
     };
     window.addEventListener('storage', onStorage);
     return () => window.removeEventListener('storage', onStorage);
   }, []);
 
-  const totalItems = products.reduce((a, p) => a + (p.qty || 1), 0);
-  const totalPrice = products.reduce((a, p) => {
+  const totalItems = cartProducts.reduce((a, p) => a + (p.qty || 1), 0);
+  const totalPrice = cartProducts.reduce((a, p) => {
     const product = getProductById(p.id);
+    if (!product) return a;
     const finalPrice = hasDiscount(product)
       ? calculateDiscountedPrice(product)
-      : p.price || 0;
+      : product.price || 0;
     return a + finalPrice * (p.qty || 1);
   }, 0);
 
@@ -59,7 +58,7 @@ function Cart() {
           newValue: JSON.stringify(cart),
         }),
       );
-      setProducts([...cart]);
+      setCartProducts([...cart]);
 
       // limpiar flag
       setRemoving((prev) => {
@@ -84,12 +83,15 @@ function Cart() {
         newValue: JSON.stringify(cart),
       }),
     );
-    setProducts([...cart]);
+    setCartProducts([...cart]);
   };
 
   const handleConfirmPurchase = () => {
     // Verificar stock de todos los productos
-    const hasStock = products.every((p) => p.qty <= p.stock);
+    const hasStock = cartProducts.every((p) => {
+      const product = getProductById(p.id);
+      return product && p.qty <= product.stock;
+    });
 
     if (!hasStock) {
       alert('Algunos productos no tienen stock suficiente');
@@ -106,7 +108,7 @@ function Cart() {
         newValue: '[]',
       }),
     );
-    setProducts([]);
+    setCartProducts([]);
     setShowPopup(false);
   };
 
@@ -114,6 +116,13 @@ function Cart() {
     <>
       <Header />
       <section className="cart-container">
+        {/* Mostrar indicador de carga mientras se cargan los productos */}
+        {loading && (
+          <div className="loading-indicator" style={{ textAlign: 'center', padding: '2rem' }}>
+            <p>Cargando productos...</p>
+          </div>
+        )}
+
         <div className={'cart-message-box ' + (totalItems <= 0 ? 'show' : '')}>
           <div className="cart-message">
             <h2 className="title">Tu carrito de compras está vacío :c</h2>
@@ -137,9 +146,12 @@ function Cart() {
           </div>
 
           <div className="cart-items">
-            {products.map((p, index) => {
+            {cartProducts.map((p, index) => {
               const fullProduct = getProductById(p.id);
               const isRemoving = removing.has(p.id); // ✅ per-item
+
+              // Si el producto no existe en la API, no lo mostramos
+              if (!fullProduct) return null;
 
               return (
                 <div
@@ -160,8 +172,10 @@ function Cart() {
 
           <div className="cart-summary">
             <h3>Resumen del Carrito</h3>
-            {products.map((p) => {
+            {cartProducts.map((p) => {
               const fullProduct = getProductById(p.id);
+              if (!fullProduct) return null;
+              
               const finalPrice = hasDiscount(fullProduct)
                 ? calculateDiscountedPrice(fullProduct)
                 : fullProduct.price;
@@ -170,7 +184,7 @@ function Cart() {
               return (
                 <div key={p.id} className="cart-summary-item">
                   <span>
-                    {fullProduct.title} (x{p.qty || 1})
+                    {fullProduct.name || fullProduct.title} (x{p.qty || 1})
                   </span>
                   <span>
                     ${subtotal}
@@ -201,14 +215,16 @@ function Cart() {
                   <p>
                     <strong>Resumen de tu compra:</strong>
                   </p>
-                  {products.map((p, index) => {
+                  {cartProducts.map((p, index) => {
                     const fullProduct = getProductById(p.id);
+                    if (!fullProduct) return null;
+                    
                     const finalPrice = hasDiscount(fullProduct)
                       ? calculateDiscountedPrice(fullProduct)
-                      : p.price;
+                      : fullProduct.price;
                     return (
                       <div key={index} className="purchase-item">
-                        <span>{p.title}</span>
+                        <span>{fullProduct.name || fullProduct.title}</span>
                         <span>x{p.qty}</span>
                         <span>${finalPrice * p.qty}</span>
                         {hasDiscount(fullProduct) && (

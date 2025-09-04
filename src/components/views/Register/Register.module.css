@@ -80,6 +80,7 @@
 
 .card input[type="text"],
 .card input[type="email"],
+.card input[type="tel"],
 .card input[type="password"] {
   width: 100%;
   height: 42px;

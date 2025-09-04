@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './Profile.module.css';
-import { useDispatch } from "react-redux";
-import { logout } from "../../../store/slices/authSlice"; // ajustá la ruta
 
 /**
  * Componente de perfil de usuario para la barra de navegación.
@@ -11,11 +9,11 @@ import { logout } from "../../../store/slices/authSlice"; // ajustá la ruta
  * @param {object} props - Las propiedades del componente.
  * @param {string} props.userName - El nombre del usuario a mostrar.
  * @param {string} props.imageUrl - La URL de la imagen de perfil del usuario.
+ * @param {function} props.onLogout - Función para manejar el logout.
  */
-const Profile = ({ userName, imageUrl }) => {
+const Profile = ({ userName, imageUrl, onLogout }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-    const dispatch = useDispatch()
 
   const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
 
@@ -132,7 +130,7 @@ const Profile = ({ userName, imageUrl }) => {
             </a>
           </li>
           <li className={styles.logoutItem}>
-            <button>
+            <button onClick={onLogout}>
               <svg
                 className={styles.dropdownIcon}
                 xmlns="http://www.w3.org/2000/svg"
@@ -151,8 +149,7 @@ const Profile = ({ userName, imageUrl }) => {
                   d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"
                 />
               </svg>
-              
-              <span onClick={() => dispatch(logout())}>Cerrar sesión</span>
+              <span>Cerrar sesión</span>
             </button>
           </li>
         </ul>
@@ -164,6 +161,7 @@ const Profile = ({ userName, imageUrl }) => {
 Profile.propTypes = {
   userName: PropTypes.string.isRequired,
   imageUrl: PropTypes.string.isRequired,
+  onLogout: PropTypes.func.isRequired,
 };
 
 export default Profile;

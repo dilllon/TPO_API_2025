@@ -1,33 +1,45 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
 import Button from '@/components/atoms/Button/Button.jsx';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext.jsx';
 import styles from './Login.module.css';
-
-import { useDispatch } from "react-redux";              // 👈 importás useDispatch
-import { login } from "@/store/slices/authSlice";              // 👈 importás la acción
 
 function Login() {
   const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const { login, error, clearError } = useAuth();
 
-const handleSubmit = (e) => {
-  e.preventDefault();
-  if (emailOrUsername && password) {
-    // Determinar si es email o username
-    const isEmail = emailOrUsername.includes('@');
-    const userName = isEmail ? emailOrUsername.split("@")[0] : emailOrUsername;
-    
-    // actualizar Redux
-    dispatch(login({
-      userName: userName,
-      imageUrl: "https://picsum.photos/50", // o la que tengas
-    }));
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (emailOrUsername && password) {
+      setIsLoading(true);
+      clearError();
 
-    navigate("/");
-  }
-};
+      // Determinar si es email o username - convertir username a email si es necesario
+      let email = emailOrUsername;
+      if (!emailOrUsername.includes('@')) {
+        // Si no contiene @, asumir que es username y buscar el email correspondiente
+        // Para esto usaremos las credenciales de prueba conocidas
+        const userMap = {
+          'comprador': 'comprador@gmail.com',
+          'vendedor': 'vendedor@gmail.com', 
+          'admin': 'admin@gmail.com'
+        };
+        email = userMap[emailOrUsername] || emailOrUsername;
+      }
+
+      const result = await login({ email, password });
+      
+      if (result.success) {
+        // Navegar según el rol del usuario
+        navigate('/');
+      }
+      
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className={styles['auth']}>
@@ -49,6 +61,12 @@ const handleSubmit = (e) => {
         <h1>Iniciar sesión</h1>
 
         <form className={styles['form']} onSubmit={handleSubmit}>
+          {error && (
+            <div className={styles['error-message']}>
+              {error}
+            </div>
+          )}
+          
           <div className={styles['field']}>
             <label htmlFor="emailOrUsername">Email o Nombre de Usuario</label>
             <input
@@ -59,6 +77,7 @@ const handleSubmit = (e) => {
               value={emailOrUsername}
               onChange={(e) => setEmailOrUsername(e.target.value)}
               required
+              disabled={isLoading}
             />
           </div>
 
@@ -71,6 +90,7 @@ const handleSubmit = (e) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={isLoading}
             />
           </div>
 
@@ -80,8 +100,8 @@ const handleSubmit = (e) => {
             </a>
           </div>
 
-          <Button type="submit" size="m">
-            Iniciar sesion
+          <Button type="submit" size="m" disabled={isLoading}>
+            {isLoading ? 'Iniciando sesión...' : 'Iniciar sesión'}
           </Button>
         </form>
 

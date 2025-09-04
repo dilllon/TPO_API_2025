@@ -2,28 +2,25 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   calculateDiscountedPrice,
-  getProductById,
   hasDiscount,
 } from '../../../constants/products';
+import { useProduct } from '../../../hooks/useProducts';
 import Header from '../../organisms/Header/Header';
 import './ProductsView.css';
 
 function ProductsView() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [product, setProduct] = useState(null);
+  const { product, loading, error } = useProduct(id);
   const [quantity, setQuantity] = useState(1);
-  const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
 
   useEffect(() => {
-    // Simular carga de datos del producto
-    setTimeout(() => {
-      const foundProduct = getProductById(id);
-      setProduct(foundProduct);
-      setLoading(false);
-    }, 500);
-  }, [id]);
+    // Reset selected image when product changes
+    if (product) {
+      setSelectedImage(0);
+    }
+  }, [product]);
 
   const handleAddToCart = () => {
     // Lógica para agregar al carrito (similar a la del proyecto)
@@ -86,7 +83,7 @@ function ProductsView() {
     );
   }
 
-  if (!product) {
+  if (error || !product) {
     return (
       <>
         <Header />

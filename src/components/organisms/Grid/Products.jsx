@@ -1,8 +1,8 @@
-import ProductCard from "@/components/molecules/ProductCard/ProductCard";
-import { useMemo } from "react";
-import { getProductsGroupedByCategory } from "../../../constants/products";
-import "./Products.css";
 import CarouselProducts from "@/components/molecules/CarouselProducts/CarouselProducts";
+import ProductCard from "@/components/molecules/ProductCard/ProductCard";
+import { useEffect, useMemo } from "react";
+import { useProducts } from "../../../hooks/useProducts";
+import "./Products.css";
 
 // Ordena por título (ES-AR), devolviendo una COPIA
 function orderProducts(products) {
@@ -15,14 +15,58 @@ function orderProducts(products) {
 }
 
 function ProductsGrid({ onAddToCart }) {
-  // Separa por categoría y ordena los productos de cada categoría
+  const { products, loading, error, loadProducts } = useProducts();
+  
+  // Escuchar eventos de actualización de productos
+  useEffect(() => {
+    const handleProductsUpdate = () => {
+      loadProducts();
+    };
+    
+    window.addEventListener('products-updated', handleProductsUpdate);
+    
+    return () => {
+      window.removeEventListener('products-updated', handleProductsUpdate);
+    };
+  }, [loadProducts]);
+  
+  // Agrupar productos por categoría usando los datos de la API
   const ordered = useMemo(() => {
-    const categories = getProductsGroupedByCategory();
-    return categories.map((cat) => ({
-      ...cat,
-      products: orderProducts(cat.products),
+    if (!products.length) return [];
+    
+    // Agrupar por categoría
+    const groupedByCategory = products.reduce((acc, product) => {
+      const category = product.category || 'Sin categoría';
+      if (!acc[category]) {
+        acc[category] = [];
+      }
+      acc[category].push(product);
+      return acc;
+    }, {});
+    
+    // Convertir a formato esperado y ordenar productos
+    return Object.entries(groupedByCategory).map(([categoryName, categoryProducts]) => ({
+      categoryName,
+      products: orderProducts(categoryProducts),
     }));
-  }, []);
+  }, [products]);
+
+  if (loading) {
+    return (
+      <div className="products-loading">
+        <div className="spinner"></div>
+        <p>Cargando productos...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="products-error">
+        <p>Error al cargar productos: {error}</p>
+      </div>
+    );
+  }
 
   return (
     <>
