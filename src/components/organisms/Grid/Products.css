@@ -18,11 +18,17 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
+/* Estilos para las secciones de productos */
+.products-section {
+  margin-bottom: 4rem; /* Espacio entre secciones para evitar solapamiento de botones */
+  position: relative;
+}
+
 /* Estilos para los títulos de categorías */
 main h2:not(.welcome-message h2) {
   color: var(--text-dark, #2c3e50);
   text-align: center;
-  margin: 2rem 0 0.5rem;
+  margin: 2rem 0 1.5rem; /* Mayor margen inferior para dar espacio al carousel */
   font-weight: 600;
   text-shadow: none;
 }
