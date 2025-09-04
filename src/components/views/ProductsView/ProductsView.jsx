@@ -17,7 +17,7 @@ function ProductsView() {
 
   useEffect(() => {
     // Reset selected image when product changes
-    if (product) {
+    if (product && product.images && product.images.length > 0) {
       setSelectedImage(0);
     }
   }, [product]);
@@ -112,13 +112,13 @@ function ProductsView() {
           <div className="product-images-section">
             <div className="main-image-container">
               <img
-                src={product.images[selectedImage]}
+                src={product.images && product.images.length > 0 ? product.images[selectedImage] : product.image}
                 alt={product.title}
                 className="main-product-image"
               />
             </div>
 
-            {product.images.length > 1 && (
+            {product.images && product.images.length > 1 && (
               <div className="thumbnail-images">
                 {product.images.map((img, index) => (
                   <img
@@ -141,8 +141,8 @@ function ProductsView() {
             )}
 
             <div className="product-header">
-              <span className="product-category">{product.category}</span>
-              <span className="product-brand">{product.brand}</span>
+              {product.category && <span className="product-category">{product.category}</span>}
+              {product.brand && <span className="product-brand">{product.brand}</span>}
             </div>
 
             <h1 className="product-title">{product.title}</h1>
@@ -172,25 +172,31 @@ function ProductsView() {
               </span>
             </div>
 
-            <div className="product-description">
-              <h3>Descripción</h3>
-              <p>{product.description}</p>
-            </div>
+            {product.description && (
+              <div className="product-description">
+                <h3>Descripción</h3>
+                <p>{product.description}</p>
+              </div>
+            )}
 
-            <div className="product-features">
-              <h3>Características principales</h3>
-              <ul>
-                {product.features.map((feature, index) => (
-                  <li key={index}>{feature}</li>
-                ))}
-              </ul>
-            </div>
+            {product.features && product.features.length > 0 && (
+              <div className="product-features">
+                <h3>Características principales</h3>
+                <ul>
+                  {product.features.map((feature, index) => (
+                    <li key={index}>{feature}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-            <div className="product-warranty">
-              <p>
-                <strong>Garantía:</strong> {product.warranty}
-              </p>
-            </div>
+            {product.warranty && (
+              <div className="product-warranty">
+                <p>
+                  <strong>Garantía:</strong> {product.warranty}
+                </p>
+              </div>
+            )}
 
             {product.stock > 0 && (
               <div className="add-to-cart-section">
