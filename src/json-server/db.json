@@ -169,11 +169,13 @@
       "title": "Monitor 24 pulgadas",
       "price": 159999,
       "stock": 10,
-      "discount": 99,
       "description": "Monitor LED de 24 pulgadas con resolución Full HD y frecuencia de actualización de 144Hz. Ideal para gaming y trabajo profesional con colores vibrantes y nitidez excepcional.",
       "brand": "ViewTech",
       "category": "Electro",
-      "image": "/src/assets/images/productos/pantalla.webp"
+      "image": "/src/assets/images/productos/pantalla.webp",
+      "sellerId": "2",
+      "sellerUsername": "vendedor",
+      "updatedAt": "2025-09-04T16:35:54.389Z"
     },
     {
       "id": "cat1-3",

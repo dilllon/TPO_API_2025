@@ -163,29 +163,23 @@ export const AuthProvider = ({ children }) => {
   const canEditProduct = (productSellerId) => {
     console.log('canEditProduct Debug:', {
       isSeller: isSeller(),
-      userUsername: state.user?.username,
       userId: state.user?.id,
       userRole: state.user?.role,
       productSellerId,
-      match1: state.user?.username === productSellerId,
-      match2: state.user?.id === productSellerId
+      match: state.user?.id === productSellerId
     });
     
-    // Comparar tanto con username como con id para máxima compatibilidad
-    return isSeller() && (
-      state.user?.username === productSellerId || 
-      state.user?.id === productSellerId
-    );
+    // Comparar solo con el ID del usuario
+    return isSeller() && state.user?.id === productSellerId;
   };
   
   // Vendedores pueden eliminar sus propios productos, admins pueden eliminar cualquier producto
   const canDeleteProduct = (productSellerId) => {
     if (isAdmin()) return true;
     
-    // Comparar tanto con username como con id para máxima compatibilidad
+    // Comparar solo con el ID del usuario
     if (isSeller()) {
-      return state.user?.username === productSellerId || 
-             state.user?.id === productSellerId;
+      return state.user?.id === productSellerId;
     }
     
     return false;

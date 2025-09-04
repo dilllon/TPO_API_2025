@@ -34,11 +34,8 @@ function ProductCard({ product, onClick, variant = "default", onProductDeleted }
   const handleEdit = (e) => {
     e.stopPropagation();
     
-    // Determinar el identificador del vendedor (priorizar username)
-    const sellerIdentifier = product.sellerUsername || product.sellerId;
-    
     // Verificar permisos para editar
-    if (!canEditProduct(sellerIdentifier)) {
+    if (!canEditProduct(product.sellerId)) {
       setShowAuthAlert(true);
       return;
     }
@@ -49,11 +46,8 @@ function ProductCard({ product, onClick, variant = "default", onProductDeleted }
   const handleDelete = async (e) => {
     e.stopPropagation();
     
-    // Determinar el identificador del vendedor (priorizar username)
-    const sellerIdentifier = product.sellerUsername || product.sellerId;
-    
     // Verificar permisos para eliminar
-    if (!canDeleteProduct(sellerIdentifier)) {
+    if (!canDeleteProduct(product.sellerId)) {
       setShowAuthAlert(true);
       return;
     }
@@ -84,19 +78,15 @@ function ProductCard({ product, onClick, variant = "default", onProductDeleted }
   const productHasDiscount = hasDiscount(product);
   const discountedPrice = calculateDiscountedPrice(product);
   
-  // Determinar el identificador del vendedor para los botones
-  const sellerIdentifier = product.sellerUsername || product.sellerId;
-  
   // Debug: Log para diagnosticar el problema
   console.log('ProductCard Debug:', {
     productId: product.id,
     productTitle: product.title,
     sellerId: product.sellerId,
     sellerUsername: product.sellerUsername,
-    sellerIdentifier,
     isAuthenticated,
-    canEdit: canEditProduct(sellerIdentifier),
-    canDelete: canDeleteProduct(sellerIdentifier)
+    canEdit: canEditProduct(product.sellerId),
+    canDelete: canDeleteProduct(product.sellerId)
   });
 
   return (
@@ -130,16 +120,16 @@ function ProductCard({ product, onClick, variant = "default", onProductDeleted }
           {console.log('Render buttons check:', {
             productId: product.id,
             isAuthenticated,
-            canEditResult: canEditProduct(sellerIdentifier),
-            canDeleteResult: canDeleteProduct(sellerIdentifier),
-            sellerIdentifier
+            canEditResult: canEditProduct(product.sellerId),
+            canDeleteResult: canDeleteProduct(product.sellerId),
+            sellerId: product.sellerId
           })}
-          {(isAuthenticated && canEditProduct(sellerIdentifier)) && (
+          {(isAuthenticated && canEditProduct(product.sellerId)) && (
             <button onClick={handleEdit} className='edit-button' title="Editar producto" style={{backgroundColor: '#f39c12', color: 'white'}}>
               <FaEdit />
             </button>
           )}
-          {(isAuthenticated && canDeleteProduct(sellerIdentifier)) && (
+          {(isAuthenticated && canDeleteProduct(product.sellerId)) && (
             <button 
               onClick={handleDelete} 
               className='delete-button' 

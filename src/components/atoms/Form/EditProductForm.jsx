@@ -23,7 +23,7 @@ function EditProductForm() {
         if (!product) return;
 
         // Verificar permisos para editar este producto
-        if (!canEditProduct(product.sellerId || product.sellerUsername)) {
+        if (!canEditProduct(product.sellerId)) {
             setError("No tienes permisos para editar este producto");
             return;
         }
