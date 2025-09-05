@@ -2,6 +2,8 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 
 const UserContext = createContext(null);
 
+const roleToEdit = ["admin", "seller"]
+
 export function UserProvider({ children }) {
   const [usersData, setUsersData] = useState(null);
   const [userData, setUserData] = useState(null);
@@ -52,12 +54,16 @@ export function UserProvider({ children }) {
     return userData !== null;
   };
 
+  const canEdit = () => {
+    return userData && roleToEdit.includes(userData.role);
+  }
+
   const logout = () => {
     setUserData(null);
   };
 
   return (
-    <UserContext.Provider value={{ userData, isLoading, error, isAuthenticated, login, logout }}>
+    <UserContext.Provider value={{ userData, isLoading, error, isAuthenticated, login, logout, canEdit }}>
       {children}
     </UserContext.Provider>
   );

@@ -10,6 +10,7 @@ import { useUser } from '@/context/UserContext';
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const { isLoading, login } = useUser();
@@ -27,7 +28,11 @@ function Login() {
       navigate("/");
     } else {
       // Manejar error de login
-      console.log("Error de login");
+      setShowError(true);
+      // Ocultar el mensaje de error después de 3 segundos
+      setTimeout(() => {
+        setShowError(false);
+      }, 3000);
     }
   };
 
@@ -91,6 +96,15 @@ function Login() {
           ©Copyright 2030. AmaZone LLC.
         </footer>
       </main>
+
+      {/* Popup de error */}
+      {showError && (
+        <div className={styles['error-popup']}>
+          <div className={styles['error-content']}>
+            <p>Email o contraseña incorrectos</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

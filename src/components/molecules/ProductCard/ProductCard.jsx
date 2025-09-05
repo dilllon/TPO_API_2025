@@ -2,10 +2,12 @@ import { useNavigate } from 'react-router-dom';
 import { useProducts } from '@/context/ProductContext';
 import './ProductCard.css';
 import { FaEdit } from 'react-icons/fa';
+import { useUser } from '@/context/UserContext';
 
 function ProductCard({ product, onClick, variant = "default" }) {
   const { calculateDiscountedPrice, hasDiscount } = useProducts();
   const navigate = useNavigate();
+  const { canEdit } = useUser();
 
   const handleProductClick = () => {
     navigate(`/products/${product.id}`);
@@ -53,7 +55,7 @@ function ProductCard({ product, onClick, variant = "default" }) {
       </div>
       <div className='product-btns'>
         <button onClick={onAddToCart}>Agregar al carrito</button>
-        <button onClick={handleEdit} className='edit-button'><FaEdit /></button>
+        {canEdit() && <button onClick={handleEdit} className='edit-button'><FaEdit /></button>}
       </div>
     </div>
   );
