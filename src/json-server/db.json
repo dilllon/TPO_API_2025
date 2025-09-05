@@ -75,7 +75,7 @@
       "id": "4",
       "title": "Laptop gamer",
       "price": 899999,
-      "stock": 10000,
+      "stock": 13,
       "discount": 0,
       "description": "Potente laptop gaming diseñada para los gamers más exigentes. Equipada con procesador de última generación y tarjeta gráfica dedicada para una experiencia de juego excepcional.",
       "brand": "GamerPro",
@@ -198,6 +198,88 @@
       "category": "Cocina",
       "brand": "TabletPro",
       "warranty": "2 años"
+    }
+  ],
+  "user": [
+     {
+      "id": "1",
+      "username": "comprador",
+      "email": "comprador@gmail.com",
+      "password": "comprador123",
+      "role": "buyer",
+      "firstName": "Juan",
+      "lastName": "Pérez",
+      "phone": "+54 11 1234-5678",
+      "address": {
+        "street": "Av. Corrientes 1234",
+        "city": "Buenos Aires",
+        "province": "CABA",
+        "zipCode": "1043",
+        "country": "Argentina"
+      },
+      "createdAt": "2024-01-15T10:30:00Z",
+      "lastLogin": "2025-09-04T16:51:49.707Z",
+      "isActive": true,
+      "imageUrl": "https://picsum.photos/50"
+    },
+    {
+      "id": "2",
+      "username": "vendedor",
+      "email": "vendedor@gmail.com",
+      "password": "vendedor123",
+      "role": "seller",
+      "firstName": "María",
+      "lastName": "González",
+      "phone": "+54 11 8765-4321",
+      "businessName": "TechStore González",
+      "cuit": "20-12345678-9",
+      "address": {
+        "street": "Av. Santa Fe 5678",
+        "city": "Buenos Aires",
+        "province": "CABA",
+        "zipCode": "1425",
+        "country": "Argentina"
+      },
+      "createdAt": "2024-02-20T14:45:00Z",
+      "lastLogin": "2025-09-04T16:52:19.116Z",
+      "isActive": true,
+      "sellerProfile": {
+        "rating": 4.8,
+        "totalSales": 156,
+        "verified": true,
+        "description": "Vendedor especializado en productos tecnológicos de alta calidad."
+      },
+      "imageUrl": "https://picsum.photos/50"
+    },
+    {
+      "id": "3",
+      "username": "admin",
+      "email": "admin@gmail.com",
+      "password": "admin123",
+      "role": "admin",
+      "firstName": "Carlos",
+      "lastName": "Rodríguez",
+      "phone": "+54 11 2468-1357",
+      "address": {
+        "street": "Av. 9 de Julio 999",
+        "city": "Buenos Aires",
+        "province": "CABA",
+        "zipCode": "1073",
+        "country": "Argentina"
+      },
+      "createdAt": "2023-12-01T12:00:00Z",
+      "lastLogin": "2025-09-04T16:26:52.869Z",
+      "isActive": true,
+      "adminProfile": {
+        "permissions": [
+          "manage_products",
+          "manage_users",
+          "view_analytics",
+          "moderate_content"
+        ],
+        "department": "Operations"
+      },
+      "imageUrl": "https://picsum.photos/50"
     }
   ]
 }

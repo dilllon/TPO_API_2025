@@ -5,12 +5,15 @@ import { store } from './store/store';
 import './index.css';
 import App from './App.jsx';
 import { ProductsProvider } from './context/ProductContext';
+import { UserProvider } from './context/UserContext';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
       <ProductsProvider>
-        <App />
+        <UserProvider>
+          <App />
+        </UserProvider>
       </ProductsProvider>
     </Provider>
   </StrictMode>,

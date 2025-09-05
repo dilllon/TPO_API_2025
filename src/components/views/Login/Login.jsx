@@ -4,26 +4,32 @@ import Button from '@/components/atoms/Button/Button.jsx';
 import styles from './Login.module.css';
 
 import { useDispatch } from "react-redux";              // 👈 importás useDispatch
-import { login } from "@/store/slices/authSlice";              // 👈 importás la acción
+import { login as authLogin } from "@/store/slices/authSlice";  
+import { useUser } from '@/context/UserContext';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch()
+  const { isLoading, login } = useUser();
 
-const handleSubmit = (e) => {
-  e.preventDefault();
-  if (email && password) {
-    // actualizar Redux
-    dispatch(login({
-      userName: email.split("@")[0],
-      imageUrl: "https://picsum.photos/50", // o la que tengas
-    }));
-
-    navigate("/");
-  }
-};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const user = await login(email, password);
+    if (user) {
+      // Si el login es exitoso, redirigir o hacer algo
+      console.log("Login exitoso:", user, user.username, user.imageUrl);
+      dispatch(authLogin({
+        userName: user.username,
+        imageUrl: user.imageUrl, // o la que tengas
+      }));
+      navigate("/");
+    } else {
+      // Manejar error de login
+      console.log("Error de login");
+    }
+  };
 
   return (
     <div className={styles['auth']}>

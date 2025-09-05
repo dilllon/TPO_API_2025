@@ -7,8 +7,7 @@ export function ProductsProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
+  const fetchProducts = async () => {
     setIsLoading(true);
     setError(null);
     try {
@@ -34,6 +33,8 @@ export function ProductsProvider({ children }) {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
     fetchProducts();
   }, []);
 
@@ -83,7 +84,7 @@ export function ProductsProvider({ children }) {
   
   // Función para verificar si un producto tiene descuento
   const hasDiscount = (product) => {
-    return product.discount && product.discount > 0;
+    return product.discount && Math.abs(product.discount) > 0;
   };
   
   // Funcion para actualizar el producto en nuestro modelo de datos
@@ -101,10 +102,8 @@ export function ProductsProvider({ children }) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const updatedProduct = await response.json();
-      setProducts(prevProducts => 
-        prevProducts.map(p => p.id == updated.id ? updatedProduct : p)
-      );
+      // En lugar de actualizar solo el producto, refrescamos todos los datos
+      await fetchProducts();
       return true;
     } catch (error) {
       console.error("Error al actualizar el producto:", error);
@@ -117,7 +116,21 @@ export function ProductsProvider({ children }) {
   };
 
   return (
-    <ProductsContext.Provider value={{ productsData, getCategories, getProductsByCategory, getProductById, getProductsGroupedByCategory, searchProducts, calculateDiscountedPrice, hasDiscount, updateProduct, addProduct }}>
+    <ProductsContext.Provider value={{ 
+      productsData, 
+      isLoading,
+      error,
+      getCategories, 
+      getProductsByCategory, 
+      getProductById, 
+      getProductsGroupedByCategory, 
+      searchProducts, 
+      calculateDiscountedPrice, 
+      hasDiscount, 
+      updateProduct, 
+      addProduct,
+      refreshProducts: fetchProducts 
+    }}>
       {children}
     </ProductsContext.Provider>
   );
