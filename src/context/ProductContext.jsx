@@ -84,7 +84,8 @@ export function ProductsProvider({ children }) {
   
   // Función para verificar si un producto tiene descuento
   const hasDiscount = (product) => {
-    return product.discount && Math.abs(product.discount) > 0;
+    console.log('Verificando descuento para el producto:', product);
+    return product.discount !== undefined && (product.discount > 0);
   };
   
   // Funcion para actualizar el producto en nuestro modelo de datos

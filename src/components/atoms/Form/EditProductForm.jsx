@@ -27,6 +27,7 @@ function EditProductForm() {
         }
 
         setForm({
+            ...getProductById(id), // Asegura que se copien todas las propiedades
             id: p.id,
             title: p.title,
             price: p.price,

@@ -73,14 +73,28 @@
     },
     {
       "id": "4",
-      "title": "Laptop gamer",
+      "title": "Laptop gamer promax",
       "price": 899999,
-      "stock": 13,
-      "discount": 0,
+      "image": "/src/assets/images/productos/laptop.webp",
+      "images": [
+        "/src/assets/images/productos/laptop.webp",
+        "/src/assets/images/carrousel/foto2.jpg",
+        "/src/assets/images/carrousel/foto1.png"
+      ],
+      "stock": 99,
       "description": "Potente laptop gaming diseñada para los gamers más exigentes. Equipada con procesador de última generación y tarjeta gráfica dedicada para una experiencia de juego excepcional.",
-      "brand": "GamerPro",
+      "features": [
+        "Procesador Intel Core i7-12700H",
+        "Tarjeta gráfica RTX 3060 6GB",
+        "16GB RAM DDR4 expandible",
+        "SSD NVMe de 512GB",
+        "Pantalla 15.6\" 144Hz Full HD",
+        "Teclado RGB mecánico"
+      ],
       "category": "Electro",
-      "image": "/src/assets/images/productos/laptop.webp"
+      "brand": "GamerPro",
+      "warranty": "2 años",
+      "discount": 0
     },
     {
       "id": "5",
@@ -201,7 +215,7 @@
     }
   ],
   "user": [
-     {
+    {
       "id": "1",
       "username": "comprador",
       "email": "comprador@gmail.com",
