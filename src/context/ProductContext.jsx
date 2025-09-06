@@ -41,6 +41,10 @@ export function ProductsProvider({ children }) {
     const uniqueCategories = [...new Set(productsData.map(product => product.category))];
     return uniqueCategories;
   };
+
+  const canEdit = (id, userId) => {
+    return productsData.find(product => product.id == id && product.userId == userId) ? true : false;
+  }
   
   
   // Función para obtener productos por categoría
@@ -127,7 +131,8 @@ export function ProductsProvider({ children }) {
       hasDiscount, 
       updateProduct, 
       addProduct,
-      refreshProducts: fetchProducts 
+      refreshProducts: fetchProducts,
+      canEdit
     }}>
       {children}
     </ProductsContext.Provider>

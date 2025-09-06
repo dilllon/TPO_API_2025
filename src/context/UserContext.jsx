@@ -23,6 +23,8 @@ export function UserProvider({ children }) {
       setFavorites(data[0].favorites);
     } catch (error) {
       console.error("Error al obtener favoritos:", error);
+      setFavorites([]);
+      return;
     }
   };
 
@@ -37,13 +39,15 @@ export function UserProvider({ children }) {
       setNotifications(data[0].notifications);
     } catch (error) {
       console.error("Error al obtener notificaciones:", error);
+      setNotifications([]);
+      return;
     }
   };
 
-  const login = async (email, password) => {
+  const login = async (username=null, email=null, password) => {
     try {
       setIsLoading(true);
-      const response = await fetch(`http://localhost:9000/user?email=${email}&password=${password}`);
+      const response = username ? await fetch(`http://localhost:9000/user?username=${username}&password=${password}`) : await fetch(`http://localhost:9000/user?email=${email}&password=${password}`);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -60,7 +64,6 @@ export function UserProvider({ children }) {
       setIsAuthenticated(true);
       setError(null);
 
-      // Cargar favoritos y notificaciones en paralelo
       await Promise.all([
         getFavorites(user[0].id),
         getNotifications(user[0].id)
@@ -77,6 +80,10 @@ export function UserProvider({ children }) {
 
   const canEdit = () => {
     return userData && roleToEdit.includes(userData.role);
+  }
+
+  const getRole = () => {
+    return userData?.role || null;
   }
 
   const logout = () => {

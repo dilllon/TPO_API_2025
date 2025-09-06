@@ -2,9 +2,6 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Button from '@/components/atoms/Button/Button.jsx';
 import styles from './Login.module.css';
-
-import { useDispatch } from "react-redux";              // 👈 importás useDispatch
-import { login as authLogin } from "@/store/slices/authSlice";  
 import { useUser } from '@/context/UserContext';
 
 function Login() {
@@ -12,19 +9,15 @@ function Login() {
   const [password, setPassword] = useState('');
   const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
-  const dispatch = useDispatch()
   const { login } = useUser();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = await login(email, password);
+    const username = email.includes('@') ? null : email; // Si incluye '@', es email, sino username
+    const user = await login(username, email, password);
     if (user) {
       // Si el login es exitoso, redirigir o hacer algo
       console.log("Login exitoso:", user, user.username, user.imageUrl);
-      dispatch(authLogin({
-        userName: user.username,
-        imageUrl: user.imageUrl, // o la que tengas
-      }));
       navigate("/");
     } else {
       // Manejar error de login
@@ -60,9 +53,8 @@ function Login() {
             <label htmlFor="email">Email</label>
             <input
               id="email"
-              type="email"
-              placeholder="email@ejemplo.com"
-              autoComplete="email"
+              type="text"
+              placeholder="email@ejemplo.com or username"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required

@@ -1,7 +1,7 @@
 {
   "products": [
     {
-      "id": "1",
+      "id": 1,
       "title": "Mouse inalámbrico",
       "price": 2999,
       "image": "/src/assets/images/productos/52898-producto-logitech-g305-negro.jpg",
@@ -21,10 +21,11 @@
       ],
       "category": "Electro",
       "brand": "TechPro",
-      "warranty": "1 año"
+      "warranty": "1 año",
+      "userId": 1
     },
     {
-      "id": "2",
+      "id": 2,
       "title": "Teclado mecánico",
       "price": 19999,
       "discount": 10,
@@ -46,10 +47,11 @@
       ],
       "category": "Electro",
       "brand": "GameMaster",
-      "warranty": "2 años"
+      "warranty": "2 años",
+      "userId": 2
     },
     {
-      "id": "3",
+      "id": 3,
       "title": "Monitor 24 pulgadas",
       "price": 159999,
       "image": "/src/assets/images/productos/pantalla.webp",
@@ -69,10 +71,11 @@
       ],
       "category": "Electro",
       "brand": "ViewTech",
-      "warranty": "3 años"
+      "warranty": "3 años",
+      "userId": 3
     },
     {
-      "id": "4",
+      "id": 4,
       "title": "Laptop gamer promax",
       "price": 899999,
       "image": "/src/assets/images/productos/laptop.webp",
@@ -94,10 +97,11 @@
       "category": "Electro",
       "brand": "GamerPro",
       "warranty": "2 años",
-      "discount": 90
+      "discount": 90,
+      "userId": 3
     },
     {
-      "id": "5",
+      "id": 5,
       "title": "Smartphone 5G",
       "price": 499999,
       "image": "/src/assets/images/productos/smartphone.png",
@@ -118,10 +122,11 @@
       ],
       "category": "Electro",
       "brand": "MobileTech",
-      "warranty": "2 años"
+      "warranty": "2 años",
+      "userId": 1
     },
     {
-      "id": "6",
+      "id": 6,
       "title": "Cargador portátil",
       "price": 9999,
       "image": "/src/assets/images/carrousel/foto2.jpg",
@@ -141,10 +146,11 @@
       ],
       "category": "Cocina",
       "brand": "PowerBank Pro",
-      "warranty": "1 año"
+      "warranty": "1 año",
+      "userId": 2
     },
     {
-      "id": "7",
+      "id": 7,
       "title": "Smartwatch",
       "price": 79999,
       "discount": 15,
@@ -165,10 +171,11 @@
       ],
       "category": "Cocina",
       "brand": "SmartLife",
-      "warranty": "2 años"
+      "warranty": "2 años",
+      "userId": 2
     },
     {
-      "id": "8",
+      "id": 8,
       "title": "Auriculares Bluetooth",
       "price": 24999,
       "image": "/src/assets/images/carrousel/foto2.jpg",
@@ -188,10 +195,11 @@
       ],
       "category": "Cocina",
       "brand": "AudioMax",
-      "warranty": "1 año"
+      "warranty": "1 año",
+      "userId": 2
     },
     {
-      "id": "9",
+      "id": 9,
       "title": "Tablet Android",
       "price": 199999,
       "image": "/src/assets/images/carrousel/foto1.png",
@@ -211,12 +219,13 @@
       ],
       "category": "Cocina",
       "brand": "TabletPro",
-      "warranty": "2 años"
+      "warranty": "2 años",
+      "userId": 3
     }
   ],
   "user": [
     {
-      "id": "1",
+      "id": 1,
       "username": "comprador",
       "email": "comprador@gmail.com",
       "password": "comprador123",
@@ -237,7 +246,7 @@
       "imageUrl": "https://picsum.photos/50"
     },
     {
-      "id": "2",
+      "id": 2,
       "username": "vendedor",
       "email": "vendedor@gmail.com",
       "password": "vendedor123",
@@ -266,7 +275,7 @@
       "imageUrl": "https://picsum.photos/50"
     },
     {
-      "id": "3",
+      "id": 3,
       "username": "admin",
       "email": "admin@gmail.com",
       "password": "admin123",

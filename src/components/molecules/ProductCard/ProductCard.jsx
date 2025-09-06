@@ -5,9 +5,9 @@ import { FaEdit } from 'react-icons/fa';
 import { useUser } from '@/context/UserContext';
 
 function ProductCard({ product, onClick, variant = "default" }) {
-  const { calculateDiscountedPrice, hasDiscount } = useProducts();
+  const { calculateDiscountedPrice, hasDiscount, canEdit } = useProducts();
   const navigate = useNavigate();
-  const { canEdit } = useUser();
+  const { userData, isAuthenticated } = useUser();
 
   const handleProductClick = () => {
     navigate(`/products/${product.id}`);
@@ -55,7 +55,7 @@ function ProductCard({ product, onClick, variant = "default" }) {
       </div>
       <div className='product-btns'>
         <button onClick={onAddToCart}>Agregar al carrito</button>
-        {canEdit() && <button onClick={handleEdit} className='edit-button'><FaEdit /></button>}
+        {isAuthenticated && canEdit(product.id, userData.id) && <button onClick={handleEdit} className='edit-button'><FaEdit /></button>}
       </div>
     </div>
   );
