@@ -22,31 +22,7 @@ function NavBar() {
   // Cambiar de true a false dependiendo del NavBar que se quiere ver
   const { isLoggedIn } = useSelector((state) => state.auth);
   // Datos de muestra para las notificaciones. En una app real, vendrían de un estado global o una API.
-  const mockNotifications = [
-    {
-      id: 1,
-      message: 'Tu pedido #1234 ha sido enviado y llegará pronto.',
-      timestamp: 'Hoy, 10:30 AM',
-    },
-    {
-      id: 2,
-      message:
-        '¡Oferta especial! 20% de descuento en electrónicos hasta agotar stock.',
-      timestamp: 'Ayer, 08:15 PM',
-    },
-    {
-      id: 3,
-      message:
-        'Hemos procesado la devolución de tu producto. El reembolso se hará efectivo en 48hs.',
-      timestamp: '25/05, 11:00 AM',
-    },
-    {
-      id: 4,
-      message:
-        '¡Bienvenido a AmaZone! Completa tu perfil para una mejor experiencia.',
-      timestamp: '24/05, 09:00 AM',
-    },
-  ];
+
 
   // Datos de muestra para los favoritos.
   const mockFavorites = [
