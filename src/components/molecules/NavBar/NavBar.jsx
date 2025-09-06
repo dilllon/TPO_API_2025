@@ -11,40 +11,19 @@ import Profile from '../../atoms/Profile/Profile.jsx';
 import Dropdown from '../../atoms/Dropdown/Dropdown.jsx';
 import InfoDropdown from '../../atoms/InfoDropdown/InfoDropdown';
 import styles from './NavBar.module.css';
-import { useSelector } from "react-redux";
 import { useUser } from '@/context/UserContext';
 
 function NavBar() {
   const { getCategories  } = useProducts();
-  const { isAuthenticated, canEdit, userData } = useUser();
+  const { isAuthenticated, canEdit, userData, favorites, notifications } = useUser();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Cambiar de true a false dependiendo del NavBar que se quiere ver
-  const { isLoggedIn } = useSelector((state) => state.auth);
   // Datos de muestra para las notificaciones. En una app real, vendrían de un estado global o una API.
-
+  const mockNotifications = notifications;
+  console.log("Notificaciones en NavBar:", mockNotifications);
 
   // Datos de muestra para los favoritos.
-  const mockFavorites = [
-    {
-      id: 1,
-      message: 'Smart TV 55" 4K UHD ahora en tus favoritos.',
-      timestamp: 'Hoy, 11:00 AM',
-      displayImage: 'https://picsum.photos/seed/tv/50',
-    },
-    {
-      id: 2,
-      message: 'Auriculares Inalámbricos con Cancelación de Ruido guardados.',
-      timestamp: 'Ayer, 09:30 PM',
-      displayImage: 'https://picsum.photos/seed/audio/50',
-    },
-    {
-      id: 3,
-      message: 'Zapatillas de Running - Talle 42 agregadas a favoritos.',
-      timestamp: '24/05, 01:15 PM',
-      displayImage: 'https://picsum.photos/seed/shoes/50',
-    },
-  ];
+  const mockFavorites = favorites;
 
   // Datos de muestra para el perfil de usuario.
   const mockUser = {
@@ -123,7 +102,7 @@ function NavBar() {
                 </Link>
               </li>
               <li className={styles['profile']}>
-                {isLoggedIn ? (
+                {isAuthenticated ? (
                   <Profile
                     userName={mockUser.userName}
                     imageUrl={mockUser.imageUrl}

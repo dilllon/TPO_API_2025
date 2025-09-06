@@ -9,7 +9,37 @@ export function UserProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState(null);
-  
+  const [favorites, setFavorites] = useState([]);
+  const [notifications, setNotifications] = useState([]);
+
+  const getFavorites = async (userId) => {
+    try {
+      const response = await fetch(`http://localhost:9000/favorites?userId=${userId}`);
+      const data = await response.json();
+      if (data.length === 0) {
+        setFavorites([]);
+        return;
+      }
+      setFavorites(data[0].favorites);
+    } catch (error) {
+      console.error("Error al obtener favoritos:", error);
+    }
+  };
+
+  const getNotifications = async (userId) => {
+    try {
+      const response = await fetch(`http://localhost:9000/notifications?userId=${userId}`);
+      const data = await response.json();
+      if (data.length === 0) {
+        setNotifications([]);
+        return;
+      }
+      setNotifications(data[0].notifications);
+    } catch (error) {
+      console.error("Error al obtener notificaciones:", error);
+    }
+  };
+
   const login = async (email, password) => {
     try {
       setIsLoading(true);
@@ -31,6 +61,8 @@ export function UserProvider({ children }) {
       setIsLoading(false);
       setIsAuthenticated(true);
       setError(null);
+      getFavorites(user[0].id);
+      getNotifications(user[0].id);
       return user[0];
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
