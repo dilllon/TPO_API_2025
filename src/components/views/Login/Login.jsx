@@ -5,7 +5,7 @@ import styles from './Login.module.css';
 import { useUser } from '@/context/UserContext';
 
 function Login() {
-  const [email, setEmail] = useState('');
+  const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ function Login() {
 
         <form className={styles['form']} onSubmit={handleSubmit}>
           <div className={styles['field']}>
-            <label htmlFor="email">Email</label>
+            <label htmlFor="emailOrUsername">Email o Nombre de Usuario</label>
             <input
               id="email"
               type="text"
