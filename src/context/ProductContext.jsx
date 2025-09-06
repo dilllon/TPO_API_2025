@@ -11,7 +11,6 @@ export function ProductsProvider({ children }) {
     setIsLoading(true);
     setError(null);
     try {
-      console.log("Iniciando fetch de productos...");
       const response = await fetch("http://localhost:9000/products");
       
       if (!response.ok) {
@@ -19,7 +18,6 @@ export function ProductsProvider({ children }) {
       }
       
       const data = await response.json();
-      console.log("Productos cargados:", data);
       
       if (!Array.isArray(data)) {
         throw new Error('Los datos recibidos no son un array');
@@ -84,7 +82,6 @@ export function ProductsProvider({ children }) {
   
   // Función para verificar si un producto tiene descuento
   const hasDiscount = (product) => {
-    console.log('Verificando descuento para el producto:', product);
     return product.discount !== undefined && (product.discount > 0);
   };
   

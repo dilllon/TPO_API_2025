@@ -14,9 +14,9 @@ export function UserProvider({ children }) {
 
   const getFavorites = async (userId) => {
     try {
-      const response = await fetch(`http://localhost:9000/favorites?userId=${userId}`);
+      const response = await fetch(`http://localhost:9000/favorite?userId=${userId}`);
       const data = await response.json();
-      if (data.length === 0) {
+      if (data[0].favorites.length === 0) {
         setFavorites([]);
         return;
       }
@@ -28,9 +28,9 @@ export function UserProvider({ children }) {
 
   const getNotifications = async (userId) => {
     try {
-      const response = await fetch(`http://localhost:9000/notifications?userId=${userId}`);
+      const response = await fetch(`http://localhost:9000/notification?userId=${userId}`);
       const data = await response.json();
-      if (data.length === 0) {
+      if (data[0].notifications.length === 0) {
         setNotifications([]);
         return;
       }
@@ -49,20 +49,23 @@ export function UserProvider({ children }) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      // En lugar de actualizar solo el producto, refrescamos todos los datos
       const user = await response.json();
 
       if (user.length === 0) {
         setError("Credenciales inválidas");
         return null;
       }
+
       setUserData(user[0]);
-      console.log("Login exitoso:", user);
-      setIsLoading(false);
       setIsAuthenticated(true);
       setError(null);
-      getFavorites(user[0].id);
-      getNotifications(user[0].id);
+
+      // Cargar favoritos y notificaciones en paralelo
+      await Promise.all([
+        getFavorites(user[0].id),
+        getNotifications(user[0].id)
+      ]);
+      setIsLoading(false);
       return user[0];
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
@@ -82,7 +85,17 @@ export function UserProvider({ children }) {
   };
 
   return (
-    <UserContext.Provider value={{ userData, isLoading, error, isAuthenticated, login, logout, canEdit }}>
+    <UserContext.Provider value={{ 
+      userData, 
+      isLoading, 
+      error, 
+      isAuthenticated, 
+      login, 
+      logout, 
+      canEdit,
+      notifications,
+      favorites,
+    }}>
       {children}
     </UserContext.Provider>
   );

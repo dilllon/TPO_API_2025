@@ -18,13 +18,6 @@ function NavBar() {
   const { isAuthenticated, canEdit, userData, favorites, notifications } = useUser();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Datos de muestra para las notificaciones. En una app real, vendrían de un estado global o una API.
-  const mockNotifications = notifications;
-  console.log("Notificaciones en NavBar:", mockNotifications);
-
-  // Datos de muestra para los favoritos.
-  const mockFavorites = favorites;
-
   // Datos de muestra para el perfil de usuario.
   const mockUser = {
     userName: userData ? userData.username : 'Invitado',
@@ -78,20 +71,24 @@ function NavBar() {
               </li>)}
             </ul>
             <ul className={styles['nav-list-right']}>
-              <li>
-                <InfoDropdown
-                  title="Notificaciones"
-                  items={mockNotifications}
-                  icon="notif"
-                />
-              </li>
-              <li>
-                <InfoDropdown
-                  title="Favoritos"
-                  items={mockFavorites}
-                  icon="fav"
-                />
-              </li>
+              {isAuthenticated && (
+                <>
+                  <li>
+                    <InfoDropdown
+                      title="Notificaciones"
+                      items={notifications || []}
+                      icon="notif"
+                    />
+                  </li>
+                  <li>
+                    <InfoDropdown
+                      title="Favoritos"
+                      items={favorites || []}
+                      icon="fav"
+                    />
+                  </li>
+                </>
+              )}
               <li>
                 <Link
                   to="/cart"
