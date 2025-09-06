@@ -1,22 +1,33 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getProductById, updateProduct } from "../../../constants/products";
+import { useProducts } from '@/context/ProductContext';
 import './EditProductForm.css';
 
 function EditProductForm() {
+    const { productsData, getProductById, updateProduct, isLoading } = useProducts();
     const { id } = useParams();
     const navigate = useNavigate();
     const [form, setForm] = useState(null);
     const [error, setError] = useState("");
 
     useEffect(() => {
+        if (isLoading) {
+            console.log('Productos cargando...');
+            return;
+        }
+        
+        console.log('Buscando producto con ID:', id);
+        console.log('Products data disponible:', productsData);
+        
         const p = getProductById(id);
+        console.log('Producto encontrado:', p);
         if (!p) {
             setError("Producto no encontrado");
             return;
         }
 
         setForm({
+            ...getProductById(id), // Asegura que se copien todas las propiedades
             id: p.id,
             title: p.title,
             price: p.price,
@@ -27,7 +38,7 @@ function EditProductForm() {
             category: p.category,
             image: p.image
         });
-    }, [id]);
+    }, [productsData,id]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -50,7 +61,19 @@ function EditProductForm() {
         });
     };
 
-    const handleSubmit = (e) => {
+    if (isLoading) {
+        return <div>Cargando...</div>;
+    }
+
+    if (error) {
+        return <div className="error-message">{error}</div>;
+    }
+
+    if (!form) {
+        return <div>Cargando datos del producto...</div>;
+    }
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!form.title || !form.price) return setError("Titulo y precio son obligatorios.");
 

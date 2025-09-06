@@ -1,17 +1,21 @@
-import { useNavigate } from 'react-router-dom';
-import { calculateDiscountedPrice, hasDiscount } from '../../../constants/products';
-import './ProductCard.css';
 import { FaEdit } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { useProducts } from '../../../context/ProductContext';
+import { useUser } from '../../../context/UserContext';
+import './ProductCard.css';
 
 function ProductCard({ product, onClick, variant = "default" }) {
+  const { calculateDiscountedPrice, hasDiscount, canEdit } = useProducts();
   const navigate = useNavigate();
+  const { userData, isAuthenticated } = useUser();
 
   const handleProductClick = () => {
     navigate(`/products/${product.id}`);
   };
 
-  const  onAddToCart   = (e) => {
+  const onAddToCart = (e) => {
     e.stopPropagation(); // Evita que se active la navegación
+    
     if (onClick) {
       onClick(product);
     }
@@ -24,15 +28,6 @@ function ProductCard({ product, onClick, variant = "default" }) {
 
   const productHasDiscount = hasDiscount(product);
   const discountedPrice = calculateDiscountedPrice(product);
-
-  // Debug: agregar logs para identificar el problema
-  console.log('ProductCard Debug:', {
-    productId: product.id,
-    productTitle: product.title,
-    discount: product.discount,
-    discountType: typeof product.discount,
-    hasDiscount: productHasDiscount
-  });
 
   return (
     <div className={`product-card ${variant}`}>
@@ -61,7 +56,7 @@ function ProductCard({ product, onClick, variant = "default" }) {
       </div>
       <div className='product-btns'>
         <button onClick={onAddToCart}>Agregar al carrito</button>
-        <button onClick={handleEdit} className='edit-button'><FaEdit /></button>
+        {isAuthenticated && canEdit(product.id, userData.id) && <button onClick={handleEdit} className='edit-button'><FaEdit /></button>}
       </div>
     </div>
   );
