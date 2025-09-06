@@ -72,7 +72,7 @@ function ProductsView() {
   };
 
   const handleEdit = () => {
-    if (!canEditProduct(product.sellerId)) {
+    if (!canEditProduct(product.userId)) {
       setShowAuthAlert(true);
       return;
     }
@@ -81,7 +81,7 @@ function ProductsView() {
   };
 
   const handleDelete = async () => {
-    if (!canDeleteProduct(product.sellerId)) {
+    if (!canDeleteProduct(product.userId)) {
       setShowAuthAlert(true);
       return;
     }
@@ -247,14 +247,14 @@ function ProductsView() {
             </div>
 
             {/* Botones de editar y eliminar */}
-            {isAuthenticated && (canEditProduct(product.sellerId) || canDeleteProduct(product.sellerId)) && (
+            {isAuthenticated && (canEditProduct(product.userId) || canDeleteProduct(product.userId)) && (
               <div className="product-actions">
-                {canEditProduct(product.sellerId) && (
+                {canEditProduct(product.userId) && (
                   <button onClick={handleEdit} className="edit-button" title="Editar producto">
                     <FaEdit />
                   </button>
                 )}
-                {canDeleteProduct(product.sellerId) && (
+                {canDeleteProduct(product.userId) && (
                   <button 
                     onClick={handleDelete} 
                     className="delete-button" 

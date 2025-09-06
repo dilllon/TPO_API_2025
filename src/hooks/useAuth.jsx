@@ -82,10 +82,8 @@ export function AuthProvider({ children }) {
     register,
     updateProfile,
     // Métodos de verificación de roles
-    isBuyer: () => AuthService.isBuyer(),
-    isSeller: () => AuthService.isSeller(),
     isAdmin: () => AuthService.isAdmin(),
-    canEditProduct: (productSellerId) => AuthService.canEditProduct(productSellerId),
+    canEditProduct: (productUserId) => AuthService.canEditProduct(productUserId),
     canDeleteProduct: () => AuthService.canDeleteProduct(),
     canAddToCart: () => AuthService.canAddToCart(),
   };

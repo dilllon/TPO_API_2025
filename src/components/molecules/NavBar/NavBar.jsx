@@ -12,7 +12,7 @@ import styles from './NavBar.module.css';
 
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { user, isAuthenticated, isSeller, isAdmin, logout } = useAuth();
+  const { user, isAuthenticated, isAdmin, logout } = useAuth();
   // Datos de muestra para las notificaciones. En una app real, vendrían de un estado global o una API.
   const mockNotifications = [
     {
@@ -106,7 +106,7 @@ function NavBar() {
                   <span>Mis compras</span>
                 </Link>
               </li>
-              {(isSeller() || isAdmin()) && (
+              {(user || isAdmin()) && (
                 <li>
                   <Link
                     to="/products/add"

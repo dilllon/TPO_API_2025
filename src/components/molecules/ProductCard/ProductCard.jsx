@@ -35,7 +35,7 @@ function ProductCard({ product, onClick, variant = "default", onProductDeleted }
     e.stopPropagation();
     
     // Verificar permisos para editar
-    if (!canEditProduct(product.sellerId)) {
+    if (!canEditProduct(product.userId)) {
       setShowAuthAlert(true);
       return;
     }
@@ -47,7 +47,7 @@ function ProductCard({ product, onClick, variant = "default", onProductDeleted }
     e.stopPropagation();
     
     // Verificar permisos para eliminar
-    if (!canDeleteProduct(product.sellerId)) {
+    if (!canDeleteProduct(product.userId)) {
       setShowAuthAlert(true);
       return;
     }
@@ -82,11 +82,11 @@ function ProductCard({ product, onClick, variant = "default", onProductDeleted }
   console.log('ProductCard Debug:', {
     productId: product.id,
     productTitle: product.title,
-    sellerId: product.sellerId,
+    userId: product.userId,
     sellerUsername: product.sellerUsername,
     isAuthenticated,
-    canEdit: canEditProduct(product.sellerId),
-    canDelete: canDeleteProduct(product.sellerId)
+    canEdit: canEditProduct(product.userId),
+    canDelete: canDeleteProduct(product.userId)
   });
 
   return (
@@ -120,16 +120,16 @@ function ProductCard({ product, onClick, variant = "default", onProductDeleted }
           {console.log('Render buttons check:', {
             productId: product.id,
             isAuthenticated,
-            canEditResult: canEditProduct(product.sellerId),
-            canDeleteResult: canDeleteProduct(product.sellerId),
-            sellerId: product.sellerId
+            canEditResult: canEditProduct(product.userId),
+            canDeleteResult: canDeleteProduct(product.userId),
+            userId: product.userId
           })}
-          {(isAuthenticated && canEditProduct(product.sellerId)) && (
+          {(isAuthenticated && canEditProduct(product.userId)) && (
             <button onClick={handleEdit} className='edit-button' title="Editar producto" style={{backgroundColor: '#f39c12', color: 'white'}}>
               <FaEdit />
             </button>
           )}
-          {(isAuthenticated && canDeleteProduct(product.sellerId)) && (
+          {(isAuthenticated && canDeleteProduct(product.userId)) && (
             <button 
               onClick={handleDelete} 
               className='delete-button' 

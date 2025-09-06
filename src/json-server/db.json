@@ -17,7 +17,7 @@
         "country": "Argentina"
       },
       "createdAt": "2024-01-15T10:30:00Z",
-      "lastLogin": "2025-09-04T16:51:49.707Z",
+      "lastLogin": "2025-09-06T21:48:13.725Z",
       "isActive": true
     },
     {
@@ -144,7 +144,7 @@
       "category": "Electro",
       "brand": "GameMaster",
       "warranty": "2 años",
-      "sellerId": "2",
+      "sellerId": "1",
       "sellerUsername": "vendedor",
       "sku": "GM-KEYBOARD-002",
       "weight": "1.2kg",
@@ -250,7 +250,7 @@
       "weight": "195g",
       "dimensions": "16.2 x 7.4 x 0.8 cm",
       "createdAt": "2025-02-05T13:45:00Z",
-      "updatedAt": "2025-09-04T16:50:56.455Z",
+      "updatedAt": "2025-09-06T21:38:51.355Z",
       "isActive": true,
       "tags": [
         "smartphone",
@@ -263,7 +263,7 @@
         "average": 4.7,
         "count": 45
       },
-      "discount": 50
+      "discount": 10
     },
     {
       "id": "cat2-0",
@@ -390,36 +390,6 @@
       "rating": {
         "average": 4.5,
         "count": 33
-      }
-    },
-    {
-      "id": "product-1757005053906",
-      "title": "Cuchillos",
-      "description": "Cuchillos de cocina tramontina",
-      "price": 20000,
-      "stock": 20,
-      "category": "Cocina",
-      "image": "/src/assets/images/productos/ShenCirujano.png",
-      "images": [
-        "/src/assets/images/productos/ShenCirujano.png"
-      ],
-      "sellerId": "2",
-      "sellerUsername": "vendedor",
-      "brand": "Generic",
-      "warranty": "1 año",
-      "features": [],
-      "sku": "COCINA-product-1757005053906",
-      "weight": "N/A",
-      "dimensions": "N/A",
-      "createdAt": "2025-09-04T16:57:33.906Z",
-      "updatedAt": "2025-09-04T16:57:33.906Z",
-      "isActive": true,
-      "tags": [
-        "cocina"
-      ],
-      "rating": {
-        "average": 0,
-        "count": 0
       }
     }
   ],

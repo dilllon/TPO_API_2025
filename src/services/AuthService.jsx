@@ -139,32 +139,20 @@ class AuthService {
     return user && user.role === requiredRole;
   }
 
-  static isBuyer() {
-    return AuthService.hasRole('buyer');
-  }
-
-  static isSeller() {
-    return AuthService.hasRole('seller');
-  }
-
   static isAdmin() {
     return AuthService.hasRole('admin');
   }
 
   // **VERIFICAR PERMISOS**
-  static canEditProduct(productSellerId) {
+  static canEditProduct(productUserId) {
     const user = AuthService.getCurrentUser();
     if (!user) return false;
     
     // Admin puede editar cualquier producto
     if (user.role === 'admin') return true;
     
-    // Vendedor solo puede editar sus propios productos
-    if (user.role === 'seller') {
-      return productSellerId === user.id || productSellerId === user.username;
-    }
-    
-    return false;
+    // Usuario solo puede editar sus propios productos
+    return productUserId === user.id || productUserId === user.username;
   }
 
   static canDeleteProduct() {

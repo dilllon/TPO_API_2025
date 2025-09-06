@@ -33,7 +33,7 @@ function ProductCard({ product, onClick, variant = "default" }) {
     e.stopPropagation();
     
     // Verificar permisos para editar
-    if (!canEditProduct(product.sellerId)) {
+    if (!canEditProduct(product.userId)) {
       setShowAuthAlert(true);
       return;
     }
@@ -72,7 +72,7 @@ function ProductCard({ product, onClick, variant = "default" }) {
         </div>
         <div className='product-btns'>
           <button onClick={onAddToCart}>Agregar al carrito</button>
-          {(isAuthenticated && canEditProduct(product.sellerId)) && (
+          {(isAuthenticated && canEditProduct(product.userId)) && (
             <button onClick={handleEdit} className='edit-button'>
               <FaEdit />
             </button>

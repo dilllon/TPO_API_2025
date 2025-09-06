@@ -156,33 +156,27 @@ export const AuthProvider = ({ children }) => {
 
   // Funciones de utilidad para verificar roles
   const isAdmin = () => state.user?.role === 'admin';
-  const isSeller = () => state.user?.role === 'seller';
-  const isBuyer = () => state.user?.role === 'buyer';
   
-  // Solo vendedores pueden editar, y solo sus propios productos
-  const canEditProduct = (productSellerId) => {
+  // Cualquier usuario autenticado puede editar productos que le pertenecen
+  const canEditProduct = (productUserId) => {
     console.log('canEditProduct Debug:', {
-      isSeller: isSeller(),
+      isAuthenticated: state.isAuthenticated,
       userId: state.user?.id,
       userRole: state.user?.role,
-      productSellerId,
-      match: state.user?.id === productSellerId
+      productUserId,
+      match: state.user?.id === productUserId
     });
     
     // Comparar solo con el ID del usuario
-    return isSeller() && state.user?.id === productSellerId;
+    return state.isAuthenticated && state.user?.id === productUserId;
   };
   
-  // Vendedores pueden eliminar sus propios productos, admins pueden eliminar cualquier producto
-  const canDeleteProduct = (productSellerId) => {
+  // Usuarios pueden eliminar sus propios productos, admins pueden eliminar cualquier producto
+  const canDeleteProduct = (productUserId) => {
     if (isAdmin()) return true;
     
-    // Comparar solo con el ID del usuario
-    if (isSeller()) {
-      return state.user?.id === productSellerId;
-    }
-    
-    return false;
+    // Cualquier usuario autenticado puede eliminar sus propios productos
+    return state.isAuthenticated && state.user?.id === productUserId;
   };
 
   // Valor del contexto
@@ -193,8 +187,6 @@ export const AuthProvider = ({ children }) => {
     register,
     clearError,
     isAdmin,
-    isSeller,
-    isBuyer,
     canEditProduct,
     canDeleteProduct
   };

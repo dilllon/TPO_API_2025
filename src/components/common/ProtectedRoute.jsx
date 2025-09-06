@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 function ProtectedRoute({ children, requiredRole, requiredPermission, fallbackPath = "/" }) {
-  const { isAuthenticated, user, isAdmin, isSeller, isBuyer } = useAuth();
+  const { isAuthenticated, user, isAdmin } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,14 +20,11 @@ function ProtectedRoute({ children, requiredRole, requiredPermission, fallbackPa
         case 'admin':
           hasRole = isAdmin();
           break;
-        case 'seller':
-          hasRole = isSeller();
-          break;
-        case 'buyer':
-          hasRole = isBuyer();
+        case 'user':
+          hasRole = user && !isAdmin(); // Usuario regular (no admin)
           break;
         default:
-          hasRole = false;
+          hasRole = true; // Cualquier usuario autenticado
       }
 
       if (!hasRole) {
@@ -43,7 +40,7 @@ function ProtectedRoute({ children, requiredRole, requiredPermission, fallbackPa
         return;
       }
     }
-  }, [isAuthenticated, user, requiredRole, requiredPermission, navigate, fallbackPath, isAdmin, isSeller, isBuyer]);
+  }, [isAuthenticated, user, requiredRole, requiredPermission, navigate, fallbackPath, isAdmin]);
 
   if (!isAuthenticated) {
     return <div>Redirecting...</div>;

@@ -7,20 +7,20 @@ import Header from '../../organisms/Header/Header';
 
 function AddProductView() {
   const navigate = useNavigate();
-  const { user, isAuthenticated, isSeller } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
-  // Verificar si el usuario está autenticado y es vendedor
-  if (!isAuthenticated || !isSeller()) {
+  // Verificar si el usuario está autenticado
+  if (!isAuthenticated) {
     return (
       <>
         <Header />
         <div style={{ padding: '2rem', textAlign: 'center' }}>
           <h2>Acceso Denegado</h2>
-          <p>Solo los vendedores pueden agregar productos.</p>
-          <button onClick={() => navigate('/')} style={{ marginTop: '1rem', padding: '0.5rem 1rem' }}>
-            Volver al inicio
+          <p>Debes iniciar sesión para agregar productos.</p>
+          <button onClick={() => navigate('/login')} style={{ marginTop: '1rem', padding: '0.5rem 1rem' }}>
+            Iniciar Sesión
           </button>
         </div>
       </>
@@ -59,7 +59,7 @@ function AddProductView() {
         tags: productData.tags 
           ? productData.tags.split(',').map(t => t.trim().toLowerCase()).filter(t => t.length > 0)
           : [productData.category.toLowerCase()],
-        sellerId: user.id,
+        userId: user.id,
         sellerUsername: user.username,
         sku: `${productData.category.toUpperCase()}-${productId}`,
         createdAt: new Date().toISOString(),
