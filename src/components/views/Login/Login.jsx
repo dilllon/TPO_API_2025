@@ -5,7 +5,7 @@ import styles from './Login.module.css';
 import { useUser } from '@/context/UserContext';
 
 function Login() {
-  const [emailOrUsername, setEmailOrUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
