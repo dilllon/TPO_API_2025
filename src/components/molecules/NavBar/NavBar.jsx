@@ -12,9 +12,11 @@ import Dropdown from '../../atoms/Dropdown/Dropdown.jsx';
 import InfoDropdown from '../../atoms/InfoDropdown/InfoDropdown';
 import styles from './NavBar.module.css';
 import { useSelector } from "react-redux";
+import { useUser } from '@/context/UserContext';
 
 function NavBar() {
   const { getCategories  } = useProducts();
+  const { isAuthenticated, canEdit } = useUser();
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Cambiar de true a false dependiendo del NavBar que se quiere ver
@@ -112,7 +114,7 @@ function NavBar() {
                   <span>Mis compras</span>
                 </Link>
               </li>
-              {isLoggedIn && (<li>
+              {isAuthenticated && canEdit() && (<li>
                 <Link
                   to="/products/add"
                   title='Agregar un nuevo producto'

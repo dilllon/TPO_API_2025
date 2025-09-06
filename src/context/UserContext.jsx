@@ -1,57 +1,43 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, use, useContext, useEffect, useState } from "react";
 
 const UserContext = createContext(null);
 
 const roleToEdit = ["admin", "seller"]
 
 export function UserProvider({ children }) {
-  const [usersData, setUsersData] = useState(null);
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState(null);
-
-  const fetchUser = async () => {
-    setIsLoading(true);
-    setError(null);
+  
+  const login = async (email, password) => {
     try {
-      console.log("Iniciando fetch de usuario...");
-      const response = await fetch("http://localhost:9000/user");
+      setIsLoading(true);
+      const response = await fetch(`http://localhost:9000/user?email=${email}&password=${password}`);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
-      console.log("Usuarios cargados:", data);
+      // En lugar de actualizar solo el producto, refrescamos todos los datos
+      const user = await response.json();
 
-      setUsersData(data);
+      if (user.length === 0) {
+        setError("Credenciales inválidas");
+        return null;
+      }
+      setUserData(user[0]);
+      console.log("Login exitoso:", user);
       setIsLoading(false);
+      setIsAuthenticated(true);
+      setError(null);
+      return user[0];
     } catch (error) {
-      console.error("Error al cargar los usuarios:", error);
-      setError(error.message);
+      console.error("Error al iniciar sesión:", error);
       setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
-  const login = (email, password) => {
-    const user = usersData.find(
-      (user) => user.email === email && user.password === password
-    );
-    if (user) {
-      setUserData(user);
-      return user
-    } else {
       setError("Credenciales inválidas");
       return null;
     }
-  };
-
-  const isAuthenticated = () => {
-    return userData !== null;
   };
 
   const canEdit = () => {
@@ -60,6 +46,7 @@ export function UserProvider({ children }) {
 
   const logout = () => {
     setUserData(null);
+    setIsAuthenticated(false);
   };
 
   return (

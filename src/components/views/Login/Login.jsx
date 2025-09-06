@@ -13,7 +13,7 @@ function Login() {
   const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch()
-  const { isLoading, login } = useUser();
+  const { login } = useUser();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

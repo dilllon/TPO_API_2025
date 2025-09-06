@@ -295,5 +295,37 @@
       },
       "imageUrl": "https://picsum.photos/50"
     }
+  ],
+  "login": [
+    {
+      "id": "3",
+      "username": "admin",
+      "email": "admin@gmail.com",
+      "password": "admin123",
+      "role": "admin",
+      "firstName": "Carlos",
+      "lastName": "Rodríguez",
+      "phone": "+54 11 2468-1357",
+      "address": {
+        "street": "Av. 9 de Julio 999",
+        "city": "Buenos Aires",
+        "province": "CABA",
+        "zipCode": "1073",
+        "country": "Argentina"
+      },
+      "createdAt": "2023-12-01T12:00:00Z",
+      "lastLogin": "2025-09-04T16:26:52.869Z",
+      "isActive": true,
+      "adminProfile": {
+        "permissions": [
+          "manage_products",
+          "manage_users",
+          "view_analytics",
+          "moderate_content"
+        ],
+        "department": "Operations"
+      },
+      "imageUrl": "https://picsum.photos/50"
+    }
   ]
 }
