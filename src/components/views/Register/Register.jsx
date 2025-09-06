@@ -1,13 +1,12 @@
-import { useState } from 'react';
-import { useNavigate, Link } from "react-router-dom";
-// import { useDispatch } from 'react-redux';
-// import { registerUser } from '@/store/slices/authSlice';
 import Button from '@/components/atoms/Button/Button.jsx';
+import { useUser } from '@/context/UserContext';
+import { useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
 import styles from './Register.module.css';
 
 function Register() {
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const { login } = useUser();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -37,8 +36,6 @@ function Register() {
           localStorage.setItem(key, formData[key]);
           }
 
-    // Despachamos la acción a Redux para guardar los datos del usuario.
-    // dispatch(registerUser(formData));
 
     console.log(
       'Usuario registrado y guardado en el estado de Redux:',

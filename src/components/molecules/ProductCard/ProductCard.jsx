@@ -1,8 +1,8 @@
-import { useNavigate } from 'react-router-dom';
-import { useProducts } from '@/context/ProductContext';
-import './ProductCard.css';
 import { FaEdit } from 'react-icons/fa';
-import { useUser } from '@/context/UserContext';
+import { useNavigate } from 'react-router-dom';
+import { useProducts } from '../../../context/ProductContext';
+import { useUser } from '../../../context/UserContext';
+import './ProductCard.css';
 
 function ProductCard({ product, onClick, variant = "default" }) {
   const { calculateDiscountedPrice, hasDiscount, canEdit } = useProducts();
@@ -13,8 +13,9 @@ function ProductCard({ product, onClick, variant = "default" }) {
     navigate(`/products/${product.id}`);
   };
 
-  const  onAddToCart   = (e) => {
+  const onAddToCart = (e) => {
     e.stopPropagation(); // Evita que se active la navegación
+    
     if (onClick) {
       onClick(product);
     }
@@ -27,15 +28,6 @@ function ProductCard({ product, onClick, variant = "default" }) {
 
   const productHasDiscount = hasDiscount(product);
   const discountedPrice = calculateDiscountedPrice(product);
-
-  // Debug: agregar logs para identificar el problema
-  console.log('ProductCard Debug:', {
-    productId: product.id,
-    productTitle: product.title,
-    discount: product.discount,
-    discountType: typeof product.discount,
-    hasDiscount: productHasDiscount
-  });
 
   return (
     <div className={`product-card ${variant}`}>

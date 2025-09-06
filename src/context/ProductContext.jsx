@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const ProductsContext = createContext(null);
 
@@ -43,6 +43,10 @@ export function ProductsProvider({ children }) {
   };
 
   const canEdit = (id, userId) => {
+    return productsData.find(product => product.id == id && product.userId == userId) ? true : false;
+  }
+
+  const canDelete = (id, userId) => {
     return productsData.find(product => product.id == id && product.userId == userId) ? true : false;
   }
   
@@ -132,7 +136,8 @@ export function ProductsProvider({ children }) {
       updateProduct, 
       addProduct,
       refreshProducts: fetchProducts,
-      canEdit
+      canEdit,
+      canDelete
     }}>
       {children}
     </ProductsContext.Provider>

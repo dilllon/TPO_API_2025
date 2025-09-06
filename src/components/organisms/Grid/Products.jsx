@@ -1,8 +1,8 @@
-import ProductCard from "@/components/molecules/ProductCard/ProductCard";
 import { useMemo } from "react";
+import { useProducts } from "../../../context/ProductContext";
+import CarouselProducts from "../../molecules/CarouselProducts/CarouselProducts";
+import ProductCard from "../../molecules/ProductCard/ProductCard";
 import "./Products.css";
-import CarouselProducts from "@/components/molecules/CarouselProducts/CarouselProducts";
-import {useProducts} from "@/context/ProductContext";
 
 // Ordena por título (ES-AR), devolviendo una COPIA
 function orderProducts(products) {
@@ -14,7 +14,7 @@ function orderProducts(products) {
   );
 }
 
-function ProductsGrid() {
+function ProductsGrid({ onAddToCart }) {
   const { productsData, getProductsGroupedByCategory } = useProducts();
   // Separa por categoría y ordena los productos de cada categoría
   const ordered = useMemo(() => {
@@ -24,17 +24,6 @@ function ProductsGrid() {
       products: orderProducts(cat.products),
     }));
   }, [productsData, getProductsGroupedByCategory]); // Agregamos las dependencias correctas
-
-  const onAddToCart = (product) => {
-    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    const existingItem = cartItems.find(item => item.id === product.id);
-    if (existingItem) {
-      existingItem.qty = (existingItem.qty || 1) + 1;
-    } else {
-      cartItems.push({ ...product, qty: 1 });
-    }
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-  };
 
   return (
     <>
