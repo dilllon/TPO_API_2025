@@ -16,7 +16,7 @@ import { useUser } from '@/context/UserContext';
 
 function NavBar() {
   const { getCategories  } = useProducts();
-  const { isAuthenticated, canEdit } = useUser();
+  const { isAuthenticated, canEdit, userData } = useUser();
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Cambiar de true a false dependiendo del NavBar que se quiere ver
@@ -72,9 +72,8 @@ function NavBar() {
 
   // Datos de muestra para el perfil de usuario.
   const mockUser = {
-    userName: 'Tomás Nakasone',
-    imageUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK7-GWRf4z46CrzTubYTvsFzLk1Ym2-lX7DA&s', // URL de Iron Man
+    userName: userData ? userData.username : 'Invitado',
+    imageUrl: userData ? userData.imageUrl : 'https://via.placeholder.com/150', // URL de Iron Man
   };
 
   return (
