@@ -6,6 +6,7 @@ function Filter({ categories, onFilter }) {
 	const [minPrice, setMinPrice] = useState("");
 	const [maxPrice, setMaxPrice] = useState("");
 	const [inStock, setInStock] = useState(false);
+	const [hasDiscount, setHasDiscount] = useState(false);
 
 	useEffect(() => {
 		onFilter({
@@ -13,8 +14,9 @@ function Filter({ categories, onFilter }) {
 			minPrice: minPrice !== "" ? Number(minPrice) : undefined,
 			maxPrice: maxPrice !== "" ? Number(maxPrice) : undefined,
 			inStock,
+			hasDiscount,
 		});
-	}, [selectedCategory, minPrice, maxPrice, inStock, onFilter]);
+	}, [selectedCategory, minPrice, maxPrice, inStock, hasDiscount, onFilter]);
 
 	return (
 		<div>
@@ -59,7 +61,15 @@ function Filter({ categories, onFilter }) {
 							checked={inStock}
 							onChange={e => setInStock(e.target.checked)}
 						/>
-						Solo mostrar productos en stock
+						Productos con stock
+					</label>
+					<label>
+						<input
+							type="checkbox"
+							checked={hasDiscount}
+							onChange={e => setHasDiscount(e.target.checked)}
+						/>
+						Productos con descuento
 					</label>
 				</div>
 			)}

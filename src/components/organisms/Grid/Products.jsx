@@ -36,7 +36,8 @@ function ProductsGrid({ onAddToCart }) {
         const priceOk = (filter.minPrice === undefined || p.price >= filter.minPrice) &&
           (filter.maxPrice === undefined || p.price <= filter.maxPrice);
         const stockOk = !filter.inStock || (p.stock && p.stock > 0);
-        return priceOk && stockOk;
+        const discountOk = !filter.hasDiscount || (p.discount && p.discount > 0);
+        return priceOk && stockOk && discountOk;
       })
     })).filter(cat => cat.products.length > 0);
   }, [productsData, getProductsGroupedByCategory, filter]);
