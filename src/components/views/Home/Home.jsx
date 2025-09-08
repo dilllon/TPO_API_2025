@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../../context/UserContext';
 import ProductsGrid from '../../organisms/Grid/Products';
 import Header from '../../organisms/Header/Header';
+import Buscador from '../../atoms/Buscador/Buscador';
 import './Home.css';
 
 function Home() {
   const [showAuthAlert, setShowAuthAlert] = useState(false);
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const { isAuthenticated } = useUser();
 
@@ -16,7 +18,6 @@ function Home() {
       setShowAuthAlert(true);
       return;
     }
-    
     // Lógica para agregar al carrito
     const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     const existingItem = cartItems.find(item => item.id === product.id);
@@ -26,7 +27,6 @@ function Home() {
       cartItems.push({ ...product, qty: 1 });
     }
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    
     // Opcional: mostrar mensaje de éxito
     alert(`${product.title} agregado al carrito`);
   };
@@ -43,10 +43,11 @@ function Home() {
           <p>
             Explorá nuestros productos y hacé tu compra de forma fácil y rápida.
           </p>
+          <Buscador value={search} onChange={setSearch} />
         </section>
-        <ProductsGrid onAddToCart={handleAddToCart} />
+        <ProductsGrid onAddToCart={handleAddToCart} search={search} />
       </main>
-      
+
       {showAuthAlert && (
         <div style={{
           position: 'fixed',

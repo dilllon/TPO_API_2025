@@ -15,16 +15,17 @@ function orderProducts(products) {
   );
 }
 
-function ProductsGrid({ onAddToCart }) {
-  const { productsData, getProductsGroupedByCategory } = useProducts();
+
+function ProductsGrid({ onAddToCart, search = "" }) {
+  const { getProductsGroupedByCategory } = useProducts();
   const [filter, setFilter] = useState({});
 
   // Obtener todas las categorías
   const allCategories = useMemo(() => {
     return getProductsGroupedByCategory().map(cat => cat.categoryName);
-  }, [productsData, getProductsGroupedByCategory]);
+  }, [getProductsGroupedByCategory]);
 
-  // Filtrar productos según el filtro
+  // Filtrar productos según el filtro y búsqueda
   const filteredCategories = useMemo(() => {
     let categories = getProductsGroupedByCategory();
     if (filter.category) {
@@ -37,10 +38,11 @@ function ProductsGrid({ onAddToCart }) {
           (filter.maxPrice === undefined || p.price <= filter.maxPrice);
         const stockOk = !filter.inStock || (p.stock && p.stock > 0);
         const discountOk = !filter.hasDiscount || (p.discount && p.discount > 0);
-        return priceOk && stockOk && discountOk;
+        const searchOk = !search || (p.title && p.title.toLowerCase().includes(search.toLowerCase()));
+        return priceOk && stockOk && discountOk && searchOk;
       })
     })).filter(cat => cat.products.length > 0);
-  }, [productsData, getProductsGroupedByCategory, filter]);
+  }, [getProductsGroupedByCategory, filter, search]);
 
   return (
     <>

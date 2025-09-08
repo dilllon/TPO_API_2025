@@ -1,7 +1,8 @@
 import { FaSearch } from 'react-icons/fa';
 import styles from './Buscador.module.css';
 
-function Buscador() {
+
+function Buscador({ value, onChange }) {
   return (
     <form
       className={styles['search-form']}
@@ -13,6 +14,8 @@ function Buscador() {
         type="search"
         placeholder="Buscar productos, marcas y más..."
         aria-label="Buscar"
+        value={value}
+        onChange={e => onChange(e.target.value)}
       />
     </form>
   );
