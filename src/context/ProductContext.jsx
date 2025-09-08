@@ -69,7 +69,23 @@ export function ProductsProvider({ children }) {
       products: getProductsByCategory(categoryName)
     }));
   };
-    
+
+  const getProductsGroupedByOwner = (userId) => {
+    const categories = getCategories();
+    return categories.map(categoryName => ({
+      categoryName,
+      products: getProductsByCategory(categoryName).filter(product => product.userId === userId)
+    }));
+  };
+
+  const getProductsGroupedByDifferentOwner = (userId) => {
+    const categories = getCategories();
+    return categories.map(categoryName => ({
+      categoryName,
+      products: getProductsByCategory(categoryName).filter(product => product.userId !== userId)
+    }));
+  };
+
   // Función para buscar productos por título
   const searchProducts = (searchTerm) => {
     if (!searchTerm) return productsData;
@@ -137,7 +153,9 @@ export function ProductsProvider({ children }) {
       addProduct,
       refreshProducts: fetchProducts,
       canEdit,
-      canDelete
+      canDelete,
+      getProductsGroupedByOwner,
+      getProductsGroupedByDifferentOwner
     }}>
       {children}
     </ProductsContext.Provider>

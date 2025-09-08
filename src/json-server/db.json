@@ -1,7 +1,7 @@
 {
   "products": [
     {
-      "id": "1",
+      "id": 1,
       "title": "Mouse inalámbrico",
       "price": 2999,
       "image": "/src/assets/images/productos/52898-producto-logitech-g305-negro.jpg",
@@ -25,7 +25,7 @@
       "userId": 2
     },
     {
-      "id": "2",
+      "id": 2,
       "title": "Teclado mecánico HyperX",
       "price": 19999,
       "image": "/src/assets/images/productos/teclado.jpeg",
@@ -51,7 +51,7 @@
       "discount": 100
     },
     {
-      "id": "3",
+      "id": 3,
       "title": "Monitor 24 pulgadas",
       "price": 159999,
       "image": "/src/assets/images/productos/pantalla.webp",
@@ -75,7 +75,7 @@
       "userId": 2
     },
     {
-      "id": "4",
+      "id": 4,
       "title": "Laptop gamer promax",
       "price": 899999,
       "image": "/src/assets/images/productos/laptop.webp",
@@ -101,7 +101,7 @@
       "userId": 3
     },
     {
-      "id": "5",
+      "id": 5,
       "title": "Smartphone 5G",
       "price": 499999,
       "image": "/src/assets/images/productos/smartphone.png",
@@ -126,7 +126,7 @@
       "userId": 1
     },
     {
-      "id": "6",
+      "id": 6,
       "title": "Cargador portátil",
       "price": 9999,
       "image": "/src/assets/images/carrousel/foto2.jpg",
@@ -150,7 +150,7 @@
       "userId": 2
     },
     {
-      "id": "7",
+      "id": 7,
       "title": "Smartwatch",
       "price": 79999,
       "discount": 15,
@@ -175,7 +175,7 @@
       "userId": 2
     },
     {
-      "id": "8",
+      "id": 8,
       "title": "Auriculares Bluetooth",
       "price": 24999,
       "image": "/src/assets/images/carrousel/foto2.jpg",
@@ -199,7 +199,7 @@
       "userId": 2
     },
     {
-      "id": "9",
+      "id": 9,
       "title": "Tablet Android",
       "price": 199999,
       "image": "/src/assets/images/carrousel/foto1.png",
@@ -225,7 +225,7 @@
   ],
   "user": [
     {
-      "id": "1",
+      "id": 1,
       "username": "comprador",
       "email": "comprador@gmail.com",
       "password": "comprador123",
@@ -246,7 +246,7 @@
       "imageUrl": "https://picsum.photos/50"
     },
     {
-      "id": "2",
+      "id": 2,
       "username": "vendedor",
       "email": "vendedor@gmail.com",
       "password": "vendedor123",
@@ -275,7 +275,7 @@
       "imageUrl": "https://picsum.photos/50"
     },
     {
-      "id": "3",
+      "id": 3,
       "username": "admin",
       "email": "admin@gmail.com",
       "password": "admin123",
@@ -330,7 +330,7 @@
           "timestamp": "24/05, 09:00 AM"
         }
       ],
-      "id": "8546"
+      "id": 8546
     }
   ],
   "favorite": [
@@ -356,7 +356,7 @@
           "displayImage": "https://picsum.photos/seed/shoes/50"
         }
       ],
-      "id": "ca18"
+      "id": 1018
     }
   ]
 }
