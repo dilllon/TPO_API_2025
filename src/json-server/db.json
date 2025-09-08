@@ -1,7 +1,7 @@
 {
   "products": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Mouse inalámbrico",
       "price": 2999,
       "image": "/src/assets/images/productos/52898-producto-logitech-g305-negro.jpg",
@@ -25,7 +25,7 @@
       "userId": 2
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "Teclado mecánico HyperX",
       "price": 19999,
       "image": "/src/assets/images/productos/teclado.jpeg",
@@ -48,10 +48,10 @@
       "brand": "GameMaster",
       "warranty": "2 años",
       "userId": 2,
-      "discount": 100
+      "discount": 10
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "Monitor 24 pulgadas",
       "price": 159999,
       "image": "/src/assets/images/productos/pantalla.webp",
@@ -75,7 +75,7 @@
       "userId": 2
     },
     {
-      "id": 4,
+      "id": "4",
       "title": "Laptop gamer promax",
       "price": 899999,
       "image": "/src/assets/images/productos/laptop.webp",
@@ -101,7 +101,7 @@
       "userId": 3
     },
     {
-      "id": 5,
+      "id": "5",
       "title": "Smartphone 5G",
       "price": 499999,
       "image": "/src/assets/images/productos/smartphone.png",
@@ -123,10 +123,11 @@
       "category": "Electro",
       "brand": "MobileTech",
       "warranty": "2 años",
-      "userId": 1
+      "userId": 1,
+      "discount": 90
     },
     {
-      "id": 6,
+      "id": "6",
       "title": "Cargador portátil",
       "price": 9999,
       "image": "/src/assets/images/carrousel/foto2.jpg",
@@ -150,7 +151,7 @@
       "userId": 2
     },
     {
-      "id": 7,
+      "id": "7",
       "title": "Smartwatch",
       "price": 79999,
       "discount": 15,
@@ -175,7 +176,7 @@
       "userId": 2
     },
     {
-      "id": 8,
+      "id": "8",
       "title": "Auriculares Bluetooth",
       "price": 24999,
       "image": "/src/assets/images/carrousel/foto2.jpg",
@@ -199,7 +200,7 @@
       "userId": 2
     },
     {
-      "id": 9,
+      "id": "9",
       "title": "Tablet Android",
       "price": 199999,
       "image": "/src/assets/images/carrousel/foto1.png",
@@ -221,11 +222,105 @@
       "brand": "TabletPro",
       "warranty": "2 años",
       "userId": 3
+    },
+    {
+      "id": "12",
+      "title": "asd3",
+      "description": "asdad",
+      "price": 1231231,
+      "stock": 123123,
+      "category": "asd",
+      "brand": "Generic",
+      "warranty": "1 año",
+      "weight": "N/A",
+      "dimensions": "N/A",
+      "image": "/src/assets/images/productos/default.jpg",
+      "images": [
+        "/src/assets/images/productos/default.jpg",
+        []
+      ],
+      "features": [],
+      "tags": [
+        "asd"
+      ],
+      "userId": 2,
+      "sellerUsername": "vendedor",
+      "sku": "ASD-12",
+      "createdAt": "2025-09-08T21:02:40.971Z",
+      "updatedAt": "2025-09-08T21:02:40.971Z",
+      "isActive": true,
+      "rating": {
+        "average": 0,
+        "count": 0
+      },
+      "discount": 22
+    },
+    {
+      "id": "13",
+      "title": "compradortest",
+      "description": "asdasdad",
+      "price": 123,
+      "stock": 123,
+      "category": "Electro",
+      "brand": "Generic",
+      "warranty": "1 año",
+      "weight": "N/A",
+      "dimensions": "N/A",
+      "image": "/src/assets/images/productos/default.jpg",
+      "images": [
+        "/src/assets/images/productos/default.jpg",
+        []
+      ],
+      "features": [],
+      "tags": [
+        "electro"
+      ],
+      "userId": "1",
+      "sellerUsername": "comprador",
+      "sku": "ELECTRO-13",
+      "createdAt": "2025-09-08T21:14:20.260Z",
+      "updatedAt": "2025-09-08T21:14:20.261Z",
+      "isActive": true,
+      "rating": {
+        "average": 0,
+        "count": 0
+      }
+    },
+    {
+      "id": "14",
+      "title": "asd2",
+      "description": "asdasd",
+      "price": 123123,
+      "stock": 12312312,
+      "category": "Electro",
+      "brand": "Generic",
+      "warranty": "1 año",
+      "weight": "N/A",
+      "dimensions": "N/A",
+      "image": "/src/assets/images/productos/default.jpg",
+      "images": [
+        "/src/assets/images/productos/default.jpg",
+        []
+      ],
+      "features": [],
+      "tags": [
+        "electro"
+      ],
+      "userId": "2",
+      "sellerUsername": "vendedor",
+      "sku": "ELECTRO-14",
+      "createdAt": "2025-09-08T21:58:38.477Z",
+      "updatedAt": "2025-09-08T21:58:38.477Z",
+      "isActive": true,
+      "rating": {
+        "average": 0,
+        "count": 0
+      }
     }
   ],
   "user": [
     {
-      "id": 1,
+      "id": "1",
       "username": "comprador",
       "email": "comprador@gmail.com",
       "password": "comprador123",
@@ -246,7 +341,7 @@
       "imageUrl": "https://picsum.photos/50"
     },
     {
-      "id": 2,
+      "id": "2",
       "username": "vendedor",
       "email": "vendedor@gmail.com",
       "password": "vendedor123",
@@ -275,7 +370,7 @@
       "imageUrl": "https://picsum.photos/50"
     },
     {
-      "id": 3,
+      "id": "3",
       "username": "admin",
       "email": "admin@gmail.com",
       "password": "admin123",
@@ -330,7 +425,7 @@
           "timestamp": "24/05, 09:00 AM"
         }
       ],
-      "id": 8546
+      "id": "8546"
     }
   ],
   "favorite": [
@@ -356,7 +451,7 @@
           "displayImage": "https://picsum.photos/seed/shoes/50"
         }
       ],
-      "id": 1018
+      "id": "1018"
     }
   ]
 }
