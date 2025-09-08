@@ -14,17 +14,27 @@ const MyProductsView = () => {
 
   useEffect(() => {
     if (productsData && userData) {
-      const userProducts = productsData.filter(product => product.userId === userData.id);
+      const userProducts = productsData.filter(product => product.userId == userData.id);
       setMyProducts(userProducts);
     }
-  }, [productsData, userData]);
+  }, [productsData, userData, isLoading]);
 
   if (isLoading) {
-    return <div className="loading">Cargando productos...</div>;
+    return (
+      <>
+        <Header />
+        <div className="loading">Cargando productos...</div>
+      </>
+    );
   }
 
   if (!userData) {
-    return <div className="error-message">Debes iniciar sesión para ver tus productos</div>;
+    return (
+      <>
+        <Header />
+        <div className="error-message">Debes iniciar sesión para ver tus productos</div>
+      </>
+    );
   }
 
   if (myProducts.length === 0) {
