@@ -275,7 +275,7 @@
       "tags": [
         "electro"
       ],
-      "userId": "1",
+      "userId": 1,
       "sellerUsername": "comprador",
       "sku": "ELECTRO-13",
       "createdAt": "2025-09-08T21:14:20.260Z",
@@ -306,7 +306,7 @@
       "tags": [
         "electro"
       ],
-      "userId": "2",
+      "userId": 2,
       "sellerUsername": "vendedor",
       "sku": "ELECTRO-14",
       "createdAt": "2025-09-08T21:58:38.477Z",
