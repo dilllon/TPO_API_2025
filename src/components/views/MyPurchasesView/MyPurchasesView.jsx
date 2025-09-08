@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '@/context/UserContext';
 import Header from '../../organisms/Header/Header';
+import  './MyPurchasesView.css';
 
 function MyPurchases() {
   const navigate = useNavigate();
@@ -15,7 +16,8 @@ function MyPurchases() {
 
     const fetchPurchases = async () => {
       try {
-        const res = await fetch(`http://localhost:9000/purchases?userId=${userData.id}`);
+        // const res = await fetch(`http://localhost:9000/purchases?userId=${userData.id}`);
+        const res = await fetch(`http://localhost:9000/purchases`);
         const data = await res.json();
 
         if (data.length > 0) {
@@ -41,24 +43,27 @@ function MyPurchases() {
   return (
     <>
       <Header />
-      <main style={{ padding: '20px' }}>
+      <main className="mypurchases-container">
         <h2>Mis compras</h2>
-
         {purchases.length === 0 ? (
-          <p>No tenés compras registradas.</p>
+            <div className="mypurchases-empty">No tenés compras registradas.</div>
         ) : (
-          <ul style={{ listStyle: 'none', padding: 0 }}>
+            <ul className="mypurchases-list">
             {purchases.map((p) => (
-              <li key={p.id} style={{ border: '1px solid #ccc', marginBottom: '10px', padding: '10px' }}>
-                <strong>{p.title}</strong> <br />
-                Cantidad: {p.qty} <br />
-                Precio pagado: ${p.pricePaid.toFixed(2)} <br />
-                {p.thumbnail && <img src={p.thumbnail} alt={p.title} width={80} />}
-              </li>
+                <li key={p.id} className="mypurchases-item">
+                <div className="mypurchases-thumb">
+                    <img src={p.thumbnail} alt={p.title} />
+                </div>
+                <div className="mypurchases-info">
+                    <h3>{p.title}</h3>
+                    <p>Cantidad: {p.qty}</p>
+                    <p>Precio pagado: ${p.pricePaid.toFixed(2)}</p>
+                </div>
+                </li>
             ))}
-          </ul>
+            </ul>
         )}
-      </main>
+        </main>
 
       {showAuthAlert && (
         <div style={{ background: 'rgba(0,0,0,0.7)', position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
