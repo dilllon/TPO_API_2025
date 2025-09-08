@@ -22,7 +22,8 @@
       "category": "Electro",
       "brand": "TechPro",
       "warranty": "1 año",
-      "userId": 2
+      "userId": 2,
+      "discount": 12
     },
     {
       "id": "2",
@@ -455,36 +456,35 @@
     }
   ],
   "purchases": [
-  {
-    "userId": 3,
-    "purchases": [
-      {
-        "id": 1,
-        "productId": 101,
-        "title": "Smart TV 55\" 4K UHD",
-        "pricePaid": 1200.50,
-        "qty": 1,
-        "thumbnail": "https://picsum.photos/seed/tv/80"
-      },
-      {
-        "id": 2,
-        "productId": 205,
-        "title": "Auriculares Inalámbricos con Cancelación de Ruido",
-        "pricePaid": 250.00,
-        "qty": 2,
-        "thumbnail": "https://picsum.photos/seed/audio/80"
-      },
-      {
-        "id": 3,
-        "productId": 309,
-        "title": "Zapatillas de Running - Talle 42",
-        "pricePaid": 95.99,
-        "qty": 1,
-        "thumbnail": "https://picsum.photos/seed/shoes/80"
-      }
-    ],
-    "id": 4321
-  }
-]
-
+    {
+      "userId": 3,
+      "purchases": [
+        {
+          "id": 1,
+          "productId": 101,
+          "title": "Smart TV 55\" 4K UHD",
+          "pricePaid": 1200.5,
+          "qty": 1,
+          "thumbnail": "https://picsum.photos/seed/tv/80"
+        },
+        {
+          "id": 2,
+          "productId": 205,
+          "title": "Auriculares Inalámbricos con Cancelación de Ruido",
+          "pricePaid": 250,
+          "qty": 2,
+          "thumbnail": "https://picsum.photos/seed/audio/80"
+        },
+        {
+          "id": 3,
+          "productId": 309,
+          "title": "Zapatillas de Running - Talle 42",
+          "pricePaid": 95.99,
+          "qty": 1,
+          "thumbnail": "https://picsum.photos/seed/shoes/80"
+        }
+      ],
+      "id": "4321"
+    }
+  ]
 }
