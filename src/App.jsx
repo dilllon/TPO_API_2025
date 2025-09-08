@@ -6,7 +6,9 @@ import AddProductView from './components/views/ProductsView/AddProductView';
 import Register from './components/views/Register/Register';
 import EditProductView from './components/views/ProductsView/EditProductView';
 import CartView from './components/views/Cart/CartView';
-import MyProductsView from './components/views/ProductsView/MyproductsView';
+import MyPurchases from './components/views/MyPurchasesView/MyPurchasesView';
+// import MyProductsView from './components/views/ProductsView/MyproductsView';
+
 
 function App() {
   return (
@@ -19,7 +21,8 @@ function App() {
         <Route path="/products/:id" element={<ProductsView />} />
         <Route path="/products/:id/edit" element={<EditProductView />} />
         <Route path="/products/add" element={<AddProductView />} />
-        <Route path="/products/my-products" element={<MyProductsView />} />
+        {/* <Route path="/products/my-products" element={<MyProductsView />} /> */}
+        <Route path="/clients/previous-orders" element={<MyPurchases />} />
       </Routes>
     </Router>
   );
