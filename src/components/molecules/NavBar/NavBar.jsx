@@ -41,36 +41,8 @@ function NavBar() {
           >
             ☰
           </button>
-        </div>
 
-        <div className={styles['segundo-renglon']}>
-          {/* Menú */}
-          <div
-            className={`${styles['nav-menu']} ${menuOpen ? styles['show'] : ''}`}
-          >
-            <ul className={styles['nav-list']}>
-              <li>
-                <Link to="/">Inicio</Link>
-              </li>
-              <Dropdown title="Categorías" items={getCategories()} />
-              <li>
-                <Link
-                  to="/clients/previous-orders"
-                  className={styles['nav-link-icon']}
-                >
-                  <span>Mis compras</span>
-                </Link>
-              </li>
-              {isAuthenticated && canEdit() && (<li>
-                <Link
-                  to="/products/add"
-                  title='Agregar un nuevo producto'
-                >
-                  Agregar Producto
-                </Link>
-              </li>)}
-            </ul>
-            <ul className={styles['nav-list-right']}>
+          <ul className={styles['nav-list-right']}>
               {isAuthenticated && (
                 <>
                   <li>
@@ -119,7 +91,6 @@ function NavBar() {
                 )}
               </li>
             </ul>
-          </div>
         </div>
       </div>
     </nav>
