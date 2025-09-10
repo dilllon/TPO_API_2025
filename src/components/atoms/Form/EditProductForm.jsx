@@ -12,13 +12,9 @@ function EditProductForm() {
 
     useEffect(() => {
         if (isLoading) {
-            console.log('Productos cargando...');
             return;
         }
-        
-        console.log('Buscando producto con ID:', id);
-        console.log('Products data disponible:', productsData);
-        
+
         const p = getProductById(id);
         console.log('Producto encontrado:', p);
         if (!p) {

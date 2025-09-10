@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useState, useEffect, useRef } from 'react';
 import styles from './Profile.module.css';
 import { useUser } from '@/context/UserContext';
+import { Link } from 'react-router-dom';
 
 /**
  * Componente de perfil de usuario para la barra de navegación.
@@ -94,6 +95,22 @@ const Profile = ({ userName, imageUrl }) => {
               </svg>
               <span>Mis compras</span>
             </a>
+          </li>
+          <li>
+            <Link to="/products/my-products">
+              <svg
+                className={styles.dropdownIcon}
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                viewBox="0 0 16 16"
+                aria-hidden="true"
+              >
+                <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L8 2.122l3.75 1.339 2.404-.961zm3.564 1.426L5.596 5.55 8 6.462l2.404-.912zM1.5 4.285l2.404.961L8 6.812l3.75-1.567 2.404-.961L8.25 2.62zM1 4.612l2.404.962L8 7.138l3.75-1.567 2.404-.962A.5.5 0 0 0 15 4.5v7a.5.5 0 0 0 .5.5h.5a.5.5 0 0 0 .5-.5v-7A1.5 1.5 0 0 0 14.25 3.12l-6-2.4A.5.5 0 0 0 8 1a.5.5 0 0 0-.25.062l-6 2.4A1.5 1.5 0 0 0 1 4.5v7a.5.5 0 0 0 .5.5h.5a.5.5 0 0 0 .5-.5z" />
+              </svg>
+              <span>Mis Productos</span>
+            </Link>
           </li>
           <li>
             <a href="clients/favorites">

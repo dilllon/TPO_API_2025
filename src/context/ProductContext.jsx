@@ -69,7 +69,23 @@ export function ProductsProvider({ children }) {
       products: getProductsByCategory(categoryName)
     }));
   };
-    
+
+  const getProductsGroupedByOwner = (userId) => {
+    const categories = getCategories();
+    return categories.map(categoryName => ({
+      categoryName,
+      products: getProductsByCategory(categoryName).filter(product => product.userId == userId)
+    }));
+  };
+
+  const getProductsGroupedByDifferentOwner = (userId) => {
+    const categories = getCategories();
+    return categories.map(categoryName => ({
+      categoryName,
+      products: getProductsByCategory(categoryName).filter(product => product.userId != userId)
+    }));
+  };
+
   // Función para buscar productos por título
   const searchProducts = (searchTerm) => {
     if (!searchTerm) return productsData;
@@ -96,6 +112,7 @@ export function ProductsProvider({ children }) {
   // Funcion para actualizar el producto en nuestro modelo de datos
   const updateProduct = async (updated) => {
     try {
+      console.log("Actualizando producto:", JSON.stringify(updated));
       const response = await fetch(`http://localhost:9000/products/${updated.id}`, {
         method: 'PUT',
         headers: {
@@ -116,6 +133,12 @@ export function ProductsProvider({ children }) {
       return false;
     }
   };
+  
+
+  const lastId = () => {
+    if (productsData.length === 0) return 0;
+    return Math.max(...productsData.map(p => Number(p.id)));
+  }
 
   const addProduct = (product) => {
     setProducts(prevProducts => [...prevProducts, product]);
@@ -137,7 +160,10 @@ export function ProductsProvider({ children }) {
       addProduct,
       refreshProducts: fetchProducts,
       canEdit,
-      canDelete
+      canDelete,
+      getProductsGroupedByOwner,
+      getProductsGroupedByDifferentOwner,
+      lastId
     }}>
       {children}
     </ProductsContext.Provider>

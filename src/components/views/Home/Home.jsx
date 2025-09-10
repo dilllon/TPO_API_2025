@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../../../context/UserContext';
+import { useUser } from '@/context/UserContext';
 import ProductsGrid from '../../organisms/Grid/Products';
 import Header from '../../organisms/Header/Header';
 import './Home.css';
@@ -8,7 +8,14 @@ import './Home.css';
 function Home() {
   const [showAuthAlert, setShowAuthAlert] = useState(false);
   const navigate = useNavigate();
-  const { isAuthenticated } = useUser();
+  const { isAuthenticated, userData, isLoading } = useUser();
+
+  // Verificar si los datos están cargando
+  useEffect(() => {
+    if (isLoading) {
+      console.log('Cargando datos del usuario...');
+    }
+  }, [isLoading]);
 
   const handleAddToCart = (product) => {
     // Verificar si el usuario está autenticado
@@ -31,10 +38,9 @@ function Home() {
     alert(`${product.title} agregado al carrito`);
   };
 
-  return (
+  return ( 
     <>
       <Header />
-      {/* <Carrousel /> */}
       <main>
         <section>
           <div className="welcome-message">
