@@ -1,4 +1,4 @@
-import { FaEdit, FaHeart } from 'react-icons/fa';
+import { FaEdit, FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useProducts } from '../../../context/ProductContext';
 import { useUser } from '../../../context/UserContext';
@@ -44,7 +44,16 @@ function ProductCard({ product, onClick, variant = 'default' }) {
         <div className="discount-badge">-{product.discount}%</div>
       )}
       <div className="product-clickable-area" onClick={handleProductClick}>
-        <h3 className="product-title">{product.title}</h3>
+        <div className="product-card-header">
+          <h3 className="product-title">{product.title}</h3>
+           <button
+             onClick={handleAddToFavorites}
+             className={`favorite-button ${isFavorite ? 'favorited' : ''}`}
+             aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+           >
+             {isFavorite ? <FaHeart /> : <FaRegHeart />}
+           </button>
+        </div>
         <img
           src={product.image}
           alt={product.title}
@@ -73,12 +82,6 @@ function ProductCard({ product, onClick, variant = 'default' }) {
       </div>
       <div className="product-btns">
         <button onClick={onAddToCart}>Agregar al carrito</button>
-        <button
-          onClick={handleAddToFavorites}
-          className={`favorite-button ${isFavorite ? 'favorited' : ''}`}
-        >
-          <FaHeart />
-        </button>
         {isAuthenticated && canEdit(product.id, userData.id) && (
           <button onClick={handleEdit} className="edit-button">
             <FaEdit />
