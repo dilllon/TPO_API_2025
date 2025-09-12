@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import { ProductsProvider } from './context/ProductContext';
+import FavoritesProvider from './context/FavoritesContext.jsx';
 import { UserProvider } from './context/UserContext';
 import { CartProvider } from './context/CartContext';
 import './index.css';
@@ -9,11 +10,11 @@ import './index.css';
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ProductsProvider>
-      <UserProvider>
-        <CartProvider>
+      <FavoritesProvider>
+        <UserProvider>
           <App />
-        </CartProvider>
-      </UserProvider>
+        </UserProvider>
+      </FavoritesProvider>
     </ProductsProvider>
   </StrictMode>,
 );

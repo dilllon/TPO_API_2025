@@ -1,9 +1,10 @@
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useProducts } from '../../../context/ProductContext';
 import { useUser } from '../../../context/UserContext';
-import { useCart } from '../../../context/CartContext';
+import { useFavorites } from '../../../hooks/useFavorite';
 import Header from '../../organisms/Header/Header';
 import './ProductsView.css';
 
@@ -11,6 +12,7 @@ function ProductsView() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { userData: user, isAuthenticated } = useUser();
+  const { addToFavorites, removeFromFavorites, favorites } = useFavorites();
   const { getProductById, calculateDiscountedPrice, hasDiscount, isLoading, error: contextError, canEdit, canDelete } = useProducts();
   const { addToCart } = useCart();
   
@@ -23,6 +25,8 @@ function ProductsView() {
   const [selectedImage, setSelectedImage] = useState(0);
   const [showAuthAlert, setShowAuthAlert] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  const isFavorite = product ? favorites.some((fav) => fav.id === product.id) : false;
 
   // Debug para verificar el estado de showAuthAlert
   useEffect(() => {
@@ -72,6 +76,17 @@ function ProductsView() {
     }
     
     navigate(`/products/${product.id}/edit`);
+  };
+
+  const handleAddToFavorites = (e) => {
+    e.stopPropagation();
+    if (isFavorite) {
+      if (typeof removeFromFavorites === 'function') {
+        removeFromFavorites(product.id);
+      }
+    } else {
+      addToFavorites(product);
+    }
   };
 
   const handleDelete = async () => {
@@ -191,7 +206,17 @@ function ProductsView() {
               {product.brand && <span className="product-brand">{product.brand}</span>}
             </div>
 
-            <h1 className="product-title">{product.title}</h1>
+            <div className="product-title-container">
+              <h1 className="product-title">{product.title}</h1>
+              <button
+                onClick={handleAddToFavorites}
+                className={`favorite-button ${isFavorite ? 'favorited' : ''}`}
+                aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+              >
+                {isFavorite ? <FaHeart /> : <FaRegHeart />}
+              </button>
+            </div>
+            
 
             <div className="product-price-section">
               {hasDiscount(product) ? (
