@@ -31,7 +31,7 @@
 .centro {
   display: flex;
   flex-direction: column;
-  padding: 20px 16px 15px;
+  padding: 20px 16px 5px;
   width: 100vw;
   min-width: 0;
   justify-content: center;
@@ -194,7 +194,7 @@
 /* Responsivo */
 @media (max-width: 720px) {
   .navbar {
-    position: fixed;
+    /* position: fixed; */
     top: 0;
     width: 100%;
     z-index: 1000;

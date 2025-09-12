@@ -1,21 +1,48 @@
-import { useState } from 'react';
-import { useNavigate, Link } from "react-router-dom";
-// import { useDispatch } from 'react-redux';
-// import { registerUser } from '@/store/slices/authSlice';
 import Button from '@/components/atoms/Button/Button.jsx';
+import Notification from '@/components/atoms/Notification/Notification.jsx';
+import { useUser } from '@/context/UserContext';
+import { useRegister } from '@/context/RegisterContext';
+import { useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
 import styles from './Register.module.css';
 
 function Register() {
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const { login } = useUser();
+  const { registerUser, isLoading, error, clearError } = useRegister();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
+    username: '',
     email: '',
     address: '',
     password: '',
     confirm: '',
   });
+
+  // Estados para las notificaciones
+  const [notification, setNotification] = useState({
+    isVisible: false,
+    message: '',
+    type: 'info'
+  });
+
+  // Función para mostrar notificaciones
+  const showNotification = (message, type = 'info') => {
+    setNotification({
+      isVisible: true,
+      message,
+      type
+    });
+  };
+
+  const closeNotification = () => {
+    setNotification({
+      isVisible: false,
+      message: '',
+      type: 'info'
+    });
+  };
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -25,25 +52,55 @@ function Register() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Limpiar errores previos
+    clearError();
+    
     // Validar que las contraseñas coincidan
     if (formData.password !== formData.confirm) {
-      alert('Las contraseñas no coinciden.');
+      showNotification('Las contraseñas no coinciden.', 'error');
       return;
     }
-    for (const key in formData) {
-          localStorage.setItem(key, formData[key]);
-          }
 
-    // Despachamos la acción a Redux para guardar los datos del usuario.
-    // dispatch(registerUser(formData));
+    // Validar campos requeridos
+    if (!formData.firstName || !formData.lastName || !formData.username || 
+        !formData.email || !formData.password) {
+      showNotification('Por favor, completa todos los campos obligatorios.', 'warning');
+      return;
+    }
 
-    console.log(
-      'Usuario registrado y guardado en el estado de Redux:',
-      formData,
-    );
-    navigate("/r");
+    try {
+      // Registrar usuario usando el contexto
+      const result = await registerUser(formData);
+      
+      if (result.success) {
+        // Registro exitoso
+        showNotification(
+          `¡Bienvenido ${formData.firstName}! Tu cuenta ha sido creada exitosamente.`, 
+          'success'
+        );
+        
+        // Esperar un poco para que el usuario vea la notificación
+        setTimeout(() => {
+          // Opcional: Iniciar sesión automáticamente
+          login({
+            username: result.user.username,
+            password: result.user.password
+          });
+          
+          // Redirigir al home
+          navigate("/");
+        }, 2000);
+      } else {
+        // Mostrar error específico
+        showNotification(result.error || 'Error al registrar usuario', 'error');
+      }
+    } catch (error) {
+      console.error('Error en el registro:', error);
+      showNotification('Error inesperado al registrar usuario', 'error');
+    }
   };
 
   return (
@@ -61,6 +118,20 @@ function Register() {
         {/* Card */}
         <div className={styles['card']}>
           <h1>Crear Cuenta</h1>
+
+          {/* Mostrar errores si existen */}
+          {error && (
+            <div style={{
+              backgroundColor: '#ffebee',
+              color: '#c62828',
+              padding: '10px',
+              borderRadius: '4px',
+              marginBottom: '15px',
+              border: '1px solid #e57373'
+            }}>
+              {error}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit}>
             {/* Nombre / Apellido */}
@@ -85,6 +156,22 @@ function Register() {
                   placeholder="Tassone"
                   autoComplete="off"
                   value={formData.lastName}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Username */}
+            <div className={styles['row']}>
+              <div>
+                <label htmlFor="username">Nombre de Usuario</label>
+                <input
+                  id="username"
+                  type="text"
+                  placeholder="mi_usuario123"
+                  autoComplete="username"
+                  value={formData.username}
                   onChange={handleChange}
                   required
                 />
@@ -146,8 +233,16 @@ function Register() {
 
             {/* Botones */}
             <div className={styles['actions']}>
-              <Button type="submit" size="m">
-                Crear Cuenta
+              <Button 
+                type="submit" 
+                size="m" 
+                disabled={isLoading}
+                style={{
+                  opacity: isLoading ? 0.6 : 1,
+                  cursor: isLoading ? 'not-allowed' : 'pointer'
+                }}
+              >
+                {isLoading ? 'Creando cuenta...' : 'Crear Cuenta'}
               </Button>
             </div>
           </form>
@@ -155,6 +250,14 @@ function Register() {
           <div className={styles['footer']}>©Copyright 2030. AmaZone LLC.</div>
         </div>
       </div>
+
+      {/* Componente de notificación */}
+      <Notification
+        isVisible={notification.isVisible}
+        message={notification.message}
+        type={notification.type}
+        onClose={closeNotification}
+      />
     </div>
   );
 }

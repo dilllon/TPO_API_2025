@@ -1,0 +1,52 @@
+.products-filter button {
+    background: black;
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: background 0.2s;
+    font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
+    border: none;
+    margin: 2rem auto 0 auto;
+    padding: 0.7rem 2rem;
+    display: block;
+}
+
+.products-filter button:hover {
+    background: #282929;
+}
+
+.filter-btn {
+    display: block;
+    font-size: 1.1rem;
+}
+
+.labels-filter {
+    display: flex;
+    justify-content: space-around;
+}
+
+.labels-filter input {
+    border-radius: 0.4rem;
+    border: solid 0.05rem;
+}
+
+.labels-filter select {
+    border-radius: 0.4rem;
+    border: solid 0.05rem;
+}
+
+.filters label {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+}
+
+label input, label select {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.filter-checkboxs {
+    display: flex;
+    justify-content: space-around;
+}

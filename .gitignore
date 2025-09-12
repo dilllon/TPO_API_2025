@@ -26,6 +26,7 @@ dist-ssr/
 .yarn-integrity
 .pnp.cjs
 .pnp.loader.mjs
+.vite/
 
 # Archivos de configuración del editor
 .idea/
