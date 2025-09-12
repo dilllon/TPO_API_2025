@@ -133,6 +133,7 @@
   border-radius: 12px;
   padding: 14px 14px 10px;
   box-shadow: 0 1px 0 rgba(0,0,0,.02);
+  margin: 50px 50px;
 }
 
 .header {
@@ -209,6 +210,10 @@
   color: var(--value);
   line-height: 1.35;
   word-break: break-word;
+}
+
+.body-container {
+  margin: 0 25px;
 }
 
 

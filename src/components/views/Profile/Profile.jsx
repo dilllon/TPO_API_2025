@@ -1,4 +1,5 @@
 import styles from './Profile.module.css';
+import Header from '../../organisms/Header/Header';
 import { FaPencilAlt } from 'react-icons/fa';
 
 export default function Profile() {
@@ -48,6 +49,7 @@ export default function Profile() {
 
   return (
     <section className={styles.wrapper} aria-label="Profile">
+      <Header />
       {/* Cover */}
       <div
         className={styles.cover}
@@ -56,83 +58,85 @@ export default function Profile() {
         aria-label="Profile cover image"
       />
 
-      {/* Content row */}
-      <div className={styles.content}>
-        {/* Avatar */}
-        <img
-          className={styles.avatar}
-          src={userInformation.avatarUrl}
-          alt={`${userInformation.name} avatar`}
-          loading="lazy"
-        />
+      <div className={styles['body-container']}>
+        {/* Content row */}
+        <div className={styles.content}>
+          {/* Avatar */}
+          <img
+            className={styles.avatar}
+            src={userInformation.avatarUrl}
+            alt={`${userInformation.name} avatar`}
+            loading="lazy"
+          />
 
-        {/* Text block */}
-        <div className={styles.info}>
-          <button
-            className={styles.editButton}
-            onClick={handleEditClick}
-            aria-label="Edit profile"
-          >
-            <FaPencilAlt />
-          </button>
+          {/* Text block */}
+          <div className={styles.info}>
+            <button
+              className={styles.editButton}
+              onClick={handleEditClick}
+              aria-label="Edit profile"
+            >
+              <FaPencilAlt />
+            </button>
 
-          <div className={styles.topRow}>
-            <h1 className={styles.name}>{name}</h1>
-          </div>
+            <div className={styles.topRow}>
+              <h1 className={styles.name}>{name}</h1>
+            </div>
 
-          <div className={styles.meta}>
-            <span className={styles.handle}>{userInformation.handle}</span>
-            <span className={styles.dot} />
-            <span className={styles.muted}>{userInformation.joinedText}</span>
-            <span className={styles.dot} />
-            <span className={styles.muted}>{userInformation.activeText}</span>
-          </div>
+            <div className={styles.meta}>
+              <span className={styles.handle}>{userInformation.handle}</span>
+              <span className={styles.dot} />
+              <span className={styles.muted}>{userInformation.joinedText}</span>
+              <span className={styles.dot} />
+              <span className={styles.muted}>{userInformation.activeText}</span>
+            </div>
 
-          <div className={styles.stats}>
-            <span className={styles.stat}>
-              <strong>{userInformation.favorites}</strong> favorites
-            </span>
-            <span className={styles.dot} />
-            <span className={styles.stat}>
-              <strong>{userInformation.watchlists}</strong> watchlists
-            </span>
+            <div className={styles.stats}>
+              <span className={styles.stat}>
+                <strong>{userInformation.favorites}</strong> favorites
+              </span>
+              <span className={styles.dot} />
+              <span className={styles.stat}>
+                <strong>{userInformation.watchlists}</strong> watchlists
+              </span>
+            </div>
           </div>
         </div>
+        <section className={styles.card} aria-label={extraData.title}>
+          <header className={styles.header}>
+            <h2 className={styles.title}>{extraData.title}</h2>
+
+            <button
+              type="button"
+              className={styles.editBtn}
+              aria-label="Edit personal information"
+              onClick={handleEdit2}
+            >
+              <FaPencilAlt />
+            </button>
+          </header>
+
+          <div className={styles.grid}>
+            <div className={styles.col}>
+              {extraData.left.map((item, i) => (
+                <div className={styles.row} key={`l-${i}`}>
+                  <span className={styles.label}>{item.label}</span>
+                  <span className={styles.value}>{item.value}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className={styles.col}>
+              {extraData.right.map((item, i) => (
+                <div className={styles.row} key={`r-${i}`}>
+                  <span className={styles.label}>{item.label}</span>
+                  <span className={styles.value}>{item.value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
       </div>
-      <section className={styles.card} aria-label={extraData.title}>
-        <header className={styles.header}>
-          <h2 className={styles.title}>{extraData.title}</h2>
-
-          <button
-            type="button"
-            className={styles.editBtn}
-            aria-label="Edit personal information"
-            onClick={handleEdit2}
-          >
-            <span className={styles.pencil} aria-hidden="true" />
-          </button>
-        </header>
-
-        <div className={styles.grid}>
-          <div className={styles.col}>
-            {extraData.left.map((item, i) => (
-              <div className={styles.row} key={`l-${i}`}>
-                <span className={styles.label}>{item.label}</span>
-                <span className={styles.value}>{item.value}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className={styles.col}>
-            {extraData.right.map((item, i) => (
-              <div className={styles.row} key={`r-${i}`}>
-                <span className={styles.label}>{item.label}</span>
-                <span className={styles.value}>{item.value}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
     </section>
   );
 }

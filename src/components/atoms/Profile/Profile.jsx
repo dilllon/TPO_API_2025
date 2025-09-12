@@ -65,7 +65,7 @@ const Profile = ({ userName, imageUrl }) => {
       {isDropdownOpen && (
         <ul className={styles.dropdownMenu}>
           <li>
-            <Link to="clients/profile">
+            <Link to="/clients/profile">
               <svg
                 className={styles['dropdownIcon']}
                 xmlns="http://www.w3.org/2000/svg"
@@ -113,7 +113,7 @@ const Profile = ({ userName, imageUrl }) => {
             </Link>
           </li>
           <li>
-            <Link to="clients/favorites">
+            <Link to="/clients/favorites">
               <svg
                 className={styles.dropdownIcon}
                 xmlns="http://www.w3.org/2000/svg"

@@ -22,7 +22,7 @@ function NavBar() {
 
   // Cambiar de true a false dependiendo del NavBar que se quiere ver
   // const { isLoggedIn } = useSelector((state) => state.auth);
-  const isLoggedIn = true;
+  // const isLoggedIn = true;
 
   // Datos de muestra para el perfil de usuario.
   const mockUser = {
