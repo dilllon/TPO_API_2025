@@ -121,6 +121,7 @@ function NavBar() {
                 )}
               </li>
             </ul>
+          </div>
         </div>
       </div>
     </nav>

@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useProducts } from '../../../context/ProductContext';
 import { useUser } from '../../../context/UserContext';
 import { useFavorites } from '../../../hooks/useFavorite';
+import { useCart } from '../../../context/CartContext';
 import Header from '../../organisms/Header/Header';
 import './ProductsView.css';
 
