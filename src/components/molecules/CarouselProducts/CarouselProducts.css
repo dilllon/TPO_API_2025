@@ -5,7 +5,11 @@
   padding: 0 30px; /* Agregar padding para dar espacio a los botones */
 }
 .embla__viewport { overflow: hidden; width: 100%; }
-.embla__container { display: flex; gap: 16px; }
+.embla__container {
+  display: flex;
+  gap: 16px;
+  padding: 25px 0px;
+}
 .embla__slide { flex: 0 0 calc((100% - 16px*3) / 4); }
 
 /* Botones de navegación */
