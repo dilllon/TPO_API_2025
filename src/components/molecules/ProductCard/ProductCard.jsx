@@ -9,7 +9,7 @@ function ProductCard({ product, onClick, variant = 'default' }) {
   const { calculateDiscountedPrice, hasDiscount, canEdit } = useProducts();
   const navigate = useNavigate();
   const { userData, isAuthenticated } = useUser();
-  const { addToFavorites, favorites } = useFavorites();
+  const { addToFavorites, removeFromFavorites, favorites } = useFavorites();
 
   const isFavorite = favorites.some((fav) => fav.id === product.id);
 
@@ -32,7 +32,14 @@ function ProductCard({ product, onClick, variant = 'default' }) {
 
   const handleAddToFavorites = (e) => {
     e.stopPropagation();
-    addToFavorites(product);
+    if (isFavorite) {
+      // Si ya es favorito, quitarlo
+      if (typeof removeFromFavorites === 'function') {
+        removeFromFavorites(product.id);
+      }
+    } else {
+      addToFavorites(product);
+    }
   };
 
   const productHasDiscount = hasDiscount(product);

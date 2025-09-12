@@ -12,7 +12,7 @@ function ProductsView() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { userData: user, isAuthenticated } = useUser();
-  const { addToFavorites, favorites } = useFavorites();
+  const { addToFavorites, removeFromFavorites, favorites } = useFavorites();
   const { getProductById, calculateDiscountedPrice, hasDiscount, isLoading, error: contextError, canEdit, canDelete } = useProducts();
   
   console.log('ProductsView - isAuthenticated:', isAuthenticated, 'user:', user);
@@ -109,7 +109,13 @@ function ProductsView() {
 
   const handleAddToFavorites = (e) => {
     e.stopPropagation();
-    addToFavorites(product);
+    if (isFavorite) {
+      if (typeof removeFromFavorites === 'function') {
+        removeFromFavorites(product.id);
+      }
+    } else {
+      addToFavorites(product);
+    }
   };
 
   const handleDelete = async () => {
