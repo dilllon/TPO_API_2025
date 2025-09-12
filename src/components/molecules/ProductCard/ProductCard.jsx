@@ -80,13 +80,9 @@ function ProductCard({ product, onClick, variant = 'default' }) {
           )}
         </p>
       </div>
-      <div className="product-btns">
-        <button onClick={onAddToCart}>Agregar al carrito</button>
-        {isAuthenticated && canEdit(product.id, userData.id) && (
-          <button onClick={handleEdit} className="edit-button">
-            <FaEdit />
-          </button>
-        )}
+      <div className='product-btns'>
+        {variant !== "editable" && <button onClick={onAddToCart}>Agregar al carrito</button>}
+        {isAuthenticated && canEdit(product.id, userData.id) && <button onClick={handleEdit} className='edit-button'><FaEdit /></button>}
       </div>
     </div>
   );

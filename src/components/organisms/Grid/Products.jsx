@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useProducts } from "../../../context/ProductContext";
 import CarouselProducts from "../../molecules/CarouselProducts/CarouselProducts";
 import ProductCard from "../../molecules/ProductCard/ProductCard";
+import { useUser } from "@/context/UserContext";
 import Filter from "../Filter/Filter";
 import "./Products.css";
 
@@ -16,31 +17,34 @@ function orderProducts(products) {
 }
 
 function ProductsGrid({ onAddToCart }) {
-  const { productsData, getProductsGroupedByCategory } = useProducts();
+  const { productsData, getProductsGroupedByCategory, getProductsGroupedByDifferentOwner, calculateDiscountedPrice } = useProducts();
+  const {userData, isAuthenticated} = useUser();
+  const userId = userData?.id;
   const [filter, setFilter] = useState({});
 
   // Obtener todas las categorías
   const allCategories = useMemo(() => {
-    return getProductsGroupedByCategory().map(cat => cat.categoryName);
-  }, [productsData, getProductsGroupedByCategory]);
+    return isAuthenticated ? getProductsGroupedByDifferentOwner(userId).map(cat => cat.categoryName) : getProductsGroupedByCategory().map(cat => cat.categoryName);
+  }, [productsData, getProductsGroupedByCategory, isAuthenticated]);
 
   // Filtrar productos según el filtro
   const filteredCategories = useMemo(() => {
-    let categories = getProductsGroupedByCategory();
+    let categories = isAuthenticated ? getProductsGroupedByDifferentOwner(userId) : getProductsGroupedByCategory();
     if (filter.category) {
       categories = categories.filter(cat => cat.categoryName === filter.category);
     }
     return categories.map(cat => ({
       ...cat,
       products: orderProducts(cat.products).filter(p => {
-        const priceOk = (filter.minPrice === undefined || p.price >= filter.minPrice) &&
-          (filter.maxPrice === undefined || p.price <= filter.maxPrice);
+        const finalPrice = p.discount !== undefined ? calculateDiscountedPrice(p) : p.price;
+        const priceOk = (filter.minPrice === undefined || finalPrice >= filter.minPrice) &&
+          (filter.maxPrice === undefined || finalPrice <= filter.maxPrice);
         const stockOk = !filter.inStock || (p.stock && p.stock > 0);
         const discountOk = !filter.hasDiscount || (p.discount && p.discount > 0);
         return priceOk && stockOk && discountOk;
       })
     })).filter(cat => cat.products.length > 0);
-  }, [productsData, getProductsGroupedByCategory, filter]);
+  }, [productsData, filter]);
 
   return (
     <>

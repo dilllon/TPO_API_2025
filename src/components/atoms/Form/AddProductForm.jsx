@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styles from './AddProductForm.module.css';
 import { useProducts } from '@/context/ProductContext';
 
-function AddProductForm() {
+function AddProductForm({ onSubmit, disabled }) {
   const { productsData, setProducts } = useProducts();
 
   const [formData, setFormData] = useState({
@@ -50,7 +50,7 @@ function AddProductForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleAddProduct(formData);
+    onSubmit(formData);
     setFormData({
       name: '',
       description: '',
