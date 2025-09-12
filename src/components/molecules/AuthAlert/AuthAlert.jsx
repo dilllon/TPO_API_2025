@@ -8,13 +8,15 @@ function AuthAlert({ isVisible, onClose, message = "Se debe iniciar sesión para
   if (!isVisible) return null;
 
   const handleLogin = () => {
+    console.log('AuthAlert: Navegando a /clients/login');
     onClose();
-    navigate('/login');
+    navigate('/clients/login');
   };
 
   const handleRegister = () => {
+    console.log('AuthAlert: Navegando a /clients/register');
     onClose();
-    navigate('/register');
+    navigate('/clients/register');
   };
 
   const handleBackdropClick = (e) => {

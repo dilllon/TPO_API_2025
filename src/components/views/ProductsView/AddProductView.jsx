@@ -20,7 +20,7 @@ function AddProductView() {
         <div style={{ padding: '2rem', textAlign: 'center' }}>
           <h2>Acceso Denegado</h2>
           <p>Debes iniciar sesión para agregar productos.</p>
-          <button onClick={() => navigate('/login')} style={{ marginTop: '1rem', padding: '0.5rem 1rem' }}>
+          <button onClick={() => navigate('/clients/login')} style={{ marginTop: '1rem', padding: '0.5rem 1rem' }}>
             Iniciar Sesión
           </button>
         </div>
