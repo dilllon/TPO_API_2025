@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '@/context/UserContext';
+import { useCart } from '@/context/CartContext';
 import ProductsGrid from '../../organisms/Grid/Products';
 import Header from '../../organisms/Header/Header';
 import './Home.css';
@@ -9,6 +10,7 @@ function Home() {
   const [showAuthAlert, setShowAuthAlert] = useState(false);
   const navigate = useNavigate();
   const { isAuthenticated, userData, isLoading } = useUser();
+  const { addToCart } = useCart();
 
   // Verificar si los datos están cargando
   useEffect(() => {
@@ -24,15 +26,8 @@ function Home() {
       return;
     }
     
-    // Lógica para agregar al carrito
-    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    const existingItem = cartItems.find(item => item.id === product.id);
-    if (existingItem) {
-      existingItem.qty = (existingItem.qty || 1) + 1;
-    } else {
-      cartItems.push({ ...product, qty: 1 });
-    }
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    // Usar la función del contexto
+    addToCart(product, 1);
     
     // Opcional: mostrar mensaje de éxito
     alert(`${product.title} agregado al carrito`);

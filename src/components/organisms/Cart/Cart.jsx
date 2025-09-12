@@ -2,106 +2,13 @@ import ProductCardAdded from '@/components/molecules/ProductCard/ProductCardAdde
 import { useEffect, useState } from 'react';
 import styles from './Cart.module.css';
 import { useProducts } from '@/context/ProductContext';
+import { useCart } from '@/context/CartContext';
 
 function Cart() {
-  const { productsData, getProductById, hasDiscount, calculateDiscountedPrice, isLoading } = useProducts();
-  const [removing, setRemoving] = useState(new Set());
-
-  const ANIM_MS = 220; // misma duración que en el CSS
+  const { getProductById, hasDiscount, calculateDiscountedPrice } = useProducts();
+  const { products, totalItems, totalPrice, removeFromCart, updateQuantity, clearCart, removing, isLoading } = useCart();
   const [showPopup, setShowPopup] = useState(false);
-  const [products, setProducts] = useState(() => {
-    try {
-      const items = JSON.parse(localStorage.getItem('cartItems') || '[]');
-      // Convertir IDs a números si son strings
-      return items.map(item => ({
-        ...item,
-        id: typeof item.id === 'string' ? parseInt(item.id) : item.id
-      }));
-    } catch {
-      return [];
-    }
-  });
 
-  useEffect(() => {
-    console.log('ProductsData in Cart:', productsData);
-  }, [productsData]);
-
-  // Opcional: si querés refrescar cuando cambie desde otra pestaña
-  useEffect(() => {
-    const onStorage = (e) => {
-      if (e.key === 'cartItems') {
-        setProducts(JSON.parse(e.newValue || '[]'));
-      }
-    };
-    window.addEventListener('storage', onStorage);
-    return () => window.removeEventListener('storage', onStorage);
-  }, [productsData]);
-
-  const totalItems = products.reduce((a, p) => a + (p.qty || 1), 0);
-  const totalPrice = products.reduce((a, p) => {
-    if (isLoading) return a;
-    
-    const product = getProductById(p.id);
-    console.log('Calculating price for product:', product, 'with ID:', p.id);
-    
-    if (!product) {
-      console.log('Producto no encontrado para ID:', p.id);
-      return a;
-    }
-    
-    const finalPrice = hasDiscount(product)
-      ? calculateDiscountedPrice(product)
-      : product.price;
-      
-    return a + finalPrice * (p.qty || 1);
-  }, 0);
-
-  const removeOne = (id) => {
-    // 1) activar clase de animación
-    setRemoving((prev) => new Set(prev).add(id));
-
-    // 2) al finalizar la transición, borrar de verdad
-    setTimeout(() => {
-      const cart = JSON.parse(localStorage.getItem('cartItems') || '[]');
-      const i = cart.findIndex((it) => it.id === id);
-      if (i >= 0) {
-        cart.splice(i, 1);
-      }
-      localStorage.setItem('cartItems', JSON.stringify(cart));
-      // Dispara un evento de storage para notificar a otros componentes
-      window.dispatchEvent(
-        new StorageEvent('storage', {
-          key: 'cartItems',
-          newValue: JSON.stringify(cart),
-        }),
-      );
-      setProducts([...cart]);
-
-      // limpiar flag
-      setRemoving((prev) => {
-        const n = new Set(prev);
-        n.delete(id);
-        return n;
-      });
-    }, ANIM_MS + 20); // pequeño margen
-  };
-
-  const updateQuantity = (id, newQty) => {
-    const cart = JSON.parse(localStorage.getItem('cartItems') || '[]');
-    const i = cart.findIndex((it) => it.id === id);
-    if (i >= 0) {
-      cart[i].qty = Math.max(1, newQty);
-    }
-    localStorage.setItem('cartItems', JSON.stringify(cart));
-    // Dispara un evento de storage para notificar a otros componentes
-    window.dispatchEvent(
-      new StorageEvent('storage', {
-        key: 'cartItems',
-        newValue: JSON.stringify(cart),
-      }),
-    );
-    setProducts([...cart]);
-  };
 
   const handleConfirmPurchase = () => {
     // Verificar stock de todos los productos
@@ -114,15 +21,7 @@ function Cart() {
 
     // Aquí iría la lógica de procesamiento de pago
     alert('¡Compra realizada con éxito!');
-    localStorage.setItem('cartItems', '[]');
-    // Dispara un evento de storage para notificar a otros componentes
-    window.dispatchEvent(
-      new StorageEvent('storage', {
-        key: 'cartItems',
-        newValue: '[]',
-      }),
-    );
-    setProducts([]);
+    clearCart();
     setShowPopup(false);
   };
 
@@ -160,20 +59,22 @@ function Cart() {
           </div>
 
           <div className={styles["cart-items"]}>
-            {products.map((p, index) => {
+            {products.map((p) => {
               const fullProduct = getProductById(p.id);
-              const isRemoving = removing.has(p.id); // ✅ per-item
+              const isRemoving = removing.has(p.id);
+
+              if (!fullProduct) return null;
 
               return (
                 <div
-                  key={p.id} // ✅ mejor key estable
+                  key={`cart-item-${p.id}`}
                   className={`${styles["cart-items-product"]} ${isRemoving ? styles["is-removing"] : ''}`}
                 >
                   <ProductCardAdded
                     product={fullProduct}
                     qty={p.qty || 1}
                     variant="cart"
-                    onClick={() => removeOne(p.id)}
+                    onClick={() => removeFromCart(p.id)}
                     onQuantityChange={(newQty) => updateQuantity(p.id, newQty)}
                   />
                 </div>

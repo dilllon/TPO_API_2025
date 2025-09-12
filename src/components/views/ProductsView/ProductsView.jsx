@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useProducts } from '../../../context/ProductContext';
 import { useUser } from '../../../context/UserContext';
 import { useFavorites } from '../../../hooks/useFavorite';
+import { useCart } from '../../../context/CartContext';
 import Header from '../../organisms/Header/Header';
 import './ProductsView.css';
 
@@ -14,6 +15,7 @@ function ProductsView() {
   const { userData: user, isAuthenticated } = useUser();
   const { addToFavorites, removeFromFavorites, favorites } = useFavorites();
   const { getProductById, calculateDiscountedPrice, hasDiscount, isLoading, error: contextError, canEdit, canDelete } = useProducts();
+  const { addToCart } = useCart();
   
   console.log('ProductsView - isAuthenticated:', isAuthenticated, 'user:', user);
   
@@ -63,38 +65,8 @@ function ProductsView() {
       return;
     }
 
-    // Lógica para agregar al carrito (similar a la del proyecto)
-    const cart = JSON.parse(localStorage.getItem('cartItems') || '[]');
-
-    // Buscar si el producto ya existe en el carrito
-    const existingIndex = cart.findIndex((item) => item.id === product.id);
-
-    if (existingIndex >= 0) {
-      // Si existe, aumentar la cantidad
-      cart[existingIndex].qty = (cart[existingIndex].qty || 1) + quantity;
-    } else {
-      // Si no existe, agregarlo nuevo
-      cart.push({
-        id: product.id,
-        title: product.title,
-        price: product.price,
-        image: product.image,
-        stock: product.stock,
-        qty: quantity,
-      });
-    }
-
-    // Guardar en localStorage
-    localStorage.setItem('cartItems', JSON.stringify(cart));
-
-    // Disparar evento para notificar a otros componentes
-    window.dispatchEvent(
-      new StorageEvent('storage', {
-        key: 'cartItems',
-        newValue: JSON.stringify(cart),
-      }),
-    );
-
+    // Usar la función del contexto
+    addToCart(product, quantity);
     alert(`Se agregaron ${quantity} unidades de "${product.title}" al carrito`);
   };
 
