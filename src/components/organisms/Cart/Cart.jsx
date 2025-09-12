@@ -3,11 +3,14 @@ import { useEffect, useState } from 'react';
 import styles from './Cart.module.css';
 import { useProducts } from '@/context/ProductContext';
 import { useCart } from '@/context/CartContext';
+import { useUser } from '@/context/UserContext';
 
 function Cart() {
   const { getProductById, hasDiscount, calculateDiscountedPrice } = useProducts();
-  const { products, totalItems, totalPrice, removeFromCart, updateQuantity, clearCart, removing, isLoading } = useCart();
+  const { products, totalItems, totalPrice, removeFromCart, updateQuantity, clearCart, removing, isLoading, buildPurchaseItems, savePurchase } = useCart();
   const [showPopup, setShowPopup] = useState(false);
+  const { userData, isAuthenticated } = useUser();
+
 
 
   const handleConfirmPurchase = () => {
@@ -21,6 +24,16 @@ function Cart() {
 
     // Aquí iría la lógica de procesamiento de pago
     alert('¡Compra realizada con éxito!');
+    localStorage.setItem('cartItems', '[]');
+    // Dispara un evento de storage para notificar a otros componentes
+    window.dispatchEvent(
+      new StorageEvent('storage', {
+        key: 'cartItems',
+        newValue: '[]',
+      }),
+    );
+    let itemsjson= buildPurchaseItems(products, { getProductById, hasDiscount, calculateDiscountedPrice });
+    savePurchase({userId: userData.id,purchases: itemsjson,date: new Date().toISOString()});
     clearCart();
     setShowPopup(false);
   };

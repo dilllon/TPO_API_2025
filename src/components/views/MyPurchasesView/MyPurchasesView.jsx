@@ -15,20 +15,21 @@ function MyPurchases() {
     if (!isAuthenticated) return;
 
     const fetchPurchases = async () => {
-      try {
-        // const res = await fetch(`http://localhost:9000/purchases?userId=${userData.id}`);
-        const res = await fetch(`http://localhost:9000/purchases`);
-        const data = await res.json();
+    try {
+      const res = await fetch(`http://localhost:9000/purchases?userId=${userData.id}`);
+      const data = await res.json();
 
-        if (data.length > 0) {
-          setPurchases(data[0].purchases || []);
-        } else {
-          setPurchases([]);
-        }
-      } catch (err) {
-        console.error('Error al traer compras:', err);
+      if (data.length > 0) {
+        // juntar todos los arrays de purchases
+        const allPurchases = data.flatMap(p => p.purchases || []);
+        setPurchases(allPurchases);
+      } else {
         setPurchases([]);
       }
+    } catch (err) {
+      console.error('Error al traer compras:', err);
+      setPurchases([]);
+    }
     };
 
     fetchPurchases();
@@ -50,7 +51,7 @@ function MyPurchases() {
         ) : (
             <ul className="mypurchases-list">
             {purchases.map((p) => (
-                <li key={p.id} className="mypurchases-item">
+                <li key={p.productId} className="mypurchases-item">
                 <div className="mypurchases-thumb">
                     <img src={p.thumbnail} alt={p.title} />
                 </div>

@@ -7,6 +7,7 @@ export function CartProvider({ children }) {
   const { getProductById, hasDiscount, calculateDiscountedPrice, isLoading } = useProducts();
   const [removing, setRemoving] = useState(new Set());
   const ANIM_MS = 220;
+  const API_URL = 'http://localhost:9000';
 
   const [products, setProducts] = useState(() => {
     try {
@@ -40,6 +41,41 @@ export function CartProvider({ children }) {
     window.addEventListener('storage', onStorage);
     return () => window.removeEventListener('storage', onStorage);
   }, []);
+
+
+
+  function buildPurchaseItems(cartItems, { getProductById, hasDiscount, calculateDiscountedPrice }) {
+    return cartItems.map(ci => {
+      const prod = getProductById(ci.id);
+      const unit = hasDiscount(prod) ? calculateDiscountedPrice(prod) : prod.price;
+      return {
+        // el id interno se asigna más abajo
+        productId: prod.id,
+        title: prod.title,
+        pricePaid: Number(unit),       // precio unitario pagado
+        qty: Math.max(1, ci.qty || 1),
+        thumbnail: prod.thumbnail || prod.image || ''
+      };
+    });
+  }
+
+  async function savePurchase(purchase) {
+    const res = await fetch(`${API_URL}/purchases`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(purchase)
+    });
+
+  if (!res.ok) {
+    throw new Error('Error guardando la compra');
+  }
+
+  return res.json(); // devuelve la compra guardada
+}
+
+
+
+
 
   const totalItems = products.reduce((a, p) => a + (p.qty || 1), 0);
 
@@ -125,7 +161,9 @@ export function CartProvider({ children }) {
       clearCart,
       getCartItemById,
       removing,
-      isLoading
+      isLoading,
+      buildPurchaseItems,
+      savePurchase
     }}>
       {children}
     </CartContext.Provider>

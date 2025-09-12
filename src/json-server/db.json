@@ -457,34 +457,53 @@
   ],
   "purchases": [
     {
-      "userId": 3,
+      "id": "1d53",
+      "userId": "1",
       "purchases": [
         {
-          "id": 1,
-          "productId": 101,
-          "title": "Smart TV 55\" 4K UHD",
-          "pricePaid": 1200.5,
+          "productId": "8",
+          "title": "Auriculares Bluetooth",
+          "pricePaid": 24999,
           "qty": 1,
-          "thumbnail": "https://picsum.photos/seed/tv/80"
-        },
-        {
-          "id": 2,
-          "productId": 205,
-          "title": "Auriculares Inalámbricos con Cancelación de Ruido",
-          "pricePaid": 250,
-          "qty": 2,
-          "thumbnail": "https://picsum.photos/seed/audio/80"
-        },
-        {
-          "id": 3,
-          "productId": 309,
-          "title": "Zapatillas de Running - Talle 42",
-          "pricePaid": 95.99,
-          "qty": 1,
-          "thumbnail": "https://picsum.photos/seed/shoes/80"
+          "thumbnail": "/src/assets/images/carrousel/foto2.jpg"
         }
       ],
-      "id": "4321"
+      "date": "2025-09-12T19:04:45.750Z"
+    },
+    {
+      "id": "61a0",
+      "userId": "1",
+      "purchases": [
+        {
+          "productId": "1",
+          "title": "Mouse inalámbrico",
+          "pricePaid": 2639,
+          "qty": 1,
+          "thumbnail": "/src/assets/images/productos/52898-producto-logitech-g305-negro.jpg"
+        }
+      ],
+      "date": "2025-09-12T19:05:09.188Z"
+    },
+    {
+      "id": "7be1",
+      "userId": "1",
+      "purchases": [
+        {
+          "productId": "7",
+          "title": "Smartwatch",
+          "pricePaid": 67999,
+          "qty": 1,
+          "thumbnail": "/src/assets/images/carrousel/foto1.png"
+        },
+        {
+          "productId": "2",
+          "title": "Teclado mecánico HyperX",
+          "pricePaid": 17999,
+          "qty": 1,
+          "thumbnail": "/src/assets/images/productos/teclado.jpeg"
+        }
+      ],
+      "date": "2025-09-12T19:05:45.250Z"
     }
   ]
 }
