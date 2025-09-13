@@ -65,7 +65,7 @@ const Profile = ({ userName, imageUrl }) => {
       {isDropdownOpen && (
         <ul className={styles.dropdownMenu}>
           <li>
-            <Link to="clients/profile">
+            <Link to="/clients/profile">
               <svg
                 className={styles['dropdownIcon']}
                 xmlns="http://www.w3.org/2000/svg"
@@ -113,7 +113,7 @@ const Profile = ({ userName, imageUrl }) => {
             </Link>
           </li>
           <li>
-            <Link to="clients/favorites">
+            <Link to="/clients/favorites">
               <svg
                 className={styles.dropdownIcon}
                 xmlns="http://www.w3.org/2000/svg"
@@ -148,7 +148,7 @@ const Profile = ({ userName, imageUrl }) => {
             </Link>
           </li>
           <li className={styles.logoutItem}>
-            <button>
+            <Link to="/clients/login" className={styles.logoutLink} onClick={logout}>
               <svg
                 className={styles.dropdownIcon}
                 xmlns="http://www.w3.org/2000/svg"
@@ -167,9 +167,8 @@ const Profile = ({ userName, imageUrl }) => {
                   d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"
                 />
               </svg>
-              
-              <span onClick={() => logout()}>Cerrar sesión</span>
-            </button>
+              <span>Cerrar sesión</span>
+            </Link>
           </li>
         </ul>
       )}    

@@ -21,7 +21,7 @@ function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Datos de muestra para el perfil de usuario.
-  const mockUser = {
+  const loggedUser = {
     userName: userData ? userData.username : 'Invitado',
     imageUrl: userData ? userData.imageUrl : 'https://via.placeholder.com/150', // URL de Iron Man
   };
@@ -103,8 +103,8 @@ function NavBar() {
               <li className={styles['profile']}>
                 {isAuthenticated ? (
                   <Profile
-                    userName={mockUser.userName}
-                    imageUrl={mockUser.imageUrl}
+                    userName={loggedUser.userName}
+                    imageUrl={loggedUser.imageUrl}
                   />
                 ) : (
                   <div className={styles.authButtonsContainer}>

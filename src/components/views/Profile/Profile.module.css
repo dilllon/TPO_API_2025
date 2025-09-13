@@ -1,0 +1,317 @@
+.wrapper {
+  --avatar-size: 225px;
+  --banner: 300px;
+  /* background: var(--bg-main); */
+  overflow: hidden;
+}
+
+.cover {
+  height: var(--banner);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.content {
+  position: relative;
+  padding: 25px 50px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Avatar overlapping the cover */
+.avatar {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 999px;
+  border: 4px solid var(--bg-main);
+  object-fit: cover;
+
+  position: absolute;
+  top: calc(-1 * var(--avatar-size) / 2);
+  left: 50px;
+  background: var(--bg-main);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* Push text to the right of the avatar */
+.info {
+  margin-left: calc(var(--avatar-size) + 16px);
+  min-width: 0;
+  position: relative; /* Needed to position the edit button */
+}
+
+.editButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: var(--text-secondary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.editButton:hover {
+  background-color: #f7f7f7;
+  color: var(--primary);
+}
+
+.editButton svg {
+  width: 18px;
+  height: 18px;
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.name {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.handle {
+  color: #111827;
+  font-weight: 500;
+}
+
+.muted {
+  color: var(--text-secondary);
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.stat strong {
+  font-weight: 700;
+  color: #111827;
+}
+
+.dot {
+  width: 4px;
+  height: 4px;
+  background: #9ca3af; /* gray-400 */
+  border-radius: 999px;
+  display: inline-block;
+}
+
+/**/
+.card {
+  --bg: linear-gradient(120deg, #e7e7e77a 0%, #f8fafc 60%, #d1d1d169 100%);
+  --border: #e0e7ef;
+  --title: #1a237e;
+  --label: #6b7280;
+  --value: #22223b;
+  --accent: #6366f1;
+  --shadow: 0 4px 24px rgba(99,102,241,0.08);
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 18px;
+  padding: 32px 32px 24px;
+  box-shadow: var(--shadow);
+  margin: 40px auto;
+  max-width: 1200px;
+  position: relative;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0 18px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 18px;
+  gap: 12px;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--title);
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.editBtn {
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 8px;
+  padding: 7px 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.08);
+  transition: background 0.2s, color 0.2s;
+}
+.editBtn:hover {
+  background: #4338ca;
+  color: #fff;
+}
+
+/* ícono lápiz puro CSS */
+.pencil {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  position: relative;
+}
+.pencil::before,
+.pencil::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 7px;
+  width: 12px;
+  height: 2px;
+  background: #111827;
+  transform: rotate(-30deg);
+  border-radius: 2px;
+}
+.pencil::after {
+  width: 4px;
+  height: 4px;
+  left: 11px;
+  top: 4px;
+  transform: rotate(0deg);
+  clip-path: polygon(0 50%, 100% 0, 100% 100%);
+}
+
+/* contenido */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px 32px;
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.col { display: grid; gap: 10px; }
+/* Card columns with separation */
+.col {
+  display: grid;
+  gap: 18px;
+}
+
+.row { display: grid; gap: 2px; }
+.row {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.04);
+  padding: 16px 18px;
+  position: relative;
+  border: 1px solid #e0e7ef;
+  min-height: 60px;
+}
+
+.label {
+  font-size: 0.95rem;
+  color: var(--label);
+  font-weight: 500;
+  margin-bottom: 4px;
+  letter-spacing: 0.2px;
+}
+
+.value {
+  font-size: 1.08rem;
+  color: var(--value);
+  line-height: 1.45;
+  word-break: break-word;
+  font-weight: 600;
+}
+
+.body-container {
+  margin: 0 10px;
+}
+/* Icono decorativo en cada row */
+.row::before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 12px;
+  top: 18px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.18;
+}
+
+
+/* Responsive tweaks */
+@media (max-width: 520px) {
+  .wrapper {
+    --avatar-size: 100px;
+    --banner: 150px;
+  }
+
+  .content {
+    /* Change to a single-column layout and center items */
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .avatar {
+    /* Center the avatar horizontally */
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .info {
+    /* Remove side margin and add top margin to place it below the avatar */
+    margin-left: 0;
+    margin-top: calc(var(--avatar-size) / 2 + 16px);
+    /* Center the text content within the info block */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .name {
+    font-size: 20px;
+  }
+
+  .meta {
+    /* Ensure meta items (like handle, joined date) center nicely if they wrap */
+    justify-content: center;
+  }
+
+  .card {
+    padding: 18px 6px 12px;
+    max-width: 98vw;
+  }
+  .grid { grid-template-columns: 1fr; gap: 18px; }
+  .row { padding: 12px 10px; }
+}
+
+
