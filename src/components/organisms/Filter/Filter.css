@@ -1,11 +1,12 @@
 .products-filter button {
-    background: black;
-    color: #fff;
+    background: var(--primary);
+    color: var(--primary-light);
     border-radius: 6px;
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     transition: background 0.2s;
     font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-weight: 600;
     border: none;
     margin: 2rem auto 0 auto;
     padding: 0.7rem 2rem;
@@ -13,7 +14,10 @@
 }
 
 .products-filter button:hover {
-    background: #282929;
+    transition: 0.3s;
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .filter-btn {
@@ -41,7 +45,8 @@
     font-size: 1.1rem;
 }
 
-label input, label select {
+label input,
+label select {
     margin-left: 1rem;
     margin-right: 1rem;
 }
@@ -49,4 +54,9 @@ label input, label select {
 .filter-checkboxs {
     display: flex;
     flex-direction: column;
+}
+
+.products-filter .filters{
+  width: 100%;
+  box-sizing: border-box;
 }

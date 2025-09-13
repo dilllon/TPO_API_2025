@@ -20,7 +20,7 @@ function Filter({ categories, onFilter }) {
 
     return (
         <div className="products-filter">
-            <div className="filters" style={{ marginTop: "1rem", border: "1px solid #ccc", padding: "1rem", borderRadius: "8px", background: "#fafafa", width: "300px" }}>
+            <div className="filters" style={{ marginTop: "1rem", border: "1px solid #ccc", padding: "1rem", borderRadius: "8px", background: "#fafafa"}}>
                 <div className="labels-filter">
                     <label>
                         Categoría:
