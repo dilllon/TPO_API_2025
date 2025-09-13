@@ -16,7 +16,7 @@ import { useFavorites } from '@/hooks/useFavorite';
 
 function NavBar() {
   const { getCategories } = useProducts();
-  const { isAuthenticated, canEdit, userData, notifications } = useUser();
+  const { isAuthenticated, userData, notifications } = useUser();
   const { favorites } = useFavorites();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -63,13 +63,13 @@ function NavBar() {
                   <span>Mis compras</span>
                 </Link>
               </li>
-              {isAuthenticated && canEdit() && (
-                <li>
-                  <Link to="/products/add" title="Agregar un nuevo producto">
-                    Agregar Producto
-                  </Link>
-                </li>
-              )}
+
+              <li>
+                <Link to="/products/add" title="Agregar un nuevo producto">
+                  Agregar Producto
+                </Link>
+              </li>
+              
             </ul>
             <ul className={styles['nav-list-right']}>
               {isAuthenticated && (

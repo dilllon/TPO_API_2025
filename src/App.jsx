@@ -11,7 +11,6 @@ import MyPurchases from './components/views/MyPurchasesView/MyPurchasesView';
 import MyProductsView from './components/views/ProductsView/MyProductsView';
 import ProtectedView from './components/views/ProtectedView/ProtectedView';
 
-
 function App() {
   return (
     <Router>

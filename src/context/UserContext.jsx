@@ -108,13 +108,7 @@ export function UserProvider({ children }) {
     }
   };
 
-  const canEdit = () => {
-    return userData && roleToEdit.includes(userData.role);
-  }
 
-  const getRole = () => {
-    return userData?.role || null;
-  }
 
   // Efecto para guardar los datos en localStorage cuando cambien
   useEffect(() => {
@@ -177,7 +171,6 @@ export function UserProvider({ children }) {
       isAuthenticated, 
       login, 
       logout, 
-      canEdit,
       notifications,
       favorites,
     }}>

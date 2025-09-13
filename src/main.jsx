@@ -6,17 +6,20 @@ import FavoritesProvider from './context/FavoritesContext.jsx';
 import { UserProvider } from './context/UserContext';
 import { CartProvider } from './context/CartContext';
 import './index.css';
+import { SearchProvider } from "./context/SearchContext";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ProductsProvider>
-      <FavoritesProvider>
-        <UserProvider>
-          <CartProvider>
-            <App />
-          </CartProvider>
-        </UserProvider>
-      </FavoritesProvider>
+      <SearchProvider>
+        <FavoritesProvider>
+          <UserProvider>
+            <CartProvider>
+              <App />
+            </CartProvider>
+          </UserProvider>
+        </FavoritesProvider>
+      </SearchProvider>
     </ProductsProvider>
   </StrictMode>,
 );

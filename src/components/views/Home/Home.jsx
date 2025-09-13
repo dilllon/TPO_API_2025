@@ -5,7 +5,7 @@ import { useCart } from '@/context/CartContext';
 import ProductsGrid from '../../organisms/Grid/Products';
 import Header from '../../organisms/Header/Header';
 import './Home.css';
-import { SearchProvider } from "../../../context/SearchContext";
+
 
 function Home() {
   const [showAuthAlert, setShowAuthAlert] = useState(false);
@@ -36,7 +36,7 @@ function Home() {
 
   return (
     <>
-      <SearchProvider>
+
         <Header />
         <main>
           <section>
@@ -76,7 +76,7 @@ function Home() {
             </div>
           </div>
         )}
-      </SearchProvider>
+
     </>
   );
 }
