@@ -1,7 +1,7 @@
 import Button from '@/components/atoms/Button/Button.jsx';
 import Notification from '@/components/atoms/Notification/Notification.jsx';
 import { useUser } from '@/context/UserContext';
-import { useRegister } from '@/context/RegisterContext';
+import { useRegister } from '@/hooks/useRegister';
 import { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import styles from './Register.module.css';

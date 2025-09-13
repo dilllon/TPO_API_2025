@@ -5,7 +5,6 @@ import { ProductsProvider } from './context/ProductContext';
 import FavoritesProvider from './context/FavoritesContext.jsx';
 import { UserProvider } from './context/UserContext';
 import { CartProvider } from './context/CartContext';
-import { RegisterProvider } from './context/RegisterContext';
 import './index.css';
 
 createRoot(document.getElementById('root')).render(
@@ -14,9 +13,7 @@ createRoot(document.getElementById('root')).render(
       <FavoritesProvider>
         <UserProvider>
           <CartProvider>
-            <RegisterProvider>
-              <App />
-            </RegisterProvider>
+            <App />
           </CartProvider>
         </UserProvider>
       </FavoritesProvider>

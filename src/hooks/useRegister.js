@@ -1,8 +1,6 @@
-import React, { createContext, useContext, useState } from 'react';
+import { useState } from 'react';
 
-const RegisterContext = createContext();
-
-export function RegisterProvider({ children }) {
+export function useRegister() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -126,27 +124,10 @@ export function RegisterProvider({ children }) {
     setError(null);
   };
 
-  const value = {
+  return {
     registerUser,
     isLoading,
     error,
     clearError
   };
-
-  return (
-    <RegisterContext.Provider value={value}>
-      {children}
-    </RegisterContext.Provider>
-  );
 }
-
-// Hook personalizado para usar el contexto
-export function useRegister() {
-  const context = useContext(RegisterContext);
-  if (!context) {
-    throw new Error('useRegister debe usarse dentro de un RegisterProvider');
-  }
-  return context;
-}
-
-export default RegisterContext;
