@@ -38,8 +38,8 @@ function ProductsGrid({ onAddToCart }) {
     return categories.map(cat => ({
       ...cat,
         products: orderProducts(cat.products).filter(p => {
-          const search = searchTerm.trim().toLowerCase();
-          const matchesSearch = search === "" || (p.title ?? "").toLowerCase().startsWith(search);
+          // Filtrar por nombre de producto (searchTerm)
+          const matchesSearch = searchTerm.trim() === "" || (p.title ?? "").toLowerCase().includes(searchTerm.trim().toLowerCase());
           const finalPrice = p.discount !== undefined ? calculateDiscountedPrice(p) : p.price;
           const priceOk = (filter.minPrice === undefined || finalPrice >= filter.minPrice) &&
             (filter.maxPrice === undefined || finalPrice <= filter.maxPrice);
