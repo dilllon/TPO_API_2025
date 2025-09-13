@@ -9,18 +9,24 @@ function Filter({ categories, onFilter }) {
     const [hasDiscount, setHasDiscount] = useState(false);
 
     useEffect(() => {
-        onFilter({
+        const newFilter = {
             category: selectedCategory,
             minPrice: minPrice !== "" ? Number(minPrice) : undefined,
             maxPrice: maxPrice !== "" ? Number(maxPrice) : undefined,
             inStock,
             hasDiscount,
-        });
+        };
+
+        const handler = setTimeout(() => {
+            onFilter(newFilter);
+        }, 500);
+
+        return () => clearTimeout(handler);
     }, [selectedCategory, minPrice, maxPrice, inStock, hasDiscount, onFilter]);
 
     return (
         <div className="products-filter">
-            <div className="filters" style={{ marginTop: "1rem", border: "1px solid #ccc", padding: "1rem", borderRadius: "8px", background: "#fafafa"}}>
+            <div className="filters" style={{ marginTop: "1rem", border: "1px solid #ccc", padding: "1rem", borderRadius: "8px", background: "#fafafa" }}>
                 <div className="labels-filter">
                     <label>
                         Categoría:
