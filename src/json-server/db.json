@@ -339,7 +339,20 @@
       "createdAt": "2024-01-15T10:30:00Z",
       "lastLogin": "2025-09-04T16:51:49.707Z",
       "isActive": true,
-      "imageUrl": "https://picsum.photos/50"
+      "imageUrl": "https://s3.animalia.bio/animals/photos/full/1.25x1/emperor-penguins-15.webp?id=9cf17fe66680b623f554edeafd670d8d",
+      "bannerUrl": "https://images.unsplash.com/photo-1526318472351-c75fcf070305?q=80&w=2400&auto=format&fit=crop",
+      "favorites": "5",
+      "watchlists": "3",
+      "gender": "Femenino",
+      "identifyCode": "Pasaporte AB1234567",
+      "nationality": "Uruguaya",
+      "language": "Inglés, Portugués",
+      "permanentAddress": "Calle Falsa 123, Montevideo, Uruguay",
+      "dateOfBirth": "1985-12-01",
+      "hometown": "Montevideo",
+      "religion": "Agnóstico",
+      "maritalStatus": "Casado",
+      "currentAddress": "Calle Falsa 123, Montevideo, Uruguay"
     },
     {
       "id": "2",
@@ -368,7 +381,20 @@
         "verified": true,
         "description": "Vendedor especializado en productos tecnológicos de alta calidad."
       },
-      "imageUrl": "https://picsum.photos/50"
+      "imageUrl": "https://cdn0.expertoanimal.com/es/posts/0/6/4/curiosidades_del_panda_rojo_20460_600_square.jpg",
+      "bannerUrl": "https://www.argentina.gob.ar/sites/default/files/2020/06/provincia-mendoza-jumbotron.jpg",
+      "favorites": "8",
+      "watchlists": "1",
+      "gender": "Femenino",
+      "identifyCode": "Pasaporte XY9876543",
+      "nationality": "Chilena",
+      "language": "Francés, Alemán",
+      "permanentAddress": "Av. Providencia 456, Santiago, Chile",
+      "dateOfBirth": "1992-07-15",
+      "hometown": "Santiago",
+      "religion": "Budista",
+      "maritalStatus": "Divorciado",
+      "currentAddress": "Av. Providencia 456, Santiago, Chile"
     },
     {
       "id": "3",
@@ -398,7 +424,20 @@
         ],
         "department": "Operations"
       },
-      "imageUrl": "https://picsum.photos/50"
+      "imageUrl": "https://www.turismodebolsillo.com.ar/wp-content/uploads/2025/07/istockphoto-177228186-612x612-1.jpg",
+      "bannerUrl": "https://resizer.iproimg.com/unsafe/1280x/filters:format(webp):quality(85):max_bytes(102400)/https://assets.iprofesional.com/assets/jpg/2024/11/587935.jpg",
+      "favorites": "2",
+      "watchlists": "0",
+      "gender": "Masculino",
+      "identifyCode": "DNI 12345678",
+      "nationality": "Argentina",
+      "language": "Español",
+      "permanentAddress": "Av. Corrientes 1234, Buenos Aires, CABA",
+      "dateOfBirth": "1990-05-20",
+      "hometown": "Buenos Aires",
+      "religion": "Católico",
+      "maritalStatus": "Soltero",
+      "currentAddress": "Av. Corrientes 1234, Buenos Aires, CABA"
     },
     {
       "id": "4",

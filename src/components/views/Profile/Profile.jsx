@@ -1,44 +1,26 @@
+import { useEffect, useState } from 'react';
 import styles from './Profile.module.css';
 import Header from '../../organisms/Header/Header';
 import { FaPencilAlt } from 'react-icons/fa';
 
 export default function Profile() {
-  const userInformation = {
-    coverUrl:
-      'https://images.unsplash.com/photo-1526318472351-c75fcf070305?q=80&w=2400&auto=format&fit=crop',
-    avatarUrl:
-      'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?q=80&w=600&auto=format&fit=crop',
-    name: 'King Charles',
-    handle: '@k1ng-charly',
-    joinedText: 'Joined Mar 2023',
-    activeText: 'Active 3 days ago',
-    favorites: 2,
-    watchlists: 0,
-  };
+  const [user, setUser] = useState(null);
 
-  const extraData = {
-    title: 'Personal information',
-    left: [
-      { label: 'Gender', value: 'Female' },
-      { label: 'Identify code', value: '3234611342' },
-      { label: 'Nationality', value: 'Vietnam' },
-      { label: 'Language', value: 'Vietnamese, English' },
-      {
-        label: 'Permanent address',
-        value: '5. Nguyen Chi Thanh Street, Tan Binh Ward, Hai Duong',
-      },
-    ],
-    right: [
-      { label: 'Date of birth', value: '5th March, 1996' },
-      { label: 'Hometown', value: 'Hai Duong city' },
-      { label: 'Religion', value: 'None' },
-      { label: 'Marital status', value: 'Single' },
-      {
-        label: 'Current address',
-        value: '29. Nguyen Ngoc Doan Street, Dong Da District, Ha Noi',
-      },
-    ],
-  };
+  useEffect(() => {
+    const userData = localStorage.getItem('userData');
+    if (!userData) return;
+
+    fetch(`http://localhost:9000/user`)
+      .then(res => res.json())
+      .then(users => {
+        const foundUser = users.find(u => parseInt(u.id) === parseInt(JSON.parse(userData).id));
+        setUser(foundUser);
+      })
+      .catch(err => console.error(err));
+  }, []);
+
+  if (!user) return <div>Cargando...</div>;
+
 
   const handleEditClick = () => {
     console.log('Editando');
@@ -53,7 +35,7 @@ export default function Profile() {
       {/* Cover */}
       <div
         className={styles.cover}
-        style={{ backgroundImage: `url("${userInformation.coverUrl}")` }}
+        style={{ backgroundImage: `url("${user.bannerUrl}")` }}
         role="img"
         aria-label="Profile cover image"
       />
@@ -64,8 +46,8 @@ export default function Profile() {
           {/* Avatar */}
           <img
             className={styles.avatar}
-            src={userInformation.avatarUrl}
-            alt={`${userInformation.name} avatar`}
+            src={user.imageUrl}
+            alt={`${user.name} avatar`}
             loading="lazy"
           />
 
@@ -84,27 +66,27 @@ export default function Profile() {
             </div>
 
             <div className={styles.meta}>
-              <span className={styles.handle}>{userInformation.handle}</span>
+              <span className={styles.handle}>@{user.firstName}</span>
               <span className={styles.dot} />
-              <span className={styles.muted}>{userInformation.joinedText}</span>
+              <span className={styles.muted}>Joined Mar 2023</span>
               <span className={styles.dot} />
-              <span className={styles.muted}>{userInformation.activeText}</span>
+              <span className={styles.muted}>Active 3 days ago</span>
             </div>
 
             <div className={styles.stats}>
               <span className={styles.stat}>
-                <strong>{userInformation.favorites}</strong> favorites
+                <strong>{user.favorites}</strong> favoritos
               </span>
               <span className={styles.dot} />
               <span className={styles.stat}>
-                <strong>{userInformation.watchlists}</strong> watchlists
+                <strong>{user.watchlists}</strong> lista de seguimiento
               </span>
             </div>
           </div>
         </div>
-        <section className={styles.card} aria-label={extraData.title}>
+        <section className={styles.card} aria-label="Información personal">
           <header className={styles.header}>
-            <h2 className={styles.title}>{extraData.title}</h2>
+            <h2 className={styles.title}>Información personal</h2>
 
             <button
               type="button"
@@ -118,21 +100,48 @@ export default function Profile() {
 
           <div className={styles.grid}>
             <div className={styles.col}>
-              {extraData.left.map((item, i) => (
-                <div className={styles.row} key={`l-${i}`}>
-                  <span className={styles.label}>{item.label}</span>
-                  <span className={styles.value}>{item.value}</span>
-                </div>
-              ))}
+              <div className={styles.row}>
+                <span className={styles.label}>Género</span>
+                <span className={styles.value}>{user.gender}</span>
+              </div>
+              <div className={styles.row}>
+                <span className={styles.label}>Código de identificación</span>
+                <span className={styles.value}>{user.identifyCode}</span>
+              </div>
+              <div className={styles.row}>
+                <span className={styles.label}>Nacionalidad</span>
+                <span className={styles.value}>{user.nationality}</span>
+              </div>
+              <div className={styles.row}>
+                <span className={styles.label}>Idioma</span>
+                <span className={styles.value}>{user.language}</span>
+              </div>
+              <div className={styles.row}>
+                <span className={styles.label}>Dirección permanente</span>
+                <span className={styles.value}>{user.permanentAddress}</span>
+              </div>
             </div>
-
             <div className={styles.col}>
-              {extraData.right.map((item, i) => (
-                <div className={styles.row} key={`r-${i}`}>
-                  <span className={styles.label}>{item.label}</span>
-                  <span className={styles.value}>{item.value}</span>
-                </div>
-              ))}
+              <div className={styles.row}>
+                <span className={styles.label}>Fecha de nacimiento</span>
+                <span className={styles.value}>{user.dateOfBirth}</span>
+              </div>
+              <div className={styles.row}>
+                <span className={styles.label}>Ciudad natal</span>
+                <span className={styles.value}>{user.hometown}</span>
+              </div>
+              <div className={styles.row}>
+                <span className={styles.label}>Religión</span>
+                <span className={styles.value}>{user.religion}</span>
+              </div>
+              <div className={styles.row}>
+                <span className={styles.label}>Estado civil</span>
+                <span className={styles.value}>{user.maritalStatus}</span>
+              </div>
+              <div className={styles.row}>
+                <span className={styles.label}>Dirección actual</span>
+                <span className={styles.value}>{user.currentAddress}</span>
+              </div>
             </div>
           </div>
         </section>
