@@ -7,6 +7,8 @@ import { UserProvider } from './context/UserContext';
 import { CartProvider } from './context/CartContext';
 import './index.css';
 import { SearchProvider } from "./context/SearchContext";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -21,5 +23,6 @@ createRoot(document.getElementById('root')).render(
         </FavoritesProvider>
       </SearchProvider>
     </ProductsProvider>
+    <ToastContainer />
   </StrictMode>,
 );

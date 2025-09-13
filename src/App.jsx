@@ -10,6 +10,7 @@ import CartView from './components/views/Cart/CartView';
 import MyPurchases from './components/views/MyPurchasesView/MyPurchasesView';
 import MyProductsView from './components/views/ProductsView/MyProductsView';
 import ProtectedView from './components/views/ProtectedView/ProtectedView';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return (

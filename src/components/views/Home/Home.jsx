@@ -5,7 +5,7 @@ import { useCart } from '@/context/CartContext';
 import ProductsGrid from '../../organisms/Grid/Products';
 import Header from '../../organisms/Header/Header';
 import './Home.css';
-
+import { toast } from 'react-toastify';
 
 function Home() {
   const [showAuthAlert, setShowAuthAlert] = useState(false);
@@ -31,7 +31,15 @@ function Home() {
     addToCart(product, 1);
 
     // Opcional: mostrar mensaje de éxito
-    alert(`${product.title} agregado al carrito`);
+    toast.success(`${product.title} agregado al carrito`, {
+    position: "top-right",
+    autoClose: 1500, // 2 segundos
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+  });
   };
 
   return (
