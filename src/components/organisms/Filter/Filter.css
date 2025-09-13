@@ -23,7 +23,7 @@
 
 .labels-filter {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
 }
 
 .labels-filter input {
@@ -48,5 +48,5 @@ label input, label select {
 
 .filter-checkboxs {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
 }

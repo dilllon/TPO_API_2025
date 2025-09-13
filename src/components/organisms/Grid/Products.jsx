@@ -18,7 +18,7 @@ function orderProducts(products) {
 
 function ProductsGrid({ onAddToCart }) {
   const { productsData, getProductsGroupedByCategory, getProductsGroupedByDifferentOwner, calculateDiscountedPrice } = useProducts();
-  const {userData, isAuthenticated} = useUser();
+  const { userData, isAuthenticated } = useUser();
   const userId = userData?.id;
   const [filter, setFilter] = useState({});
 
@@ -48,27 +48,33 @@ function ProductsGrid({ onAddToCart }) {
 
   return (
     <>
-      <Filter categories={allCategories} onFilter={setFilter} />
-      {filteredCategories.map(({ categoryName, products }) => (
-        <section
-          key={categoryName}
-          id={`category-${categoryName.toLowerCase()}`}
-          className="products-section"
-        >
-          <h2>{categoryName}</h2>
-          <CarouselProducts
-            products={products}
-            renderCard={(p) => (
-              <ProductCard
-                key={p.id}
-                product={p}
-                variant={categoryName}
-                onClick={() => onAddToCart(p)}
-              />
-            )}
-          />
-        </section>
-      ))}
+      <div className="container-products">
+        <aside>
+          <Filter categories={allCategories} onFilter={setFilter} />
+        </aside>
+        <div>
+          {filteredCategories.map(({ categoryName, products }) => (
+          <section
+            key={categoryName}
+            id={`category-${categoryName.toLowerCase()}`}
+            className="products-section"
+          >
+            <h2>{categoryName}</h2>
+            <CarouselProducts
+              products={products}
+              renderCard={(p) => (
+                <ProductCard
+                  key={p.id}
+                  product={p}
+                  variant={categoryName}
+                  onClick={() => onAddToCart(p)}
+                />
+              )}
+            />
+          </section>
+        ))}
+        </div>
+      </div>
     </>
   );
 }

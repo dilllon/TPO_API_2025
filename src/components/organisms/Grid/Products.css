@@ -33,6 +33,10 @@ main h2:not(.welcome-message h2) {
   text-shadow: none;
 }
     
+.container-products {
+  display: flex;
+  justify-content: space-around;
+}
 
 /* .products-section {
   background-color: var(--background-light, #3b83f6b2);
