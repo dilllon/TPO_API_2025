@@ -13,6 +13,14 @@
     display: block;
 }
 
+h4 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-dark, #2c3e50);
+    font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
 .products-filter button:hover {
     transition: 0.3s;
     background-color: var(--primary-hover);
@@ -33,11 +41,20 @@
 .labels-filter input {
     border-radius: 0.4rem;
     border: solid 0.05rem;
+    height: 1.5rem;
+    margin-top: 0.5rem;
 }
 
 .labels-filter select {
     border-radius: 0.4rem;
     border: solid 0.05rem;
+    height: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.labels-filter label {
+    display: flex;
+    flex-direction: column;
 }
 
 .filters label {
@@ -45,18 +62,18 @@
     font-size: 1.1rem;
 }
 
-label input,
-label select {
-    margin-left: 1rem;
-    margin-right: 1rem;
-}
 
 .filter-checkboxs {
     display: flex;
     flex-direction: column;
 }
 
-.products-filter .filters{
-  width: 100%;
-  box-sizing: border-box;
+.filter-checkboxs input {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.products-filter .filters {
+    width: 100%;
+    box-sizing: border-box;
 }
