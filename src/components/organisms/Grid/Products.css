@@ -33,6 +33,21 @@ main h2:not(.welcome-message h2) {
   text-shadow: none;
 }
     
+/* Contenedor de toda la vista de productos */
+.container-products{
+  display: grid;
+  grid-template-columns: 320px minmax(0,1fr);
+  gap: 32px;
+  align-items: start; 
+}
+
+.container-products > div{ min-width: 0; }
+
+.container-products > aside{
+  position: sticky;
+  top: 96px;
+  align-self: start;
+}
 
 /* .products-section {
   background-color: var(--background-light, #3b83f6b2);

@@ -1,19 +1,31 @@
 .products-filter button {
-    background: black;
-    color: #fff;
+    background: var(--primary);
+    color: var(--primary-light);
     border-radius: 6px;
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     transition: background 0.2s;
     font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-weight: 600;
     border: none;
     margin: 2rem auto 0 auto;
     padding: 0.7rem 2rem;
     display: block;
 }
 
+h4 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-dark, #2c3e50);
+    font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
 .products-filter button:hover {
-    background: #282929;
+    transition: 0.3s;
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .filter-btn {
@@ -23,17 +35,26 @@
 
 .labels-filter {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
 }
 
 .labels-filter input {
     border-radius: 0.4rem;
     border: solid 0.05rem;
+    height: 1.5rem;
+    margin-top: 0.5rem;
 }
 
 .labels-filter select {
     border-radius: 0.4rem;
     border: solid 0.05rem;
+    height: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.labels-filter label {
+    display: flex;
+    flex-direction: column;
 }
 
 .filters label {
@@ -41,12 +62,18 @@
     font-size: 1.1rem;
 }
 
-label input, label select {
+
+.filter-checkboxs {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-checkboxs input {
     margin-left: 1rem;
     margin-right: 1rem;
 }
 
-.filter-checkboxs {
-    display: flex;
-    justify-content: space-around;
+.products-filter .filters {
+    width: 100%;
+    box-sizing: border-box;
 }

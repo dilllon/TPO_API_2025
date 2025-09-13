@@ -1,6 +1,5 @@
 /* Estilos generales para mejorar la estética de la página */
 main {
-  max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
@@ -72,6 +71,8 @@ main {
 /* Estilos adicionales para la sección principal */
 section {
   margin-bottom: 2.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 section h2 {
