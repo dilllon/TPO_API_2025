@@ -1,4 +1,4 @@
-import React, { createContext, use, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 const UserContext = createContext(null);
 
@@ -110,57 +110,77 @@ export function UserProvider({ children }) {
 
 
 
-  // Efecto para guardar los datos en localStorage cuando cambien
+  // Efecto optimizado para inicialización y sincronización con localStorage
   useEffect(() => {
-    if (userData) {
-      localStorage.setItem('userData', JSON.stringify(userData));
-      localStorage.setItem('isAuthenticated', 'true');
-    }
-  }, [userData]);
-
-  useEffect(() => {
-    if (favorites.length > 0) {
-      localStorage.setItem('userFavorites', JSON.stringify(favorites));
-    }
-  }, [favorites]);
-
-  useEffect(() => {
-    if (notifications.length > 0) {
-      localStorage.setItem('userNotifications', JSON.stringify(notifications));
-    }
-  }, [notifications]);
-
-  // Efecto para cargar datos del usuario si está autenticado al montar el componente
-  useEffect(() => {
-    const checkSession = async () => {
-      const savedUserData = localStorage.getItem('userData');
-      if (savedUserData) {
-        const user = JSON.parse(savedUserData);
-        setUserData(user);
-        setIsAuthenticated(true);
-        await Promise.all([
-          getFavorites(user.id),
-          getNotifications(user.id)
-        ]);
+    const initializeUser = async () => {
+      try {
+        setIsLoading(true);
+        const savedUserData = localStorage.getItem('userData');
+        const savedAuth = localStorage.getItem('isAuthenticated');
+        
+        if (savedUserData && savedAuth === 'true') {
+          const user = JSON.parse(savedUserData);
+          setUserData(user);
+          setIsAuthenticated(true);
+          
+          // Solo cargar datos remotos si no los tenemos en localStorage
+          const savedFavorites = localStorage.getItem('userFavorites');
+          const savedNotifications = localStorage.getItem('userNotifications');
+          
+          if (!savedFavorites || !savedNotifications) {
+            await Promise.all([
+              getFavorites(user.id),
+              getNotifications(user.id)
+            ]);
+          }
+        }
+      } catch (error) {
+        console.error('Error al inicializar usuario:', error);
+        logout();
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
 
-    checkSession();
-  }, []);
+    initializeUser();
+  }, []); // Solo se ejecuta al montar
+
+  // Efecto para sincronizar con localStorage cuando los datos cambien
+  useEffect(() => {
+    // Solo sincronizar si no estamos en el estado de carga inicial
+    if (!isLoading) {
+      // Sincronizar userData e isAuthenticated
+      if (userData && isAuthenticated) {
+        localStorage.setItem('userData', JSON.stringify(userData));
+        localStorage.setItem('isAuthenticated', 'true');
+      } else if (!isAuthenticated) {
+        localStorage.removeItem('userData');
+        localStorage.removeItem('isAuthenticated');
+      }
+      
+      // Sincronizar favorites (permitir arrays vacíos)
+      if (favorites !== null) {
+        localStorage.setItem('userFavorites', JSON.stringify(favorites));
+      }
+      
+      // Sincronizar notifications (permitir arrays vacíos)
+      if (notifications !== null) {
+        localStorage.setItem('userNotifications', JSON.stringify(notifications));
+      }
+    }
+  }, [userData, isAuthenticated, favorites, notifications, isLoading]);
 
   const logout = () => {
-    // Limpiar el estado
+    // Limpiar el estado en un solo batch
     setUserData(null);
     setIsAuthenticated(false);
     setFavorites([]);
     setNotifications([]);
+    setError(null);
     
-    // Limpiar localStorage
-    localStorage.removeItem('userData');
-    localStorage.removeItem('isAuthenticated');
-    localStorage.removeItem('userFavorites');
-    localStorage.removeItem('userNotifications');
+    // Limpiar localStorage de forma más eficiente
+    const keysToRemove = ['userData', 'isAuthenticated', 'userFavorites', 'userNotifications'];
+    keysToRemove.forEach(key => localStorage.removeItem(key));
   };
 
   return (
