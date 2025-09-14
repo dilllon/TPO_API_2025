@@ -1,29 +1,33 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
 import Button from '@/components/atoms/Button/Button.jsx';
+import { useUser } from '@/context/UserContext';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
-
-import { useDispatch } from "react-redux";              // 👈 importás useDispatch
-import { login } from "@/store/slices/authSlice";              // 👈 importás la acción
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const { login } = useUser();
 
-const handleSubmit = (e) => {
-  e.preventDefault();
-  if (email && password) {
-    // actualizar Redux
-    dispatch(login({
-      userName: email.split("@")[0],
-      imageUrl: "https://picsum.photos/50", // o la que tengas
-    }));
-
-    navigate("/");
-  }
-};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const username = email.includes('@') ? null : email; // Si incluye '@', es email, sino username
+    const user = await login(username, email, password);
+    if (user) {
+      // Si el login es exitoso, redirigir o hacer algo
+      console.log("Login exitoso:", user, user.username, user.imageUrl);
+      navigate("/");
+    } else {
+      // Manejar error de login
+      setShowError(true);
+      // Ocultar el mensaje de error después de 3 segundos
+      setTimeout(() => {
+        setShowError(false);
+      }, 3000);
+    }
+  };
 
   return (
     <div className={styles['auth']}>
@@ -46,12 +50,11 @@ const handleSubmit = (e) => {
 
         <form className={styles['form']} onSubmit={handleSubmit}>
           <div className={styles['field']}>
-            <label htmlFor="email">Email</label>
+            <label htmlFor="emailOrUsername">Email o Nombre de Usuario</label>
             <input
               id="email"
-              type="email"
-              placeholder="email@ejemplo.com"
-              autoComplete="email"
+              type="text"
+              placeholder="email@ejemplo.com or username"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -85,6 +88,15 @@ const handleSubmit = (e) => {
           ©Copyright 2030. AmaZone LLC.
         </footer>
       </main>
+
+      {/* Popup de error */}
+      {showError && (
+        <div className={styles['error-popup']}>
+          <div className={styles['error-content']}>
+            <p>Email o contraseña incorrectos</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

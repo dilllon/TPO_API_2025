@@ -1,67 +1,159 @@
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  calculateDiscountedPrice,
-  getProductById,
-  hasDiscount,
-} from '../../../constants/products';
+import { useProducts } from '../../../context/ProductContext';
+import { useUser } from '../../../context/UserContext';
+import { useFavorites } from '../../../hooks/useFavorite';
+import { useCart } from '../../../context/CartContext';
 import Header from '../../organisms/Header/Header';
 import './ProductsView.css';
+import AuthAlert from '../../molecules/AuthAlert/AuthAlert';
+import { toast } from 'react-toastify';
+import ConfirmModal from '../../atoms/ConfirmModal/ConfirmModal';
 
 function ProductsView() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { userData: user, isAuthenticated } = useUser();
+  const { addToFavorites, removeFromFavorites, favorites } = useFavorites();
+  const { getProductById, calculateDiscountedPrice, hasDiscount, isLoading, error: contextError, canEdit, canDelete, deleteProduct } = useProducts();
+  const { addToCart } = useCart();
+
+  console.log('ProductsView - isAuthenticated:', isAuthenticated, 'user:', user);
+
   const [product, setProduct] = useState(null);
-  const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [showAuthAlert, setShowAuthAlert] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const isFavorite = product ? favorites.some((fav) => fav.id === product.id) : false;
+
+  // Debug para verificar el estado de showAuthAlert
+  useEffect(() => {
+    console.log('showAuthAlert cambió a:', showAuthAlert);
+  }, [showAuthAlert]);
+
+  // Obtener el producto cuando el componente se monta o cambia el ID
+  useEffect(() => {
+    if (id && !isLoading) {
+      const foundProduct = getProductById(id);
+      if (foundProduct) {
+        setProduct(foundProduct);
+        setError(null);
+      } else {
+        setError('Producto no encontrado');
+      }
+      setLoading(false);
+    }
+  }, [id, getProductById, isLoading]);
 
   useEffect(() => {
-    // Simular carga de datos del producto
-    setTimeout(() => {
-      const foundProduct = getProductById(id);
-      setProduct(foundProduct);
-      setLoading(false);
-    }, 500);
-  }, [id]);
+    // Reset selected image when product changes
+    if (product && product.images && product.images.length > 0) {
+      setSelectedImage(0);
+    }
+  }, [product]);
 
   const handleAddToCart = () => {
-    // Lógica para agregar al carrito (similar a la del proyecto)
-    const cart = JSON.parse(localStorage.getItem('cartItems') || '[]');
+    console.log('handleAddToCart ejecutado, isAuthenticated:', isAuthenticated);
 
-    // Buscar si el producto ya existe en el carrito
-    const existingIndex = cart.findIndex((item) => item.id === product.id);
-
-    if (existingIndex >= 0) {
-      // Si existe, aumentar la cantidad
-      cart[existingIndex].qty = (cart[existingIndex].qty || 1) + quantity;
-    } else {
-      // Si no existe, agregarlo nuevo
-      cart.push({
-        id: product.id,
-        title: product.title,
-        price: product.price,
-        image: product.image,
-        stock: product.stock,
-        qty: quantity,
-      });
+    // Verificar si el usuario está autenticado
+    if (!isAuthenticated) {
+      console.log('Usuario no autenticado, mostrando alerta');
+      setShowAuthAlert(true);
+      return;
     }
 
-    // Guardar en localStorage
-    localStorage.setItem('cartItems', JSON.stringify(cart));
-
-    // Disparar evento para notificar a otros componentes
-    window.dispatchEvent(
-      new StorageEvent('storage', {
-        key: 'cartItems',
-        newValue: JSON.stringify(cart),
-      }),
-    );
-
-    alert(`Se agregaron ${quantity} unidades de "${product.title}" al carrito`);
+    // Usar la función del contexto
+    addToCart(product, quantity);
+    toast.success(`Se agregaron ${quantity} unidades de "${product.title}" al carrito`, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   };
 
-  const handleQuantityChange = (e) => {
+  const handleEdit = () => {
+    if (!canEdit(product.id, user.id)) {
+      setShowAuthAlert(true);
+      return;
+    }
+
+    navigate(`/products/${product.id}/edit`);
+  };
+
+  const handleAddToFavorites = (e) => {
+    e.stopPropagation();
+    if (!isAuthenticated) {
+      setShowAuthAlert(true);
+      return;
+    }
+    if (isFavorite) {
+      if (typeof removeFromFavorites === 'function') {
+        removeFromFavorites(product.id);
+      }
+    } else {
+      addToFavorites(product);
+    }
+  };
+
+  const handleDelete = () => {
+    if (!canDelete(product.id, user.id)) {
+      setShowAuthAlert(true);
+      return;
+    }
+
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    setIsDeleting(true);
+    setShowDeleteModal(false);
+    
+    try {
+      const success = await deleteProduct(product.id);
+      
+      if (success) {
+        console.log('Producto eliminado exitosamente');
+        toast.success('¡Producto eliminado exitosamente!', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        // Redirigir después de mostrar la notificación
+        navigate('/products/my-products');
+      } else {
+        throw new Error('Error al eliminar el producto');
+      }
+    } catch (error) {
+      console.error('Error al eliminar el producto:', error);
+      toast.error('Error al eliminar el producto. Por favor, intenta de nuevo.', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteModal(false);
+  };  const handleQuantityChange = (e) => {
     const value = parseInt(e.target.value);
     if (value >= 1 && value <= product.stock) {
       setQuantity(value);
@@ -86,7 +178,7 @@ function ProductsView() {
     );
   }
 
-  if (!product) {
+  if (error || !product) {
     return (
       <>
         <Header />
@@ -115,13 +207,13 @@ function ProductsView() {
           <div className="product-images-section">
             <div className="main-image-container">
               <img
-                src={product.images[selectedImage]}
+                src={product.images && product.images.length > 0 ? product.images[selectedImage] : product.image}
                 alt={product.title}
                 className="main-product-image"
               />
             </div>
 
-            {product.images.length > 1 && (
+            {product.images && product.images.length > 1 && (
               <div className="thumbnail-images">
                 {product.images.map((img, index) => (
                   <img
@@ -144,11 +236,21 @@ function ProductsView() {
             )}
 
             <div className="product-header">
-              <span className="product-category">{product.category}</span>
-              <span className="product-brand">{product.brand}</span>
+              {product.category && <span className="product-category">{product.category}</span>}
+              {product.brand && <span className="product-brand">{product.brand}</span>}
             </div>
 
-            <h1 className="product-title">{product.title}</h1>
+            <div className="product-title-container">
+              <h1 className="product-title">{product.title}</h1>
+              <button
+                onClick={handleAddToFavorites}
+                className={`favorite-button ${isFavorite ? 'favorited' : ''}`}
+                aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+              >
+                {isFavorite ? <FaHeart /> : <FaRegHeart />}
+              </button>
+            </div>
+
 
             <div className="product-price-section">
               {hasDiscount(product) ? (
@@ -162,37 +264,8 @@ function ProductsView() {
                   </span>
                 </div>
               ) : (
-                <span className="product-price">${product.price}</span>
+                <span className="product-price-medium">${product.price}</span>
               )}
-              <span className="product-stock">
-                {product.stock > 0 ? (
-                  <>
-                    Stock disponible: <strong>{product.stock} unidades</strong>
-                  </>
-                ) : (
-                  <span className="out-of-stock">Sin stock</span>
-                )}
-              </span>
-            </div>
-
-            <div className="product-description">
-              <h3>Descripción</h3>
-              <p>{product.description}</p>
-            </div>
-
-            <div className="product-features">
-              <h3>Características principales</h3>
-              <ul>
-                {product.features.map((feature, index) => (
-                  <li key={index}>{feature}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="product-warranty">
-              <p>
-                <strong>Garantía:</strong> {product.warranty}
-              </p>
             </div>
 
             {product.stock > 0 && (
@@ -209,14 +282,104 @@ function ProductsView() {
                   />
                 </div>
 
-                <button onClick={handleAddToCart} className="add-to-cart-btn">
+                <div className="product-stock-section">
+                  <span className="product-stock">
+                    Stock disponible: <strong>{product.stock} unidades</strong>
+                  </span>
+                </div>
+
+                <button
+                  onClick={() => {
+                    console.log('Botón clickeado');
+                    handleAddToCart();
+                  }}
+                  className="add-to-cart-btn"
+                >
                   Agregar al carrito
                 </button>
+              </div>
+            )}
+
+            {product.stock === 0 && (
+              <div className="product-stock-section">
+                <span className="product-stock">
+                  <span className="out-of-stock">Sin stock</span>
+                </span>
+              </div>
+            )}
+
+            {product.sellerUsername && (
+              <div className="seller-info">
+                <span className="seller-tag">Publicado por: {product.sellerUsername}</span>
+              </div>
+            )}
+
+            {/* Botones de editar y eliminar */}
+            {isAuthenticated && (canEdit(product.id, user?.id) || canDelete(product.id, user?.id)) && (
+              <div className="product-actions">
+                {canEdit(product.id, user?.id) && (
+                  <button onClick={handleEdit} className="edit-button" title="Editar producto">
+                    <FaEdit />
+                  </button>
+                )}
+                {canDelete(product.id, user?.id) && (
+                  <button
+                    onClick={handleDelete}
+                    className="delete-button"
+                    title="Eliminar producto"
+                    disabled={isDeleting}
+                  >
+                    <FaTrash />
+                  </button>
+                )}
+              </div>
+            )}
+
+            {product.description && (
+              <div className="product-description">
+                <h3>Descripción</h3>
+                <p>{product.description}</p>
+              </div>
+            )}
+
+            {product.features && product.features.length > 0 && (
+              <div className="product-features">
+                <h3>Características principales</h3>
+                <ul>
+                  {product.features.map((feature, index) => (
+                    <li key={index}>{feature}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {product.warranty && (
+              <div className="product-warranty">
+                <p>
+                  <strong>Garantía:</strong> {product.warranty}
+                </p>
               </div>
             )}
           </div>
         </div>
       </div>
+
+      <AuthAlert
+        isVisible={showAuthAlert}
+        onClose={() => setShowAuthAlert(false)}
+        message="Debes iniciar sesión para ver agregar items al carrito"
+      />
+
+      <ConfirmModal
+        isVisible={showDeleteModal}
+        title="Eliminar producto"
+        message={`¿Estás seguro de que quieres eliminar "${product?.title}"? Esta acción no se puede deshacer.`}
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+        confirmText="Eliminar"
+        cancelText="Cancelar"
+        isLoading={isDeleting}
+      />
     </>
   );
 }

@@ -15,8 +15,8 @@
   --light-purple: #cfc2dc;
   
   /* Colores Primarios (Naranja) */
-  --primary: #F97316; /* Naranja principal para botones "Comprar" y CTAs */
-  --primary-hover: #EA580C; /* Tono más oscuro para el hover */
+  --primary: #646cff; /* Naranja principal para botones "Comprar" y CTAs */
+  --primary-hover: #2563eb; /* Tono más oscuro para el hover */
   --primary-light: #FFF7ED; /* Tono muy claro para fondos de banners o alertas */
   --white: #cecece;
 

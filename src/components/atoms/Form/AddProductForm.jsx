@@ -1,7 +1,10 @@
 import { useState } from 'react';
-import './AddProductForm.css';
+import styles from './AddProductForm.module.css';
+import { useProducts } from '@/context/ProductContext';
 
-function AddProductForm({ onSubmit }) {
+function AddProductForm({ onSubmit, disabled }) {
+  const { productsData, setProducts } = useProducts();
+
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -11,6 +14,10 @@ function AddProductForm({ onSubmit }) {
     image: null
   });
   
+  const handleAddProduct = (productData) => {
+    console.log('Nuevo producto:', productData);
+    // Aquí puedes agregar la lógica para guardar el producto
+  };
   const [previewImage, setPreviewImage] = useState(null);
 
   const handleChange = (e) => {
@@ -55,10 +62,10 @@ function AddProductForm({ onSubmit }) {
   };
 
   return (
-    <form className="add-product-form" onSubmit={handleSubmit}>
+    <form className={styles["add-product-form"]} onSubmit={handleSubmit}>
       <h2>Agregar Nuevo Producto</h2>
-      
-      <div className="form-group">
+
+      <div className={styles["form-group"]}>
         <label htmlFor="name">Nombre del Producto</label>
         <input
           type="text"
@@ -70,7 +77,7 @@ function AddProductForm({ onSubmit }) {
         />
       </div>
 
-      <div className="form-group">
+      <div className={styles["form-group"]}>
         <label htmlFor="description">Descripción</label>
         <textarea
           id="description"
@@ -81,8 +88,8 @@ function AddProductForm({ onSubmit }) {
         />
       </div>
 
-      <div className="form-row">
-        <div className="form-group">
+      <div className={styles["form-row"]}>
+        <div className={styles["form-group"]}>
           <label htmlFor="price">Precio</label>
           <input
             type="number"
@@ -96,7 +103,7 @@ function AddProductForm({ onSubmit }) {
           />
         </div>
 
-        <div className="form-group">
+        <div className={styles["form-group"]}>
           <label htmlFor="stock">Stock</label>
           <input
             type="number"
@@ -110,44 +117,38 @@ function AddProductForm({ onSubmit }) {
         </div>
       </div>
 
-      <div className="form-group">
+      <div className={styles["form-group"]}>
         <label htmlFor="category">Categoría</label>
-        <select
+        <input
+          type="text"
           id="category"
           name="category"
           value={formData.category}
           onChange={handleChange}
           required
-        >
-          <option value="">Seleccionar categoría</option>
-          <option value="laptops">Laptops</option>
-          <option value="smartphones">Smartphones</option>
-          <option value="accessories">Accesorios</option>
-          <option value="monitors">Monitores</option>
-        </select>
+        />
       </div>
 
-      <div className="form-group">
+      <div className={styles["form-group"]}>
         <label htmlFor="image">Imagen del Producto</label>
-        <div className="image-upload-container">
+        <div className={styles["image-upload-container"]}>
           <input
             type="file"
             id="image"
             name="image"
             onChange={handleChange}
             accept="image/*"
-            className="file-input"
-            required
+            className={styles["file-input"]}
           />
           {previewImage && (
-            <div className="image-preview">
+            <div className={styles["image-preview"]}>
               <img src={previewImage} alt="Vista previa" />
             </div>
           )}
         </div>
       </div>
 
-      <button type="submit" className="submit-button">
+      <button type="submit" className={styles["submit-button"]}>
         Agregar Producto
       </button>
     </form>
