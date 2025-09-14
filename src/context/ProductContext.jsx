@@ -147,6 +147,26 @@ export function ProductsProvider({ children }) {
     setProducts(prevProducts => [...prevProducts, product]);
   };
 
+  const deleteProduct = async (id) => {
+    try {
+      // Todavia no tenemos back xdxd
+      // const response = await fetch(`http://localhost:9000/products/${id}`, {
+      //   method: 'DELETE'
+      // });
+
+      // if (!response.ok) {
+      //   throw new Error(`HTTP error! status: ${response.status}`);
+      // }
+
+      // Actualizar el estado local removiendo el producto
+      setProducts(prevProducts => prevProducts.filter(product => product.id !== id));
+      return true;
+    } catch (error) {
+      console.error("Error al eliminar el producto:", error);
+      return false;
+    }
+  };
+
   return (
     <ProductsContext.Provider value={{ 
       productsData, 
@@ -161,6 +181,7 @@ export function ProductsProvider({ children }) {
       hasDiscount, 
       updateProduct, 
       addProduct,
+      deleteProduct,
       refreshProducts: fetchProducts,
       canEdit,
       canDelete,

@@ -15,7 +15,7 @@ function ProductsView() {
   const navigate = useNavigate();
   const { userData: user, isAuthenticated } = useUser();
   const { addToFavorites, removeFromFavorites, favorites } = useFavorites();
-  const { getProductById, calculateDiscountedPrice, hasDiscount, isLoading, error: contextError, canEdit, canDelete } = useProducts();
+  const { getProductById, calculateDiscountedPrice, hasDiscount, isLoading, error: contextError, canEdit, canDelete, deleteProduct } = useProducts();
   const { addToCart } = useCart();
 
   console.log('ProductsView - isAuthenticated:', isAuthenticated, 'user:', user);
@@ -105,17 +105,15 @@ function ProductsView() {
     if (confirmDelete) {
       setIsDeleting(true);
       try {
-        const response = await fetch(`http://localhost:9000/products/${product.id}`, {
-          method: 'DELETE'
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        const success = await deleteProduct(product.id);
+        
+        if (success) {
+          console.log('Producto eliminado exitosamente');
+          alert('Producto eliminado exitosamente');
+          navigate('/products/my-products'); // Redirigir a la lista de productos del usuario
+        } else {
+          throw new Error('Error al eliminar el producto');
         }
-
-        console.log('Producto eliminado exitosamente');
-        alert('Producto eliminado exitosamente');
-        navigate('/'); // Redirigir al home después de eliminar
       } catch (error) {
         console.error('Error al eliminar el producto:', error);
         alert('Error al eliminar el producto. Por favor, intenta de nuevo.');
@@ -123,9 +121,7 @@ function ProductsView() {
         setIsDeleting(false);
       }
     }
-  };
-
-  const handleQuantityChange = (e) => {
+  };  const handleQuantityChange = (e) => {
     const value = parseInt(e.target.value);
     if (value >= 1 && value <= product.stock) {
       setQuantity(value);
