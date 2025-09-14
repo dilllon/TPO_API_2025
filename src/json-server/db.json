@@ -129,11 +129,11 @@
     },
     {
       "id": "6",
-      "title": "Cargador portátil",
+      "title": "Microondas",
       "price": 9999,
-      "image": "/src/assets/images/carrousel/foto2.jpg",
+      "image": "/src/assets/images/productos/microondas.webp",
       "images": [
-        "/src/assets/images/carrousel/foto2.jpg",
+        "/src/assets/images/productos/microondas.webp",
         "/src/assets/images/carrousel/foto1.png"
       ],
       "stock": 10,
@@ -153,12 +153,12 @@
     },
     {
       "id": "7",
-      "title": "Smartwatch",
+      "title": "Waflera",
       "price": 79999,
       "discount": 15,
-      "image": "/src/assets/images/carrousel/foto1.png",
+      "image": "/src/assets/images/productos/waflera.jpg",
       "images": [
-        "/src/assets/images/carrousel/foto1.png",
+        "/src/assets/images/productos/waflera.jpg",
         "/src/assets/images/carrousel/foto2.jpg"
       ],
       "stock": 10,
@@ -178,11 +178,11 @@
     },
     {
       "id": "8",
-      "title": "Auriculares Bluetooth",
+      "title": "Sarten",
       "price": 24999,
-      "image": "/src/assets/images/carrousel/foto2.jpg",
+      "image": "/src/assets/images/productos/sarten.webp",
       "images": [
-        "/src/assets/images/carrousel/foto2.jpg",
+        "/src/assets/images/productos/sarten.webp",
         "/src/assets/images/carrousel/foto1.png"
       ],
       "stock": 10,
@@ -202,11 +202,11 @@
     },
     {
       "id": "9",
-      "title": "Tablet Android",
+      "title": "Heladera No Frost",
       "price": 199999,
-      "image": "/src/assets/images/carrousel/foto1.png",
+      "image": "/src/assets/images/productos/heladera.webp",
       "images": [
-        "/src/assets/images/carrousel/foto1.png",
+        "/src/assets/images/productos/heladera.webp",
         "/src/assets/images/carrousel/foto2.jpg"
       ],
       "stock": 10,
@@ -224,22 +224,22 @@
       "warranty": "2 años",
       "userId": 3
     },
-    {
-      "id": "12",
-      "title": "asd3",
-      "description": "asdad",
-      "price": 1231231,
-      "stock": 123123,
-      "category": "asd",
-      "brand": "Generic",
-      "warranty": "1 año",
-      "weight": "N/A",
-      "dimensions": "N/A",
-      "image": "/src/assets/images/productos/default.jpg",
-      "images": [
-        "/src/assets/images/productos/default.jpg",
-        []
-      ],
+      {
+        "id": "12",
+        "title": "Pantalon",
+        "description": "asdad",
+        "price": 1231231,
+        "stock": 123123,
+        "category": "Moda",
+        "brand": "Generic",
+        "warranty": "1 año",
+        "weight": "N/A",
+        "dimensions": "N/A",
+        "image": "/src/assets/images/productos/pantalon.jpg",
+        "images": [
+          "/src/assets/images/productos/pantalon.jpg",
+          []
+        ],
       "features": [],
       "tags": [
         "asd"
@@ -258,8 +258,8 @@
     },
     {
       "id": "13",
-      "title": "compradortest",
-      "description": "asdasdad",
+      "title": "gabinete",
+      "description": "gabinete",
       "price": 123,
       "stock": 123,
       "category": "Electro",
@@ -267,7 +267,7 @@
       "warranty": "1 año",
       "weight": "N/A",
       "dimensions": "N/A",
-      "image": "/src/assets/images/productos/default.jpg",
+      "image": "/src/assets/images/productos/gabinete.jpg",
       "images": [
         "/src/assets/images/productos/default.jpg",
         []
@@ -289,7 +289,7 @@
     },
     {
       "id": "14",
-      "title": "asd2",
+      "title": "joystick",
       "description": "asdasd",
       "price": 123123,
       "stock": 12312312,
@@ -298,9 +298,9 @@
       "warranty": "1 año",
       "weight": "N/A",
       "dimensions": "N/A",
-      "image": "/src/assets/images/productos/default.jpg",
+      "image": "/src/assets/images/productos/joystick.webp",
       "images": [
-        "/src/assets/images/productos/default.jpg",
+        "/src/assets/images/productos/joystick.webp",
         []
       ],
       "features": [],
@@ -317,6 +317,31 @@
         "average": 0,
         "count": 0
       }
+    },
+    {
+      "id": "15",
+      "title": "Remera",
+      "price": 2999,
+      "image": "/src/assets/images/productos/remera.jpg",
+      "images": [
+        "/src/assets/images/productos/remera.jpg",
+        "/src/assets/images/productos/52898-producto-logitech-g305-negro.jpg"
+      ],
+      "stock": 10,
+      "description": "Mouse inalámbrico de alta precisión con tecnología óptica avanzada. Ideal para gaming y uso profesional. Cuenta con una batería de larga duración y conectividad estable.",
+      "features": [
+        "Sensor óptico de alta precisión",
+        "Conectividad inalámbrica 2.4GHz",
+        "Batería de larga duración (hasta 12 meses)",
+        "Diseño ergonómico",
+        "Compatible con Windows y Mac",
+        "3 botones programables"
+      ],
+      "category": "Moda",
+      "brand": "TechPro",
+      "warranty": "1 año",
+      "userId": 2,
+      "discount": 12
     }
   ],
   "user": [
