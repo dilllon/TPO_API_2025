@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useProducts } from '@/context/ProductContext';
 import { useCart } from '@/context/CartContext';
+import { toast } from 'react-toastify';
 import './ProductsDesc.css';
 
 function ProductsDesc() {
@@ -26,7 +27,14 @@ function ProductsDesc() {
   const handleAddToCart = () => {
     // Usar la función del contexto
     addToCart(product, quantity);
-    alert(`Se agregaron ${quantity} unidades de "${product.title}" al carrito`);
+    toast.success(`Se agregaron ${quantity} unidades de "${product.title}" al carrito`, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   };
 
   const handleQuantityChange = (e) => {

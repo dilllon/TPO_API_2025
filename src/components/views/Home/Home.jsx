@@ -32,7 +32,7 @@ function Home() {
     addToCart(product, 1);
 
     // Opcional: mostrar mensaje de éxito
-    toast.success(`${product.title} agregado al carrito`, {
+    toast.success(`'${product.title}' se ha agregado al carrito`, {
       position: "top-right",
       autoClose: 1500, // 2 segundos
       hideProgressBar: true,

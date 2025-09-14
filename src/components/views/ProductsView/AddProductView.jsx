@@ -4,6 +4,7 @@ import { useUser } from '../../../context/UserContext';
 import { useProducts } from '../../../context/ProductContext';
 import AddProductForm from '../../atoms/Form/AddProductForm';
 import Header from '../../organisms/Header/Header';
+import { toast } from 'react-toastify';
 
 function AddProductView() {
   const navigate = useNavigate();
@@ -90,7 +91,14 @@ function AddProductView() {
       console.log('Producto creado exitosamente:', createdProduct);
       
       // Mostrar mensaje de éxito
-      alert(`Producto "${newProduct.title}" agregado exitosamente!`);
+      toast.success(`Producto "${newProduct.title}" agregado exitosamente!`, {
+        position: "top-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
       
       // Redirigir a la página principal o a la vista del producto
       navigate('/');

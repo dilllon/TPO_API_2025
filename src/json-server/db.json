@@ -224,21 +224,21 @@
       "warranty": "2 años",
       "userId": 3
     },
-      {
-        "id": "12",
-        "title": "Pantalon",
-        "description": "asdad",
-        "price": 1231231,
-        "stock": 123123,
-        "category": "Moda",
-        "brand": "Generic",
-        "warranty": "1 año",
-        "weight": "N/A",
-        "dimensions": "N/A",
-        "image": "/src/assets/images/productos/pantalon.jpg",
-        "images": [
-          "/src/assets/images/productos/pantalon.jpg"
-        ],
+    {
+      "id": "12",
+      "title": "Pantalon",
+      "description": "asdad",
+      "price": 1231231,
+      "stock": 123123,
+      "category": "Moda",
+      "brand": "Generic",
+      "warranty": "1 año",
+      "weight": "N/A",
+      "dimensions": "N/A",
+      "image": "/src/assets/images/productos/pantalon.jpg",
+      "images": [
+        "/src/assets/images/productos/pantalon.jpg"
+      ],
       "features": [],
       "tags": [
         "asd"
@@ -609,6 +609,34 @@
         }
       ],
       "date": "2025-09-12T19:05:45.250Z"
+    },
+    {
+      "id": "4415",
+      "userId": "2",
+      "purchases": [
+        {
+          "productId": "5",
+          "title": "Smartphone 5G",
+          "pricePaid": 50000,
+          "qty": 2,
+          "thumbnail": "/src/assets/images/productos/smartphone.png"
+        }
+      ],
+      "date": "2025-09-14T20:43:10.690Z"
+    },
+    {
+      "id": "a451",
+      "userId": "2",
+      "purchases": [
+        {
+          "productId": "5",
+          "title": "Smartphone 5G",
+          "pricePaid": 50000,
+          "qty": 1,
+          "thumbnail": "/src/assets/images/productos/smartphone.png"
+        }
+      ],
+      "date": "2025-09-14T20:43:23.059Z"
     }
   ]
 }

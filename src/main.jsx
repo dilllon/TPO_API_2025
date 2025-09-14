@@ -11,7 +11,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  // <StrictMode> // Comentado temporalmente para evitar doble ejecución de efectos
+  <>
     <ProductsProvider>
       <SearchProvider>
         <FavoritesProvider>
@@ -24,5 +25,6 @@ createRoot(document.getElementById('root')).render(
       </SearchProvider>
     </ProductsProvider>
     <ToastContainer />
-  </StrictMode>,
+  </>
+  // </StrictMode>
 );

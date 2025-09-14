@@ -9,13 +9,15 @@ import { useCart } from '../../../context/CartContext';
 import Header from '../../organisms/Header/Header';
 import './ProductsView.css';
 import AuthAlert from '../../molecules/AuthAlert/AuthAlert';
+import { toast } from 'react-toastify';
+import ConfirmModal from '../../atoms/ConfirmModal/ConfirmModal';
 
 function ProductsView() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { userData: user, isAuthenticated } = useUser();
   const { addToFavorites, removeFromFavorites, favorites } = useFavorites();
-  const { getProductById, calculateDiscountedPrice, hasDiscount, isLoading, error: contextError, canEdit, canDelete } = useProducts();
+  const { getProductById, calculateDiscountedPrice, hasDiscount, isLoading, error: contextError, canEdit, canDelete, deleteProduct } = useProducts();
   const { addToCart } = useCart();
 
   console.log('ProductsView - isAuthenticated:', isAuthenticated, 'user:', user);
@@ -27,6 +29,7 @@ function ProductsView() {
   const [selectedImage, setSelectedImage] = useState(0);
   const [showAuthAlert, setShowAuthAlert] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const isFavorite = product ? favorites.some((fav) => fav.id === product.id) : false;
 
@@ -68,7 +71,14 @@ function ProductsView() {
 
     // Usar la función del contexto
     addToCart(product, quantity);
-    alert(`Se agregaron ${quantity} unidades de "${product.title}" al carrito`);
+    toast.success(`Se agregaron ${quantity} unidades de "${product.title}" al carrito`, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   };
 
   const handleEdit = () => {
@@ -95,37 +105,55 @@ function ProductsView() {
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     if (!canDelete(product.id, user.id)) {
       setShowAuthAlert(true);
       return;
     }
 
-    const confirmDelete = window.confirm(`¿Estás seguro de que quieres eliminar "${product.title}"?`);
-    if (confirmDelete) {
-      setIsDeleting(true);
-      try {
-        const response = await fetch(`http://localhost:9000/products/${product.id}`, {
-          method: 'DELETE'
-        });
+    setShowDeleteModal(true);
+  };
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
+  const confirmDelete = async () => {
+    setIsDeleting(true);
+    setShowDeleteModal(false);
+    
+    try {
+      const success = await deleteProduct(product.id);
+      
+      if (success) {
         console.log('Producto eliminado exitosamente');
-        alert('Producto eliminado exitosamente');
-        navigate('/'); // Redirigir al home después de eliminar
-      } catch (error) {
-        console.error('Error al eliminar el producto:', error);
-        alert('Error al eliminar el producto. Por favor, intenta de nuevo.');
-      } finally {
-        setIsDeleting(false);
+        toast.success('¡Producto eliminado exitosamente!', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        // Redirigir después de mostrar la notificación
+        navigate('/products/my-products');
+      } else {
+        throw new Error('Error al eliminar el producto');
       }
+    } catch (error) {
+      console.error('Error al eliminar el producto:', error);
+      toast.error('Error al eliminar el producto. Por favor, intenta de nuevo.', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    } finally {
+      setIsDeleting(false);
     }
   };
 
-  const handleQuantityChange = (e) => {
+  const cancelDelete = () => {
+    setShowDeleteModal(false);
+  };  const handleQuantityChange = (e) => {
     const value = parseInt(e.target.value);
     if (value >= 1 && value <= product.stock) {
       setQuantity(value);
@@ -340,6 +368,17 @@ function ProductsView() {
         isVisible={showAuthAlert}
         onClose={() => setShowAuthAlert(false)}
         message="Debes iniciar sesión para ver agregar items al carrito"
+      />
+
+      <ConfirmModal
+        isVisible={showDeleteModal}
+        title="Eliminar producto"
+        message={`¿Estás seguro de que quieres eliminar "${product?.title}"? Esta acción no se puede deshacer.`}
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+        confirmText="Eliminar"
+        cancelText="Cancelar"
+        isLoading={isDeleting}
       />
     </>
   );
