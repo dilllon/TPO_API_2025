@@ -39,7 +39,10 @@ export function ProductsProvider({ children }) {
   // Función para obtener todas las categorías únicas
   const getCategories = () => {
     const uniqueCategories = [...new Set(productsData.map(product => product.category))];
-    return uniqueCategories;
+    return uniqueCategories.map(category => ({
+      label: category,
+      href: `#category-${category.toLowerCase()}`
+    }));
   };
 
   const canEdit = (id, userId) => {
@@ -64,7 +67,7 @@ export function ProductsProvider({ children }) {
   // Función para obtener productos organizados por categorías (para el grid)
   const getProductsGroupedByCategory = () => {
     const categories = getCategories();
-    return categories.map(categoryName => ({
+    return categories.map(({ label: categoryName }) => ({
       categoryName,
       products: getProductsByCategory(categoryName)
     }));
@@ -72,7 +75,7 @@ export function ProductsProvider({ children }) {
 
   const getProductsGroupedByOwner = (userId) => {
     const categories = getCategories();
-    return categories.map(categoryName => ({
+    return categories.map(({ label: categoryName }) => ({
       categoryName,
       products: getProductsByCategory(categoryName).filter(product => product.userId == userId)
     }));
@@ -80,7 +83,7 @@ export function ProductsProvider({ children }) {
 
   const getProductsGroupedByDifferentOwner = (userId) => {
     const categories = getCategories();
-    return categories.map(categoryName => ({
+    return categories.map(({ label: categoryName }) => ({
       categoryName,
       products: getProductsByCategory(categoryName).filter(product => product.userId != userId)
     }));
