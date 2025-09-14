@@ -1,43 +1,75 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getProductById, updateProduct } from "../../../constants/products";
+import { useProducts } from '@/context/ProductContext';
 import './EditProductForm.css';
 
 function EditProductForm() {
+    const { productsData, getProductById, updateProduct, isLoading } = useProducts();
     const { id } = useParams();
     const navigate = useNavigate();
     const [form, setForm] = useState(null);
     const [error, setError] = useState("");
 
     useEffect(() => {
+        if (isLoading) {
+            return;
+        }
+
         const p = getProductById(id);
+        console.log('Producto encontrado:', p);
         if (!p) {
             setError("Producto no encontrado");
             return;
         }
 
         setForm({
+            ...getProductById(id), // Asegura que se copien todas las propiedades
             id: p.id,
             title: p.title,
             price: p.price,
             stock: p.stock,
-            discount: p.discount ?? 0,
+            discount: p.discount && p.discount > 0 ? p.discount : undefined,
             description: p.description,
             brand: p.brand,
             category: p.category,
             image: p.image
         });
-    }, [id]);
+    }, [productsData,id]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setForm(prev => ({
-            ...prev,
-            [name]: name === 'price' || name === 'stock' || name === 'discount' ? Number(value) : value
-        }));
+        setForm(prev => {
+            let processedValue = value;
+            
+            if (name === 'price' || name === 'stock') {
+                processedValue = Number(value);
+            } else if (name === 'discount') {
+                // Manejo especial para descuento
+                const numValue = Number(value);
+                // Si es 0 o valor vacío, no asignar la propiedad discount
+                processedValue = numValue > 0 ? numValue : undefined;
+            }
+            
+            return {
+                ...prev,
+                [name]: processedValue
+            };
+        });
     };
 
-    const handleSubmit = (e) => {
+    if (isLoading) {
+        return <div>Cargando...</div>;
+    }
+
+    if (error) {
+        return <div className="error-message">{error}</div>;
+    }
+
+    if (!form) {
+        return <div>Cargando datos del producto...</div>;
+    }
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!form.title || !form.price) return setError("Titulo y precio son obligatorios.");
 
@@ -83,7 +115,15 @@ function EditProductForm() {
                 <div className="form-group">
                     <label>
                         Descuento (%)
-                        <input type="number" name="discount" value={form.discount} onChange={handleChange} />
+                        <input 
+                            type="number" 
+                            name="discount" 
+                            value={form.discount || ''} 
+                            onChange={handleChange}
+                            placeholder="0 para sin descuento"
+                            min="0"
+                            max="100"
+                        />
                     </label>
                 </div>
                 <div className="form-group">

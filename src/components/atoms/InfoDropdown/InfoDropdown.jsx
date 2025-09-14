@@ -50,29 +50,48 @@ function InfoDropdown({
           </div>
           <ul className={styles['notification-list']}>
             {items.length > 0 ? (
-              items.map((notification) => (
-                <li
-                  key={notification.id}
-                  className={styles['notification-item']}
-                >
-                  <img
-                    src={notification.displayImage ?? defaultImage}
-                    alt="Notificación"
-                    className={styles['notification-image']}
-                  />
-                  <div className={styles['notification-body']}>
-                    <p className={styles['notification-message']}>
-                      {notification.message}
-                    </p>
-                    <span className={styles['notification-timestamp']}>
-                      {notification.timestamp}
-                    </span>
-                  </div>
+              items.map((item) => (
+                <li key={item.id} className={styles['notification-item']}>
+                  {title === 'Favoritos' ? (
+                    <>
+                      <img
+                        src={item.image ?? defaultImage}
+                        alt={item.title}
+                        className={styles['notification-image']}
+                      />
+                      <div className={styles['notification-body']}>
+                        <p className={styles['notification-message']}>
+                          {item.title}
+                        </p>
+                        <span className={styles['notification-timestamp']}>
+                          ${item.price}
+                        </span>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <img
+                        src={item.displayImage ?? defaultImage}
+                        alt="Notificación"
+                        className={styles['notification-image']}
+                      />
+                      <div className={styles['notification-body']}>
+                        <p className={styles['notification-message']}>
+                          {item.message}
+                        </p>
+                        <span className={styles['notification-timestamp']}>
+                          {item.timestamp}
+                        </span>
+                      </div>
+                    </>
+                  )}
                 </li>
               ))
             ) : (
               <li className={styles['no-notifications']}>
-                No tienes notificaciones nuevas.
+                {title === 'Favoritos'
+                  ? 'No tienes favoritos.'
+                  : 'No tienes notificaciones nuevas.'}
               </li>
             )}
           </ul>

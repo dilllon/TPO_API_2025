@@ -1,27 +1,51 @@
-import ProductosGrid from '@/components/organisms/Grid/Products';
-import Header from '@/components/organisms/Header/Header';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useUser } from '@/context/UserContext';
+import { useCart } from '@/context/CartContext';
+import ProductsGrid from '../../organisms/Grid/Products';
+import Header from '../../organisms/Header/Header';
 import './Home.css';
+import { toast } from 'react-toastify';
+import AuthAlert from '../../molecules/AuthAlert/AuthAlert';
 
 function Home() {
+  const [showAuthAlert, setShowAuthAlert] = useState(false);
+  const navigate = useNavigate();
+  const { isAuthenticated, userData, isLoading } = useUser();
+  const { addToCart } = useCart();
 
-   const onAddToCart = (product) => {
-    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    
+  // Verificar si los datos están cargando
+  useEffect(() => {
+    if (isLoading) {
+      console.log('Cargando datos del usuario...');
+    }
+  }, [isLoading]);
 
-    const existingItem = cartItems.find(item => item.id === product.id);
-    if (existingItem) {
-    existingItem.qty = (existingItem.qty || 1) + 1;
-    } else {
-    cartItems.push({ ...product, qty: 1 });
-  }
+  const handleAddToCart = (product) => {
+    // Verificar si el usuario está autenticado
+    if (!isAuthenticated) {
+      setShowAuthAlert(true);
+      return;
+    }
 
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    // Usar la función del contexto
+    addToCart(product, 1);
+
+    // Opcional: mostrar mensaje de éxito
+    toast.success(`'${product.title}' se ha agregado al carrito`, {
+      position: "top-right",
+      autoClose: 1500, // 2 segundos
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   return (
     <>
       <Header />
-      {/* <Carrousel /> */}
       <main>
         <section>
           <div className="welcome-message">
@@ -31,8 +55,14 @@ function Home() {
             Explorá nuestros productos y hacé tu compra de forma fácil y rápida.
           </p>
         </section>
-        <ProductosGrid onAddToCart={onAddToCart} />
+        <ProductsGrid onAddToCart={handleAddToCart} />
       </main>
+
+      <AuthAlert
+        isVisible={showAuthAlert}
+        onClose={() => setShowAuthAlert(false)}
+        message="Necesitas iniciar sesión para agregar productos al carrito."
+      />
     </>
   );
 }

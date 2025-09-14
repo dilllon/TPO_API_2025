@@ -1,10 +1,11 @@
 import { FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { calculateDiscountedPrice, hasDiscount } from '../../../constants/products';
+import { useProducts } from '@/context/ProductContext';
 import './ProductCard.css';
 
 function ProductCardAdded({ product, onClick, onQuantityChange, qty = 1, variant = "cart" }) {
   const navigate = useNavigate();
+  const { calculateDiscountedPrice, hasDiscount } = useProducts();
 
   const handleProductClick = () => {
     navigate(`/products/${product.id}`);

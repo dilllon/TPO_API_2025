@@ -1,8 +1,11 @@
-import ProductCard from "@/components/molecules/ProductCard/ProductCard";
-import { useMemo } from "react";
-import { getProductsGroupedByCategory } from "../../../constants/products";
+import { useMemo, useState } from "react";
+import { useProducts } from "../../../context/ProductContext";
+import CarouselProducts from "../../molecules/CarouselProducts/CarouselProducts";
+import ProductCard from "../../molecules/ProductCard/ProductCard";
+import { useUser } from "@/context/UserContext";
+import Filter from "../Filter/Filter";
 import "./Products.css";
-import CarouselProducts from "@/components/molecules/CarouselProducts/CarouselProducts";
+import { useSearch } from "../../../context/SearchContext";
 
 // Ordena por título (ES-AR), devolviendo una COPIA
 function orderProducts(products) {
@@ -15,38 +18,67 @@ function orderProducts(products) {
 }
 
 function ProductsGrid({ onAddToCart }) {
-  // Separa por categoría y ordena los productos de cada categoría
-  const ordered = useMemo(() => {
-    const categories = getProductsGroupedByCategory();
-    return categories.map((cat) => ({
+  const { productsData, getProductsGroupedByCategory, getProductsGroupedByDifferentOwner, calculateDiscountedPrice } = useProducts();
+  const { userData, isAuthenticated } = useUser();
+  const userId = userData?.id;
+  const [filter, setFilter] = useState({});
+  const { searchTerm } = useSearch();
+
+  // Obtener todas las categorías
+  const allCategories = useMemo(() => {
+    return isAuthenticated ? getProductsGroupedByDifferentOwner(userId).map(cat => cat.categoryName) : getProductsGroupedByCategory().map(cat => cat.categoryName);
+  }, [productsData, getProductsGroupedByCategory, getProductsGroupedByDifferentOwner, isAuthenticated, userId]);
+
+  // Filtrar productos según el filtro
+  const filteredCategories = useMemo(() => {
+    let categories = isAuthenticated ? getProductsGroupedByDifferentOwner(userId) : getProductsGroupedByCategory();
+    if (filter.category) {
+      categories = categories.filter(cat => cat.categoryName === filter.category);
+    }
+    return categories.map(cat => ({
       ...cat,
-      products: orderProducts(cat.products),
-    }));
-  }, []);
+        products: orderProducts(cat.products).filter(p => {
+          const search = searchTerm.trim().toLowerCase();
+          const matchesSearch = search === "" || (p.title ?? "").toLowerCase().startsWith(search);
+          const finalPrice = p.discount !== undefined ? calculateDiscountedPrice(p) : p.price;
+          const priceOk = (filter.minPrice === undefined || finalPrice >= filter.minPrice) &&
+            (filter.maxPrice === undefined || finalPrice <= filter.maxPrice);
+          const stockOk = !filter.inStock || (p.stock && p.stock > 0);
+          const discountOk = !filter.hasDiscount || (p.discount && p.discount > 0);
+          return matchesSearch && priceOk && stockOk && discountOk;
+        })
+    })).filter(cat => cat.products.length > 0);
+  }, [productsData, filter, calculateDiscountedPrice, getProductsGroupedByCategory, getProductsGroupedByDifferentOwner, isAuthenticated, searchTerm, userId]);
 
   return (
     <>
-      {ordered.map(({ categoryName, products }) => (
-        <section
-          key={categoryName}
-          id={`category-${categoryName.toLowerCase()}`}
-          className="products-section"
-        >
-          <h2>{categoryName}</h2>
-
-          <CarouselProducts
-            products={products}
-            renderCard={(p) => (
-              <ProductCard
-                key={p.id}
-                product={p}
-                variant={categoryName}         // por si querés estilos por categoría
-                onClick={() => onAddToCart?.(p)}   // agrega al carrito si se pasó prop
-              />
-            )}
-          />
-        </section>
-      ))}
+      <div className="container-products">
+        <aside>
+          <Filter categories={allCategories} onFilter={setFilter} />
+        </aside>
+        <div>
+          {filteredCategories.map(({ categoryName, products }) => (
+          <section
+            key={categoryName}
+            id={`category-${categoryName.toLowerCase()}`}
+            className="products-section"
+          >
+            <h2>{categoryName}</h2>
+            <CarouselProducts
+              products={products}
+              renderCard={(p) => (
+                <ProductCard
+                  key={p.id}
+                  product={p}
+                  variant={categoryName}
+                  onClick={() => onAddToCart(p)}
+                />
+              )}
+            />
+          </section>
+        ))}
+        </div>
+      </div>
     </>
   );
 }
