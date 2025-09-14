@@ -45,11 +45,6 @@ function ProductsView() {
       if (foundProduct) {
         setProduct(foundProduct);
         setError(null);
-        // Toast de prueba para verificar que funciona
-        toast.info('Producto cargado correctamente', {
-          position: "top-right",
-          autoClose: 2000,
-        });
       } else {
         setError('Producto no encontrado');
       }
@@ -76,7 +71,14 @@ function ProductsView() {
 
     // Usar la función del contexto
     addToCart(product, quantity);
-    alert(`Se agregaron ${quantity} unidades de "${product.title}" al carrito`);
+    toast.success(`Se agregaron ${quantity} unidades de "${product.title}" al carrito`, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   };
 
   const handleEdit = () => {

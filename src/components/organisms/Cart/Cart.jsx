@@ -4,6 +4,7 @@ import styles from './Cart.module.css';
 import { useProducts } from '@/context/ProductContext';
 import { useCart } from '@/context/CartContext';
 import { useUser } from '@/context/UserContext';
+import { toast } from 'react-toastify';
 
 function Cart() {
   const { getProductById, hasDiscount, calculateDiscountedPrice } = useProducts();
@@ -18,12 +19,26 @@ function Cart() {
     const hasStock = products.every((p) => p.qty <= p.stock);
 
     if (!hasStock) {
-      alert('Algunos productos no tienen stock suficiente');
+      toast.error('Algunos productos no tienen stock suficiente', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
       return;
     }
 
     // Aquí iría la lógica de procesamiento de pago
-    alert('¡Compra realizada con éxito!');
+    toast.success('¡Compra realizada con éxito!', {
+      position: "top-right",
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
     localStorage.setItem('cartItems', '[]');
     // Dispara un evento de storage para notificar a otros componentes
     window.dispatchEvent(
