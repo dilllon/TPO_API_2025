@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from '@/context/UserContext';
 import Header from '../../organisms/Header/Header';
 import  './MyPurchasesView.css';
+import AuthAlert from '../../molecules/AuthAlert/AuthAlert';
 
 function MyPurchases() {
   const navigate = useNavigate();
@@ -66,15 +67,11 @@ function MyPurchases() {
         )}
         </main>
 
-      {showAuthAlert && (
-        <div style={{ background: 'rgba(0,0,0,0.7)', position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ background: '#fff', padding: 20, borderRadius: 8 }}>
-            <h3>¡Inicia sesión!</h3>
-            <p>Necesitás iniciar sesión para ver tus compras.</p>
-            <button onClick={() => navigate('/clients/login')}>Iniciar sesión</button>
-          </div>
-        </div>
-      )}
+      <AuthAlert
+      isVisible={showAuthAlert}
+      onClose={() => setShowAuthAlert(false)}
+      message="Debes iniciar sesión para ver tus compras"
+    />
     </>
   );
 }

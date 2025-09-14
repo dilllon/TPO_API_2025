@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useProducts } from '../../../context/ProductContext';
 import { useUser } from '../../../context/UserContext';
 import { useFavorites } from '../../../hooks/useFavorite';
+import { useState } from 'react';
+import AuthAlert from '../AuthAlert/AuthAlert';
 import './ProductCard.css';
 
 function ProductCard({ product, onClick, variant = 'default' }) {
@@ -10,6 +12,7 @@ function ProductCard({ product, onClick, variant = 'default' }) {
   const navigate = useNavigate();
   const { userData, isAuthenticated } = useUser();
   const { addToFavorites, removeFromFavorites, favorites } = useFavorites();
+  const [showAuthAlert, setShowAuthAlert] = useState(false);
 
   const isFavorite = favorites.some((fav) => fav.id === product.id);
 
@@ -32,6 +35,10 @@ function ProductCard({ product, onClick, variant = 'default' }) {
 
   const handleAddToFavorites = (e) => {
     e.stopPropagation();
+    if (!isAuthenticated) {
+      setShowAuthAlert(true);
+      return;
+    }
     if (isFavorite) {
       // Si ya es favorito, quitarlo
       if (typeof removeFromFavorites === 'function') {
@@ -91,6 +98,11 @@ function ProductCard({ product, onClick, variant = 'default' }) {
         {variant !== "editable" && <button onClick={onAddToCart}>Agregar al carrito</button>}
         {isAuthenticated && canEdit(product.id, userData.id) && <button onClick={handleEdit} className='edit-button'><FaEdit /></button>}
       </div>
+    <AuthAlert
+      isVisible={showAuthAlert}
+      onClose={() => setShowAuthAlert(false)}
+      message="Debes iniciar sesión para agregar productos a favoritos."
+    />
     </div>
   );
 }
