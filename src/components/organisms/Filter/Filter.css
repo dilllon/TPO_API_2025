@@ -41,15 +41,19 @@ h4 {
 .labels-filter input {
     border-radius: 0.4rem;
     border: solid 0.05rem;
-    height: 1.5rem;
     margin-top: 0.5rem;
+    border-color: #bbbbbb;
+    padding: 5px;
+    font-size: 1rem;
 }
 
 .labels-filter select {
     border-radius: 0.4rem;
     border: solid 0.05rem;
-    height: 1.5rem;
     margin-top: 0.5rem;
+    border-color: #bbbbbb;
+    padding: 5px;
+    font-size: 1rem;
 }
 
 .labels-filter label {
