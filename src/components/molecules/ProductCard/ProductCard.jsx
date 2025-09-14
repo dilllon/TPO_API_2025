@@ -73,26 +73,28 @@ function ProductCard({ product, onClick, variant = 'default' }) {
           alt={product.title}
           className="product-image"
         />
-        <div className="price-container">
-          {productHasDiscount ? (
-            <>
-              <p className="product-price original-price">${product.price}</p>
-              <p className="product-price discounted-price">
-                ${discountedPrice}
-              </p>
-            </>
-          ) : (
-            <p className="product-price">${product.price}</p>
-          )}
+        <div className="card-description-wrapper">
+          <div className="price-container">
+            {productHasDiscount ? (
+              <>
+                <p className="product-price original-price">${product.price}</p>
+                <p className="product-price discounted-price">
+                  ${discountedPrice}
+                </p>
+              </>
+            ) : (
+              <p className="product-price">${product.price}</p>
+            )}
+          </div>
+          <p className="product-stock">
+            Stock:{' '}
+            {product.stock > 0 ? (
+              product.stock
+            ) : (
+              <span className="out-of-stock">Sin stock</span>
+            )}
+          </p>
         </div>
-        <p className="product-stock">
-          Stock:{' '}
-          {product.stock > 0 ? (
-            product.stock
-          ) : (
-            <span className="out-of-stock">Sin stock</span>
-          )}
-        </p>
       </div>
       <div className='product-btns'>
         {variant !== "editable" && <button onClick={onAddToCart}>Agregar al carrito</button>}

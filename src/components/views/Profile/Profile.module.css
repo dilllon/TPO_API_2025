@@ -2,6 +2,7 @@
   --avatar-size: 225px;
   --banner: 300px;
   /* background: var(--bg-main); */
+  max-width: 100% !important;
   overflow: hidden;
 }
 

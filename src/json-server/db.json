@@ -124,8 +124,8 @@
       "category": "Electro",
       "brand": "MobileTech",
       "warranty": "2 años",
-      "userId": 1,
-      "discount": 90
+      "discount": 90,
+      "userId": 1
     },
     {
       "id": "6",
@@ -237,14 +237,12 @@
         "dimensions": "N/A",
         "image": "/src/assets/images/productos/pantalon.jpg",
         "images": [
-          "/src/assets/images/productos/pantalon.jpg",
-          []
+          "/src/assets/images/productos/pantalon.jpg"
         ],
       "features": [],
       "tags": [
         "asd"
       ],
-      "userId": 2,
       "sellerUsername": "vendedor",
       "sku": "ASD-12",
       "createdAt": "2025-09-08T21:02:40.971Z",
@@ -254,7 +252,8 @@
         "average": 0,
         "count": 0
       },
-      "discount": 22
+      "discount": 22,
+      "userId": 2
     },
     {
       "id": "13",
