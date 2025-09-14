@@ -9,6 +9,7 @@ import { useCart } from '../../../context/CartContext';
 import Header from '../../organisms/Header/Header';
 import './ProductsView.css';
 import AuthAlert from '../../molecules/AuthAlert/AuthAlert';
+import { toast } from 'react-toastify';
 
 function ProductsView() {
   const { id } = useParams();
@@ -42,6 +43,11 @@ function ProductsView() {
       if (foundProduct) {
         setProduct(foundProduct);
         setError(null);
+        // Toast de prueba para verificar que funciona
+        toast.info('Producto cargado correctamente', {
+          position: "top-right",
+          autoClose: 2000,
+        });
       } else {
         setError('Producto no encontrado');
       }
@@ -109,14 +115,29 @@ function ProductsView() {
         
         if (success) {
           console.log('Producto eliminado exitosamente');
-          alert('Producto eliminado exitosamente');
-          navigate('/products/my-products'); // Redirigir a la lista de productos del usuario
+          toast.success('¡Producto eliminado exitosamente!', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+          // Redirigir después de mostrar la notificación
+          navigate('/products/my-products');
         } else {
           throw new Error('Error al eliminar el producto');
         }
       } catch (error) {
         console.error('Error al eliminar el producto:', error);
-        alert('Error al eliminar el producto. Por favor, intenta de nuevo.');
+        toast.error('Error al eliminar el producto. Por favor, intenta de nuevo.', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       } finally {
         setIsDeleting(false);
       }

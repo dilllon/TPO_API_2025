@@ -225,6 +225,37 @@
       "userId": 3
     },
     {
+        "id": "12",
+        "title": "Pantalon",
+        "description": "asdad",
+        "price": 1231231,
+        "stock": 123123,
+        "category": "Moda",
+        "brand": "Generic",
+        "warranty": "1 año",
+        "weight": "N/A",
+        "dimensions": "N/A",
+        "image": "/src/assets/images/productos/pantalon.jpg",
+        "images": [
+          "/src/assets/images/productos/pantalon.jpg"
+        ],
+      "features": [],
+      "tags": [
+        "asd"
+      ],
+      "sellerUsername": "vendedor",
+      "sku": "ASD-12",
+      "createdAt": "2025-09-08T21:02:40.971Z",
+      "updatedAt": "2025-09-08T21:02:40.971Z",
+      "isActive": true,
+      "rating": {
+        "average": 0,
+        "count": 0
+      },
+      "discount": 22,
+      "userId": 2
+    },
+    {
       "id": "13",
       "title": "gabinete",
       "description": "gabinete",
