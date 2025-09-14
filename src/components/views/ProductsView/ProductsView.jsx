@@ -10,6 +10,7 @@ import Header from '../../organisms/Header/Header';
 import './ProductsView.css';
 import AuthAlert from '../../molecules/AuthAlert/AuthAlert';
 import { toast } from 'react-toastify';
+import ConfirmModal from '../../atoms/ConfirmModal/ConfirmModal';
 
 function ProductsView() {
   const { id } = useParams();
@@ -28,6 +29,7 @@ function ProductsView() {
   const [selectedImage, setSelectedImage] = useState(0);
   const [showAuthAlert, setShowAuthAlert] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const isFavorite = product ? favorites.some((fav) => fav.id === product.id) : false;
 
@@ -101,47 +103,54 @@ function ProductsView() {
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     if (!canDelete(product.id, user.id)) {
       setShowAuthAlert(true);
       return;
     }
 
-    const confirmDelete = window.confirm(`¿Estás seguro de que quieres eliminar "${product.title}"?`);
-    if (confirmDelete) {
-      setIsDeleting(true);
-      try {
-        const success = await deleteProduct(product.id);
-        
-        if (success) {
-          console.log('Producto eliminado exitosamente');
-          toast.success('¡Producto eliminado exitosamente!', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-          });
-          // Redirigir después de mostrar la notificación
-          navigate('/products/my-products');
-        } else {
-          throw new Error('Error al eliminar el producto');
-        }
-      } catch (error) {
-        console.error('Error al eliminar el producto:', error);
-        toast.error('Error al eliminar el producto. Por favor, intenta de nuevo.', {
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    setIsDeleting(true);
+    setShowDeleteModal(false);
+    
+    try {
+      const success = await deleteProduct(product.id);
+      
+      if (success) {
+        console.log('Producto eliminado exitosamente');
+        toast.success('¡Producto eliminado exitosamente!', {
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
         });
-      } finally {
-        setIsDeleting(false);
+        // Redirigir después de mostrar la notificación
+        navigate('/products/my-products');
+      } else {
+        throw new Error('Error al eliminar el producto');
       }
+    } catch (error) {
+      console.error('Error al eliminar el producto:', error);
+      toast.error('Error al eliminar el producto. Por favor, intenta de nuevo.', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    } finally {
+      setIsDeleting(false);
     }
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteModal(false);
   };  const handleQuantityChange = (e) => {
     const value = parseInt(e.target.value);
     if (value >= 1 && value <= product.stock) {
@@ -357,6 +366,17 @@ function ProductsView() {
         isVisible={showAuthAlert}
         onClose={() => setShowAuthAlert(false)}
         message="Debes iniciar sesión para ver agregar items al carrito"
+      />
+
+      <ConfirmModal
+        isVisible={showDeleteModal}
+        title="Eliminar producto"
+        message={`¿Estás seguro de que quieres eliminar "${product?.title}"? Esta acción no se puede deshacer.`}
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+        confirmText="Eliminar"
+        cancelText="Cancelar"
+        isLoading={isDeleting}
       />
     </>
   );
