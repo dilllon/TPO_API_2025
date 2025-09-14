@@ -8,6 +8,7 @@ import { useFavorites } from '../../../hooks/useFavorite';
 import { useCart } from '../../../context/CartContext';
 import Header from '../../organisms/Header/Header';
 import './ProductsView.css';
+import AuthAlert from '../../molecules/AuthAlert/AuthAlert';
 
 function ProductsView() {
   const { id } = useParams();
@@ -16,9 +17,9 @@ function ProductsView() {
   const { addToFavorites, removeFromFavorites, favorites } = useFavorites();
   const { getProductById, calculateDiscountedPrice, hasDiscount, isLoading, error: contextError, canEdit, canDelete } = useProducts();
   const { addToCart } = useCart();
-  
+
   console.log('ProductsView - isAuthenticated:', isAuthenticated, 'user:', user);
-  
+
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -57,7 +58,7 @@ function ProductsView() {
 
   const handleAddToCart = () => {
     console.log('handleAddToCart ejecutado, isAuthenticated:', isAuthenticated);
-    
+
     // Verificar si el usuario está autenticado
     if (!isAuthenticated) {
       console.log('Usuario no autenticado, mostrando alerta');
@@ -75,12 +76,16 @@ function ProductsView() {
       setShowAuthAlert(true);
       return;
     }
-    
+
     navigate(`/products/${product.id}/edit`);
   };
 
   const handleAddToFavorites = (e) => {
     e.stopPropagation();
+    if (!isAuthenticated) {
+      setShowAuthAlert(true);
+      return;
+    }
     if (isFavorite) {
       if (typeof removeFromFavorites === 'function') {
         removeFromFavorites(product.id);
@@ -103,11 +108,11 @@ function ProductsView() {
         const response = await fetch(`http://localhost:9000/products/${product.id}`, {
           method: 'DELETE'
         });
-        
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         console.log('Producto eliminado exitosamente');
         alert('Producto eliminado exitosamente');
         navigate('/'); // Redirigir al home después de eliminar
@@ -217,7 +222,7 @@ function ProductsView() {
                 {isFavorite ? <FaHeart /> : <FaRegHeart />}
               </button>
             </div>
-            
+
 
             <div className="product-price-section">
               {hasDiscount(product) ? (
@@ -255,11 +260,11 @@ function ProductsView() {
                   </span>
                 </div>
 
-                <button 
+                <button
                   onClick={() => {
                     console.log('Botón clickeado');
                     handleAddToCart();
-                  }} 
+                  }}
                   className="add-to-cart-btn"
                 >
                   Agregar al carrito
@@ -290,9 +295,9 @@ function ProductsView() {
                   </button>
                 )}
                 {canDelete(product.id, user?.id) && (
-                  <button 
-                    onClick={handleDelete} 
-                    className="delete-button" 
+                  <button
+                    onClick={handleDelete}
+                    className="delete-button"
                     title="Eliminar producto"
                     disabled={isDeleting}
                   >
@@ -330,32 +335,12 @@ function ProductsView() {
           </div>
         </div>
       </div>
-      
-      {showAuthAlert && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(0,0,0,0.8)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 9999
-        }}>
-          <div style={{
-            backgroundColor: 'white',
-            padding: '20px',
-            borderRadius: '8px',
-            textAlign: 'center'
-          }}>
-            <h3>¡Prueba de alerta!</h3>
-            <p>Necesitas iniciar sesión</p>
-            <button onClick={() => setShowAuthAlert(false)}>Cerrar</button>
-          </div>
-        </div>
-      )}
+
+      <AuthAlert
+        isVisible={showAuthAlert}
+        onClose={() => setShowAuthAlert(false)}
+        message="Debes iniciar sesión para ver agregar items al carrito"
+      />
     </>
   );
 }
