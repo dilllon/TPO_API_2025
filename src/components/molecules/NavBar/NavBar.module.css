@@ -22,6 +22,9 @@
   align-items: center;
   padding: 0 50px;
   gap: 50px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
 }
 
 .izquierda {
@@ -57,6 +60,8 @@
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   cursor: pointer;
   display: none;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
 }
 
 .nav-menu {
@@ -98,6 +103,9 @@
   display: flex;
   transition: all 0.3s ease;
   border-radius: var(--border-radius-sm, 4px);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
 }
 
 .nav-list a:hover,
@@ -143,6 +151,7 @@
   text-align: center;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   transition: all 0.2s ease;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Contenedor para los botones de autenticación */
@@ -157,14 +166,23 @@
   padding: 4px 6px; /* Padding deseado */
   border-radius: var(--border-radius-sm, 4px);
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 400;
   transition: all 0.2s ease-in-out;
   border: 1px solid transparent;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
 }
 
 /* Botón de Iniciar Sesión (contorno) */
 .loginButton {
-  composes: authButton;
+  padding: 4px 6px;
+  border-radius: var(--border-radius-sm, 4px);
+  text-decoration: none;
+  font-weight: 400;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid transparent;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
   border-color: var(--primary);
   background-color: transparent;
   color: var(--white);
@@ -179,7 +197,14 @@
 
 /* Botón de Registrarse (sólido) */
 .registerButton {
-  composes: authButton;
+  padding: 4px 6px;
+  border-radius: var(--border-radius-sm, 4px);
+  text-decoration: none;
+  font-weight: 400;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid transparent;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
   border-color: var(--primary);
   background-color: var(--primary);
   color: var(--text-primary);
