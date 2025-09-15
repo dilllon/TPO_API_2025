@@ -66,16 +66,12 @@ export function CartProvider({ children }) {
       body: JSON.stringify(purchase)
     });
 
-  if (!res.ok) {
-    throw new Error('Error guardando la compra');
+    if (!res.ok) {
+      throw new Error('Error guardando la compra');
+    }
+
+    return res.json(); // devuelve la compra guardada
   }
-
-  return res.json(); // devuelve la compra guardada
-}
-
-
-
-
 
   const totalItems = products.reduce((a, p) => a + (p.qty || 1), 0);
 

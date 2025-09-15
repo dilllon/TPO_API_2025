@@ -7,16 +7,19 @@ import { useUser } from '@/context/UserContext';
 import { toast } from 'react-toastify';
 
 function Cart() {
-  const { getProductById, hasDiscount, calculateDiscountedPrice } = useProducts();
+  const { getProductById, hasDiscount, calculateDiscountedPrice, updateProduct } = useProducts();
   const { products, totalItems, totalPrice, removeFromCart, updateQuantity, clearCart, removing, isLoading, buildPurchaseItems, savePurchase } = useCart();
   const [showPopup, setShowPopup] = useState(false);
   const { userData, isAuthenticated } = useUser();
 
 
 
-  const handleConfirmPurchase = () => {
+  const handleConfirmPurchase = async () => {
     // Verificar stock de todos los productos
-    const hasStock = products.every((p) => p.qty <= p.stock);
+    const hasStock = products.every((p) => {
+      const fullProduct = getProductById(p.id);
+      return fullProduct && p.qty <= fullProduct.stock;
+    });
 
     if (!hasStock) {
       toast.error('Algunos productos no tienen stock suficiente', {
@@ -30,27 +33,63 @@ function Cart() {
       return;
     }
 
-    // Aquí iría la lógica de procesamiento de pago
-    toast.success('¡Compra realizada con éxito!', {
-      position: "top-right",
-      autoClose: 4000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
-    localStorage.setItem('cartItems', '[]');
-    // Dispara un evento de storage para notificar a otros componentes
-    window.dispatchEvent(
-      new StorageEvent('storage', {
-        key: 'cartItems',
-        newValue: '[]',
-      }),
-    );
-    let itemsjson= buildPurchaseItems(products, { getProductById, hasDiscount, calculateDiscountedPrice });
-    savePurchase({userId: userData.id,purchases: itemsjson,date: new Date().toISOString()});
-    clearCart();
-    setShowPopup(false);
+    try {
+      // Actualizar el stock de cada producto
+      for (const cartItem of products) {
+        const fullProduct = getProductById(cartItem.id);
+        if (fullProduct) {
+          const updatedProduct = {
+            ...fullProduct,
+            stock: fullProduct.stock - cartItem.qty,
+            updatedAt: new Date().toISOString()
+          };
+          
+          await updateProduct(updatedProduct);
+        }
+      }
+
+      // Guardar la compra
+      let itemsjson = buildPurchaseItems(products, { getProductById, hasDiscount, calculateDiscountedPrice });
+      await savePurchase({
+        userId: userData.id,
+        purchases: itemsjson,
+        date: new Date().toISOString()
+      });
+
+      // Limpiar carrito
+      localStorage.setItem('cartItems', '[]');
+      // Dispara un evento de storage para notificar a otros componentes
+      window.dispatchEvent(
+        new StorageEvent('storage', {
+          key: 'cartItems',
+          newValue: '[]',
+        }),
+      );
+      
+      clearCart();
+      setShowPopup(false);
+
+      // Mostrar mensaje de éxito
+      toast.success('¡Compra realizada con éxito! El stock ha sido actualizado.', {
+        position: "top-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
+    } catch (error) {
+      console.error('Error al procesar la compra:', error);
+      toast.error('Error al procesar la compra. Intenta de nuevo.', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
   };
 
   if (isLoading) {
@@ -123,6 +162,9 @@ function Cart() {
                 <div key={p.id} className={styles["cart-summary-item"]}>
                   <span>
                     {fullProduct.title} (x{p.qty || 1})
+                    {fullProduct.stock < (p.qty || 1) && (
+                      <span style={{ color: 'red', fontSize: '0.8em' }}> - Stock insuficiente</span>
+                    )}
                   </span>
                   <span>
                     ${subtotal}
