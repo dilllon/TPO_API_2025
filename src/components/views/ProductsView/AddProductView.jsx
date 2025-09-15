@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 function AddProductView() {
   const navigate = useNavigate();
   const { userData, isAuthenticated } = useUser();
-  const { lastId } = useProducts();
+  const { lastId, addProduct } = useProducts();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
@@ -73,35 +73,27 @@ function AddProductView() {
         }
       };
 
-      // Enviar el producto a la API
-      const response = await fetch('http://localhost:9000/products', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newProduct)
-      });
+      // Usar la función del contexto para agregar el producto
+      const result = await addProduct(newProduct);
       
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (result.success) {
+        console.log('Producto creado exitosamente:', result.product);
+        
+        // Mostrar mensaje de éxito
+        toast.success(`Producto "${newProduct.title}" agregado exitosamente!`, {
+          position: "top-right",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        
+        // Redirigir a la página principal
+        navigate('/');
+      } else {
+        throw new Error(result.error || 'Error al agregar el producto');
       }
-      
-      const createdProduct = await response.json();
-      
-      console.log('Producto creado exitosamente:', createdProduct);
-      
-      // Mostrar mensaje de éxito
-      toast.success(`Producto "${newProduct.title}" agregado exitosamente!`, {
-        position: "top-right",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-      
-      // Redirigir a la página principal o a la vista del producto
-      navigate('/');
       
     } catch (error) {
       console.error('Error al agregar producto:', error);

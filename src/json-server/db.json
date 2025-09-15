@@ -341,6 +341,99 @@
       "warranty": "1 año",
       "userId": 2,
       "discount": 12
+    },
+    {
+      "id": "16",
+      "title": "auricular",
+      "description": "asdasd",
+      "price": 123,
+      "stock": 0,
+      "category": "Electro",
+      "brand": "Generic",
+      "warranty": "1 año",
+      "weight": "N/A",
+      "dimensions": "N/A",
+      "image": "/src/assets/images/productos/wp12934605-ai-girl-desktop-wallpapers.png",
+      "images": [
+        "/src/assets/images/productos/wp12934605-ai-girl-desktop-wallpapers.png",
+        []
+      ],
+      "features": [],
+      "tags": [
+        "electro"
+      ],
+      "userId": "1",
+      "sellerUsername": "comprador",
+      "sku": "ELECTRO-16",
+      "createdAt": "2025-09-15T02:36:07.818Z",
+      "updatedAt": "2025-09-15T02:36:07.818Z",
+      "isActive": true,
+      "rating": {
+        "average": 0,
+        "count": 0
+      }
+    },
+    {
+      "id": "17",
+      "title": "asd",
+      "description": "asdasd",
+      "price": 112,
+      "stock": 12,
+      "category": "Electro",
+      "brand": "Generic",
+      "warranty": "1 año",
+      "weight": "N/A",
+      "dimensions": "N/A",
+      "image": "/src/assets/images/productos/default.jpg",
+      "images": [
+        "/src/assets/images/productos/default.jpg",
+        []
+      ],
+      "features": [],
+      "tags": [
+        "electro"
+      ],
+      "userId": "1",
+      "sellerUsername": "comprador",
+      "sku": "ELECTRO-17",
+      "createdAt": "2025-09-15T02:36:47.073Z",
+      "updatedAt": "2025-09-15T02:36:47.073Z",
+      "isActive": true,
+      "rating": {
+        "average": 0,
+        "count": 0
+      }
+    },
+    {
+      "id": "18",
+      "title": "asd2",
+      "description": "awsd123",
+      "price": 123,
+      "stock": 123,
+      "category": "Electro",
+      "brand": "Generic",
+      "warranty": "1 año",
+      "weight": "N/A",
+      "dimensions": "N/A",
+      "image": "/src/assets/images/productos/wp12934605-ai-girl-desktop-wallpapers.png",
+      "images": [
+        "/src/assets/images/productos/wp12934605-ai-girl-desktop-wallpapers.png",
+        []
+      ],
+      "features": [],
+      "tags": [
+        "electro"
+      ],
+      "userId": "1",
+      "sellerUsername": "comprador",
+      "sku": "ELECTRO-18",
+      "createdAt": "2025-09-15T02:38:32.187Z",
+      "updatedAt": "2025-09-15T02:38:32.187Z",
+      "isActive": true,
+      "rating": {
+        "average": 0,
+        "count": 0
+      }
     }
   ],
   "user": [

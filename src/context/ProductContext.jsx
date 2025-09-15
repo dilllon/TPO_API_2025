@@ -143,8 +143,37 @@ export function ProductsProvider({ children }) {
     return Math.max(...productsData.map(p => Number(p.id)));
   }
 
-  const addProduct = (product) => {
-    setProducts(prevProducts => [...prevProducts, product]);
+  const addProduct = async (product) => {
+    try {
+      // Enviar el producto al JSON Server
+      const response = await fetch('http://localhost:9000/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(product)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const createdProduct = await response.json();
+      
+      // Actualizar el estado local con el producto creado
+      setProducts(prevProducts => [...prevProducts, createdProduct]);
+      
+      return {
+        success: true,
+        product: createdProduct
+      };
+    } catch (error) {
+      console.error("Error al agregar el producto:", error);
+      return {
+        success: false,
+        error: error.message
+      };
+    }
   };
 
   const deleteProduct = async (id) => {
