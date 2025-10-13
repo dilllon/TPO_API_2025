@@ -17,7 +17,7 @@ function MyPurchases() {
 
     const fetchPurchases = async () => {
     try {
-      const res = await fetch(`http://localhost:9000/purchases?userId=${userData.id}`);
+      const res = await fetch(`http://localhost:8080/purchases?userId=${userData.id}`);
       const data = await res.json();
 
       if (data.length > 0) {

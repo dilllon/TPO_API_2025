@@ -11,7 +11,7 @@ export function ProductsProvider({ children }) {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:9000/products");
+      const response = await fetch("http://localhost:8080/api/products");
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
