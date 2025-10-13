@@ -60,7 +60,7 @@ export function CartProvider({ children }) {
   }
 
   async function savePurchase(purchase) {
-    const res = await fetch(`${API_URL}/purchases`, {
+    const res = await fetch(`http://localhost:8080/purchases`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(purchase)

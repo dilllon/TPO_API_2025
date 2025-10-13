@@ -116,7 +116,7 @@ export function ProductsProvider({ children }) {
   const updateProduct = async (updated) => {
     try {
       console.log("Actualizando producto:", JSON.stringify(updated));
-      const response = await fetch(`http://localhost:9000/products/${updated.id}`, {
+      const response = await fetch(`http://localhost:8080/api/products/${updated.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
