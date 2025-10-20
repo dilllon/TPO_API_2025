@@ -24,20 +24,39 @@ export function UserProvider({ children }) {
     return saved ? JSON.parse(saved) : [];
   });
 
-  const getFavorites = async (userId) => {
+  const getFavorites = async (userData) => {
     try {
-      const response = await fetch(`http://localhost:9000/favorite?userId=${userId}`);
+      // Guard: si no hay userData o id, no intentar la petición
+      if (!userData || !userData.id) {
+        console.warn('getFavorites: userData o userData.id ausente, abortando petición');
+        setFavorites([]);
+        return;
+      }
+
+      const url = `http://localhost:8080/api/favorites/user/${userData.id}`;
+      const headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      };
+      if (userData.token) {
+        headers['Authorization'] = `Bearer ${userData.token}`;
+      }
+
+      console.debug('getFavorites - fetch', { url, headers });
+
+      const response = await fetch(url, { headers });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
-      if (data === undefined ||data.length === 0) {
+      if (!data) {
         setFavorites([]);
         return;
       }
-      setFavorites(data[0].favorites);
+      console.log("Favoritos obtenidos:", data.favorites);
+      setFavorites(data.favorites);
     } catch (error) {
       console.error("Error al obtener favoritos:", error);
       setFavorites([]);
@@ -69,11 +88,12 @@ export function UserProvider({ children }) {
   const login = async (username=null, email=null, password) => {
     try {
       setIsLoading(true);
+      console.log("Iniciando sesión con:", { username, email, password });
       const response = await fetch('http://localhost:8080/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        username: username,
+        usernameOrEmail: username || email,
         password: password
       })
 });
@@ -81,14 +101,15 @@ export function UserProvider({ children }) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const user = await response.json();
+      const userData = await response.json();
+      // console.log("Respuesta del servidor:", user);
 
-      if (user.length === 0) {
+      if (!userData ) {
         setError("Credenciales inválidas");
         return null;
       }
 
-      const userData = user[0];
+   
       
       // Guardar en localStorage
       localStorage.setItem('userData', JSON.stringify(userData));
@@ -100,8 +121,8 @@ export function UserProvider({ children }) {
 
       // Cargar favoritos y notificaciones
       await Promise.all([
-        getFavorites(userData.id),
-        getNotifications(userData.id)
+        getFavorites(userData)
+        // getNotifications(userData.id)
       ]);
 
       setIsLoading(false);
@@ -128,15 +149,16 @@ export function UserProvider({ children }) {
           const user = JSON.parse(savedUserData);
           setUserData(user);
           setIsAuthenticated(true);
-          
+
           // Solo cargar datos remotos si no los tenemos en localStorage
           const savedFavorites = localStorage.getItem('userFavorites');
           const savedNotifications = localStorage.getItem('userNotifications');
-          
+
           if (!savedFavorites || !savedNotifications) {
+            // Pasar el objeto `user` parseado en lugar del estado `userData` (que aún no se ha actualizado)
             await Promise.all([
-              getFavorites(user.id),
-              getNotifications(user.id)
+              getFavorites(user)
+              // getNotifications(user)
             ]);
           }
         }
