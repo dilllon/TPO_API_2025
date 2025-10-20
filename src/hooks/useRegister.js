@@ -4,42 +4,10 @@ export function useRegister() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Función para generar un nuevo ID
-  const generateUserId = async () => {
-    try {
-      const response = await fetch('http://localhost:9000/user');
-      const users = await response.json();
-      
-      // Encontrar el ID más alto y sumar 1
-      const maxId = users.reduce((max, user) => {
-        const userId = parseInt(user.id);
-        return userId > max ? userId : max;
-      }, 0);
-      
-      return (maxId + 1).toString();
-    } catch (error) {
-      console.error('Error al generar ID:', error);
-      return Date.now().toString(); // Fallback usando timestamp
-    }
-  };
+  
 
   // Función para verificar si el usuario ya existe
-  const checkUserExists = async (username, email) => {
-    try {
-      const response = await fetch('http://localhost:9000/user');
-      const users = await response.json();
-      
-      const userExists = users.find(user => 
-        user.username.toLowerCase() === username.toLowerCase() || 
-        user.email.toLowerCase() === email.toLowerCase()
-      );
-      
-      return userExists;
-    } catch (error) {
-      console.error('Error al verificar usuario:', error);
-      return false;
-    }
-  };
+  // Nota: la validación de existencia de usuario se delega al backend.
 
   // Función principal para registrar usuario
   const registerUser = async (userData) => {
@@ -47,24 +15,12 @@ export function useRegister() {
     setError(null);
 
     try {
-      // Verificar si el usuario ya existe
-      const existingUser = await checkUserExists(userData.username, userData.email);
-      
-      if (existingUser) {
-        if (existingUser.username.toLowerCase() === userData.username.toLowerCase()) {
-          throw new Error('El nombre de usuario ya está en uso');
-        }
-        if (existingUser.email.toLowerCase() === userData.email.toLowerCase()) {
-          throw new Error('El email ya está registrado');
-        }
-      }
+      // Nota: no se verifica localmente si el usuario existe; el backend retorna errores apropiados.
 
-      // Generar nuevo ID
-      const newUserId = await generateUserId();
+
 
       // Crear objeto de usuario con formato de la base de datos
       const newUser = {
-        id: newUserId,
         username: userData.username,
         email: userData.email,
         password: userData.password,
@@ -86,7 +42,7 @@ export function useRegister() {
       };
 
       // Enviar datos a JSON Server
-      const response = await fetch('http://localhost:9000/user', {
+      const response = await fetch('http://localhost:8080/api/users/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
