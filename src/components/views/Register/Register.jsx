@@ -72,31 +72,32 @@ function Register() {
     }
 
     try {
-      // Registrar usuario usando el contexto
       const result = await registerUser(formData);
-      
-      if (result.success) {
-        // Registro exitoso
-        showNotification(
-          `¡Bienvenido ${formData.firstName}! Tu cuenta ha sido creada exitosamente.`, 
-          'success'
-        );
-        
-        // Esperar un poco para que el usuario vea la notificación
-        setTimeout(() => {
-          // Opcional: Iniciar sesión automáticamente
-          login({
-            username: result.user.username,
-            password: result.user.password
-          });
-          
-          // Redirigir al home
-          navigate("/");
-        }, 2000);
-      } else {
-        // Mostrar error específico
+
+      if (!result.success) {
         showNotification(result.error || 'Error al registrar usuario', 'error');
+        return;
       }
+
+      showNotification(
+        `Bienvenido ${formData.firstName}! Tu cuenta ha sido creada exitosamente.`,
+        'success'
+      );
+
+      setTimeout(async () => {
+        const authenticatedUser = await login(formData.username, formData.email, formData.password);
+
+        if (!authenticatedUser) {
+          showNotification(
+            'Tu cuenta fue creada, pero no pudimos iniciar sesion automaticamente. Ingresa manualmente.',
+            'warning'
+          );
+          navigate("/clients/login");
+          return;
+        }
+
+        navigate("/");
+      }, 1500);
     } catch (error) {
       console.error('Error en el registro:', error);
       showNotification('Error inesperado al registrar usuario', 'error');

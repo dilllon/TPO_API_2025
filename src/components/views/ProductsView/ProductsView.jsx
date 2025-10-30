@@ -31,7 +31,11 @@ function ProductsView() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const isFavorite = product ? favorites.some((fav) => fav.id === product.id) : false;
+  const isFavorite = product
+    ? favorites.some(
+        (fav) => (fav?.productId ?? fav?.product?.id ?? fav?.id) === product.id
+      )
+    : false;
 
   // Debug para verificar el estado de showAuthAlert
   useEffect(() => {

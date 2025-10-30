@@ -11,7 +11,7 @@ function MyPurchases() {
   const [purchases, setPurchases] = useState([]);
   const [showAuthAlert, setShowAuthAlert] = useState(false);
 
-  // Fetch a json-server
+  // Fetch purchases from backend
   useEffect(() => {
     if (!isAuthenticated) return;
 

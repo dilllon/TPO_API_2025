@@ -1,8 +1,46 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { API_BASE_URL } from '@/config/api';
 
 const UserContext = createContext(null);
 
-const roleToEdit = ["admin", "seller"]
+const roleToEdit = ["admin", "seller"];
+
+const normalizeFavoriteRecords = (rawList, fallbackUserId = null) => {
+  if (!Array.isArray(rawList)) {
+    return [];
+  }
+
+  return rawList
+    .map((item) => {
+      if (!item || typeof item !== 'object') {
+        return null;
+      }
+
+      const product =
+        item.product && typeof item.product === 'object' ? item.product : null;
+
+      const inferredProductId =
+        product?.id ??
+        item.productId ??
+        (typeof item.id === 'number' && (item.title || item.price || item.image) ? item.id : null);
+
+      if (inferredProductId === null || inferredProductId === undefined) {
+        return null;
+      }
+
+      const favoriteId =
+        typeof item.id === 'number' ? item.id : item.favoriteId ?? null;
+
+      return {
+        id: favoriteId,
+        userId: item.userId ?? fallbackUserId ?? null,
+        productId: inferredProductId,
+        product,
+        createdAt: item.createdAt ?? null,
+      };
+    })
+    .filter(Boolean);
+};
 
 export function UserProvider({ children }) {
   // Inicializar estados con los valores guardados en localStorage
@@ -17,29 +55,37 @@ export function UserProvider({ children }) {
   const [error, setError] = useState(null);
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem('userFavorites');
-    return saved ? JSON.parse(saved) : [];
+    if (!saved) {
+      return [];
+    }
+    try {
+      const parsed = JSON.parse(saved);
+      return normalizeFavoriteRecords(parsed);
+    } catch (error) {
+      console.warn('No se pudo parsear userFavorites desde localStorage', error);
+      return [];
+    }
   });
   const [notifications, setNotifications] = useState(() => {
     const saved = localStorage.getItem('userNotifications');
     return saved ? JSON.parse(saved) : [];
   });
 
-  const getFavorites = async (userData) => {
+  const getFavorites = async (userInfo) => {
     try {
-      // Guard: si no hay userData o id, no intentar la petición
-      if (!userData || !userData.id) {
-        console.warn('getFavorites: userData o userData.id ausente, abortando petición');
+      if (!userInfo || !userInfo.id) {
+        console.warn('getFavorites: userInfo o userInfo.id ausente, abortando peticion');
         setFavorites([]);
         return;
       }
 
-      const url = `http://localhost:8080/api/favorites/user/${userData.id}`;
+      const url = `${API_BASE_URL}/favorites/user/${userInfo.id}`;
       const headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       };
-      if (userData.token) {
-        headers['Authorization'] = `Bearer ${userData.token}`;
+      if (userInfo.token) {
+        headers.Authorization = `Bearer ${userInfo.token}`;
       }
 
       console.debug('getFavorites - fetch', { url, headers });
@@ -55,29 +101,53 @@ export function UserProvider({ children }) {
         setFavorites([]);
         return;
       }
-      console.log("Favoritos obtenidos:", data.favorites);
-      setFavorites(data.favorites);
+
+      const normalizedFavorites = normalizeFavoriteRecords(
+        data.favorites,
+        userInfo.id
+      );
+      setFavorites(normalizedFavorites);
     } catch (error) {
-      console.error("Error al obtener favoritos:", error);
+      console.error('Error al obtener favoritos:', error);
       setFavorites([]);
-      return;
     }
   };
 
-  const getNotifications = async (userId) => {
+  const getNotifications = async (userInfo) => {
     try {
-      const response = await fetch(`http://localhost:9000/notification?userId=${userId}`);
+      if (!userInfo || !userInfo.id) {
+        console.warn('getNotifications: userInfo o userInfo.id ausente, abortando peticion');
+        setNotifications([]);
+        return;
+      }
+
+      const url = `${API_BASE_URL}/notifications/user/${userInfo.id}`;
+      const headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      };
+      if (userInfo.token) {
+        headers['Authorization'] = `Bearer ${userInfo.token}`;
+      }
+
+      const response = await fetch(url, { headers });
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
-      if (data === undefined || data.length === 0) {
+      const notificationsData = Array.isArray(data)
+        ? data
+        : Array.isArray(data?.notifications)
+          ? data.notifications
+          : [];
+
+      if (notificationsData.length === 0) {
         setNotifications([]);
         return;
       }
-      setNotifications(data[0].notifications);
+      setNotifications(notificationsData);
     } catch (error) {
       console.error("Error al obtener notificaciones:", error);
       setNotifications([]);
@@ -85,11 +155,114 @@ export function UserProvider({ children }) {
     }
   };
 
+  const addFavorite = async (product) => {
+    if (!userData || !userData.id) {
+      return { success: false, error: 'Debes iniciar sesion para agregar favoritos.' };
+    }
+
+    if (!product || !product.id) {
+      return { success: false, error: 'Producto invalido.' };
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/favorites/user/${userData.id}`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          ...(userData.token ? { Authorization: `Bearer ${userData.token}` } : {}),
+        },
+        body: JSON.stringify({ productId: product.id }),
+      });
+
+      if (!response.ok) {
+        const errorPayload = await response.json().catch(() => null);
+        const message =
+          errorPayload?.message || errorPayload?.error || `HTTP error! status: ${response.status}`;
+        throw new Error(message);
+      }
+
+      const favoriteResponse = await response.json();
+      const [normalizedFavorite] = normalizeFavoriteRecords([favoriteResponse], userData.id);
+
+      if (normalizedFavorite) {
+        setFavorites((prevFavorites) => {
+          const targetProductId = normalizedFavorite.productId ?? normalizedFavorite.product?.id ?? null;
+
+          if (targetProductId === null) {
+            return prevFavorites;
+          }
+
+          const exists = prevFavorites.some((fav) => {
+            const currentProductId = fav.productId ?? fav.product?.id ?? null;
+            return currentProductId === targetProductId;
+          });
+
+          if (exists) {
+            return prevFavorites.map((fav) => {
+              const currentProductId = fav.productId ?? fav.product?.id ?? null;
+              return currentProductId === targetProductId ? normalizedFavorite : fav;
+            });
+          }
+          return [normalizedFavorite, ...prevFavorites];
+        });
+      }
+
+      return { success: true, favorite: favoriteResponse };
+    } catch (err) {
+      console.error('Error al agregar favorito:', err);
+      return { success: false, error: err.message || 'No se pudo agregar el favorito.' };
+    }
+  };
+
+  const removeFavorite = async (productId) => {
+    if (!userData || !userData.id) {
+      return { success: false, error: 'Debes iniciar sesion para quitar favoritos.' };
+    }
+
+    if (productId === undefined || productId === null) {
+      return { success: false, error: 'Producto invalido.' };
+    }
+
+    const favoriteEntry = favorites.find(
+      (favorite) => (favorite.productId ?? favorite.product?.id ?? null) === productId
+    );
+
+    if (!favoriteEntry || !favoriteEntry.id) {
+      return { success: false, error: 'Favorito no encontrado.' };
+    }
+
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/favorites/user/${userData.id}/favorite/${favoriteEntry.id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Accept: 'application/json',
+            ...(userData.token ? { Authorization: `Bearer ${userData.token}` } : {}),
+          },
+        }
+      );
+
+      if (!response.ok && response.status !== 204) {
+        const errorPayload = await response.json().catch(() => null);
+        const message =
+          errorPayload?.message || errorPayload?.error || `HTTP error! status: ${response.status}`;
+        throw new Error(message);
+      }
+
+      setFavorites((prevFavorites) => prevFavorites.filter((fav) => fav.productId !== productId));
+      return { success: true };
+    } catch (err) {
+      console.error('Error al eliminar favorito:', err);
+      return { success: false, error: err.message || 'No se pudo eliminar el favorito.' };
+    }
+  };
   const login = async (username=null, email=null, password) => {
     try {
       setIsLoading(true);
-      console.log("Iniciando sesión con:", { username, email, password });
-      const response = await fetch('http://localhost:8080/api/auth/login', {
+      console.log("Iniciando sesion con:", { username, email, password });
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -105,7 +278,7 @@ export function UserProvider({ children }) {
       // console.log("Respuesta del servidor:", user);
 
       if (!userData ) {
-        setError("Credenciales inválidas");
+        setError("Credenciales invalidas");
         return null;
       }
 
@@ -121,23 +294,23 @@ export function UserProvider({ children }) {
 
       // Cargar favoritos y notificaciones
       await Promise.all([
-        getFavorites(userData)
-        // getNotifications(userData.id)
+        getFavorites(userData),
+        getNotifications(userData)
       ]);
 
       setIsLoading(false);
       return userData;
     } catch (error) {
-      console.error("Error al iniciar sesión:", error);
+      console.error("Error al iniciar sesion:", error);
       setIsLoading(false);
-      setError("Credenciales inválidas");
+      setError("Credenciales invalidas");
       return null;
     }
   };
 
 
 
-  // Efecto optimizado para inicialización y sincronización con localStorage
+  // Efecto optimizado para inicializacion y sincronizacion con localStorage
   useEffect(() => {
     const initializeUser = async () => {
       try {
@@ -155,10 +328,10 @@ export function UserProvider({ children }) {
           const savedNotifications = localStorage.getItem('userNotifications');
 
           if (!savedFavorites || !savedNotifications) {
-            // Pasar el objeto `user` parseado en lugar del estado `userData` (que aún no se ha actualizado)
+            // Pasar el objeto `user` parseado en lugar del estado `userData` (que aun no se ha actualizado)
             await Promise.all([
-              getFavorites(user)
-              // getNotifications(user)
+              getFavorites(user),
+              getNotifications(user)
             ]);
           }
         }
@@ -185,13 +358,13 @@ export function UserProvider({ children }) {
         localStorage.removeItem('userData');
         localStorage.removeItem('isAuthenticated');
       }
-      
-      // Sincronizar favorites (permitir arrays vacíos)
+
+      // Sincronizar favorites (permitir arrays vacios)
       if (favorites !== null) {
         localStorage.setItem('userFavorites', JSON.stringify(favorites));
       }
-      
-      // Sincronizar notifications (permitir arrays vacíos)
+
+      // Sincronizar notifications (permitir arrays vacios)
       if (notifications !== null) {
         localStorage.setItem('userNotifications', JSON.stringify(notifications));
       }
@@ -205,8 +378,8 @@ export function UserProvider({ children }) {
     setFavorites([]);
     setNotifications([]);
     setError(null);
-    
-    // Limpiar localStorage de forma más eficiente
+
+    // Limpiar localStorage de forma mas eficiente
     const keysToRemove = ['userData', 'isAuthenticated', 'userFavorites', 'userNotifications'];
     keysToRemove.forEach(key => localStorage.removeItem(key));
   };
@@ -221,6 +394,8 @@ export function UserProvider({ children }) {
       logout, 
       notifications,
       favorites,
+      addFavorite,
+      removeFavorite,
     }}>
       {children}
     </UserContext.Provider>

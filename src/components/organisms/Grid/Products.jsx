@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useProducts } from "../../../context/ProductContext";
 import CarouselProducts from "../../molecules/CarouselProducts/CarouselProducts";
 import ProductCard from "../../molecules/ProductCard/ProductCard";
@@ -7,7 +7,15 @@ import Filter from "../Filter/Filter";
 import "./Products.css";
 import { useSearch } from "../../../context/SearchContext";
 
-// Ordena por título (ES-AR), devolviendo una COPIA
+const DEFAULT_FILTER = {
+  category: "",
+  minPrice: undefined,
+  maxPrice: undefined,
+  inStock: false,
+  hasDiscount: false,
+};
+
+// Ordena por titulo (locale ES-AR), devolviendo una copia
 function orderProducts(products) {
   return [...products].sort((a, b) =>
     (a.title ?? "").localeCompare(b.title ?? "", "es-AR", {
@@ -18,68 +26,188 @@ function orderProducts(products) {
 }
 
 function ProductsGrid({ onAddToCart }) {
-  const { productsData, getProductsGroupedByCategory, getProductsGroupedByDifferentOwner, calculateDiscountedPrice } = useProducts();
+  const {
+    productsData,
+    isLoading,
+    error,
+    searchProducts,
+    getCategoryNames,
+  } = useProducts();
   const { userData, isAuthenticated } = useUser();
   const userId = userData?.id;
-  const [filter, setFilter] = useState({});
   const { searchTerm } = useSearch();
 
-  // Obtener todas las categorías
-  const allCategories = useMemo(() => {
-    return isAuthenticated ? getProductsGroupedByDifferentOwner(userId).map(cat => cat.categoryName) : getProductsGroupedByCategory().map(cat => cat.categoryName);
-  }, [productsData, getProductsGroupedByCategory, getProductsGroupedByDifferentOwner, isAuthenticated, userId]);
+  const [activeFilter, setActiveFilter] = useState(DEFAULT_FILTER);
+  const [displayProducts, setDisplayProducts] = useState([]);
+  const [isFiltering, setIsFiltering] = useState(false);
+  const [filterError, setFilterError] = useState(null);
 
-  // Filtrar productos según el filtro
-  const filteredCategories = useMemo(() => {
-    let categories = isAuthenticated ? getProductsGroupedByDifferentOwner(userId) : getProductsGroupedByCategory();
-    if (filter.category) {
-      categories = categories.filter(cat => cat.categoryName === filter.category);
+  const categories = useMemo(() => getCategoryNames(), [getCategoryNames]);
+
+  const handleFilterChange = useCallback((newFilter) => {
+    const normalizeNumber = (value) =>
+      typeof value === "number" && !Number.isNaN(value) ? value : undefined;
+
+    setActiveFilter({
+      category: newFilter?.category ?? "",
+      minPrice: normalizeNumber(newFilter?.minPrice),
+      maxPrice: normalizeNumber(newFilter?.maxPrice),
+      inStock: Boolean(newFilter?.inStock),
+      hasDiscount: Boolean(newFilter?.hasDiscount),
+    });
+  }, []);
+
+  const handleResetFilters = useCallback(() => {
+    setActiveFilter(DEFAULT_FILTER);
+  }, []);
+
+  const trimmedSearchTerm = useMemo(() => searchTerm.trim(), [searchTerm]);
+
+  const hasActiveFilters = useMemo(() => {
+    return Boolean(trimmedSearchTerm) ||
+      (activeFilter.category && activeFilter.category !== "") ||
+      activeFilter.minPrice !== undefined ||
+      activeFilter.maxPrice !== undefined ||
+      activeFilter.inStock ||
+      activeFilter.hasDiscount;
+  }, [activeFilter, trimmedSearchTerm]);
+
+  useEffect(() => {
+    if (isLoading) {
+      return;
     }
-    return categories.map(cat => ({
-      ...cat,
-        products: orderProducts(cat.products).filter(p => {
-          const search = searchTerm.trim().toLowerCase();
-          const matchesSearch = search === "" || (p.title ?? "").toLowerCase().startsWith(search);
-          const finalPrice = p.discount !== undefined ? calculateDiscountedPrice(p) : p.price;
-          const priceOk = (filter.minPrice === undefined || finalPrice >= filter.minPrice) &&
-            (filter.maxPrice === undefined || finalPrice <= filter.maxPrice);
-          const stockOk = !filter.inStock || (p.stock && p.stock > 0);
-          const discountOk = !filter.hasDiscount || (p.discount && p.discount > 0);
-          return matchesSearch && priceOk && stockOk && discountOk;
-        })
-    })).filter(cat => cat.products.length > 0);
-  }, [productsData, filter, calculateDiscountedPrice, getProductsGroupedByCategory, getProductsGroupedByDifferentOwner, isAuthenticated, searchTerm, userId]);
+
+    if (!hasActiveFilters) {
+      setFilterError(null);
+      setIsFiltering(false);
+      setDisplayProducts(productsData);
+      return;
+    }
+
+    const controller = new AbortController();
+
+    const fetchFilteredProducts = async () => {
+      setIsFiltering(true);
+      try {
+        const result = await searchProducts(
+          {
+            title: trimmedSearchTerm || undefined,
+            category: activeFilter.category || undefined,
+            minPrice: activeFilter.minPrice,
+            maxPrice: activeFilter.maxPrice,
+            hasStock: activeFilter.inStock ? true : undefined,
+            hasDiscount: activeFilter.hasDiscount ? true : undefined,
+          },
+          controller.signal
+        );
+
+        setDisplayProducts(result);
+        setFilterError(null);
+      } catch (err) {
+        if (err.name === "AbortError") {
+          return;
+        }
+        console.error("Error al aplicar filtros:", err);
+        setFilterError(err.message || "Error al aplicar los filtros");
+        setDisplayProducts([]);
+      } finally {
+        setIsFiltering(false);
+      }
+    };
+
+    fetchFilteredProducts();
+
+    return () => controller.abort();
+  }, [
+    activeFilter,
+    hasActiveFilters,
+    isLoading,
+    productsData,
+    searchProducts,
+    trimmedSearchTerm,
+  ]);
+
+  const groupedProducts = useMemo(() => {
+    const groups = new Map();
+
+    displayProducts.forEach((product) => {
+      if (isAuthenticated && userId && product?.userId === userId) {
+        return;
+      }
+
+      const categoryName = product?.category ?? "Otros";
+      if (!groups.has(categoryName)) {
+        groups.set(categoryName, []);
+      }
+      groups.get(categoryName).push(product);
+    });
+
+    return Array.from(groups.entries())
+      .map(([categoryName, products]) => ({
+        categoryName,
+        products: orderProducts(products),
+      }))
+      .filter(({ products }) => products.length > 0);
+  }, [displayProducts, isAuthenticated, userId]);
+
+  const showLoading = isLoading || isFiltering;
+  const showError = showLoading ? null : (filterError ?? error);
 
   return (
-    <>
-      <div className="container-products">
-        <aside>
-          <Filter categories={allCategories} onFilter={setFilter} />
-        </aside>
-        <div>
-          {filteredCategories.map(({ categoryName, products }) => (
-          <section
-            key={categoryName}
-            id={`category-${categoryName.toLowerCase()}`}
-            className="products-section"
-          >
-            <h2>{categoryName}</h2>
-            <CarouselProducts
-              products={products}
-              renderCard={(p) => (
-                <ProductCard
-                  key={p.id}
-                  product={p}
-                  variant={categoryName}
-                  onClick={() => onAddToCart(p)}
+    <div className="container-products">
+      <aside>
+        <Filter
+          categories={categories}
+          onFilter={handleFilterChange}
+          onReset={handleResetFilters}
+        />
+      </aside>
+      <div>
+        {showLoading && (
+          <div className="loading">Cargando productos...</div>
+        )}
+
+        {!showLoading && showError && (
+          <div className="error-message">{showError}</div>
+        )}
+
+        {!showLoading && !showError && groupedProducts.length === 0 && (
+          <div className="empty-state">
+            No se encontraron productos para los filtros seleccionados.
+          </div>
+        )}
+
+        {!showLoading && !showError &&
+          groupedProducts.map(({ categoryName, products }) => {
+            const slug = (categoryName ?? "otros")
+              .toLowerCase()
+              .replace(/\s+/g, "-");
+            const sectionKey = categoryName ?? slug;
+            const sectionId = "category-" + slug;
+
+            return (
+              <section
+                key={sectionKey}
+                id={sectionId}
+                className="products-section"
+              >
+                <h2>{categoryName}</h2>
+                <CarouselProducts
+                  products={products}
+                  renderCard={(product) => (
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                      variant={categoryName}
+                      onClick={() => onAddToCart(product)}
+                    />
+                  )}
                 />
-              )}
-            />
-          </section>
-        ))}
-        </div>
+              </section>
+            );
+          })}
       </div>
-    </>
+    </div>
   );
 }
 
