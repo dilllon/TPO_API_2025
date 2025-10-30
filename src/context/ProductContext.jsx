@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 const ProductsContext = createContext(null);
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8080/api";
 
 export function ProductsProvider({ children }) {
   const [productsData, setProducts] = useState([]);
@@ -11,7 +12,7 @@ export function ProductsProvider({ children }) {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:8080/api/products");
+      const response = await fetch(`${API_BASE_URL}/products`);
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -116,7 +117,7 @@ export function ProductsProvider({ children }) {
   const updateProduct = async (updated) => {
     try {
       console.log("Actualizando producto:", JSON.stringify(updated));
-      const response = await fetch(`http://localhost:8080/api/products/${updated.id}`, {
+      const response = await fetch(`${API_BASE_URL}/products/${updated.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -145,8 +146,8 @@ export function ProductsProvider({ children }) {
 
   const addProduct = async (product) => {
     try {
-      // Enviar el producto al JSON Server
-      const response = await fetch('http://localhost:9000/products', {
+      // Enviar el producto al backend real
+      const response = await fetch(`${API_BASE_URL}/products`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -179,7 +180,7 @@ export function ProductsProvider({ children }) {
   const deleteProduct = async (id) => {
     try {
       // Todavia no tenemos back xdxd
-      // const response = await fetch(`http://localhost:9000/products/${id}`, {
+      // const response = await fetch(`${API_BASE_URL}/products/${id}`, {
       //   method: 'DELETE'
       // });
 

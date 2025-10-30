@@ -2,7 +2,8 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 
 const UserContext = createContext(null);
 
-const roleToEdit = ["admin", "seller"]
+const roleToEdit = ["admin", "seller"];
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8080/api";
 
 export function UserProvider({ children }) {
   // Inicializar estados con los valores guardados en localStorage
@@ -33,7 +34,7 @@ export function UserProvider({ children }) {
         return;
       }
 
-      const url = `http://localhost:8080/api/favorites/user/${userData.id}`;
+      const url = `${API_BASE_URL}/favorites/user/${userData.id}`;
       const headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -64,20 +65,41 @@ export function UserProvider({ children }) {
     }
   };
 
-  const getNotifications = async (userId) => {
+  const getNotifications = async (userData) => {
     try {
-      const response = await fetch(`http://localhost:9000/notification?userId=${userId}`);
+      if (!userData || !userData.id) {
+        console.warn('getNotifications: userData o userData.id ausente, abortando petición');
+        setNotifications([]);
+        return;
+      }
+
+      const url = `${API_BASE_URL}/notifications/user/${userData.id}`;
+      const headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      };
+      if (userData.token) {
+        headers['Authorization'] = `Bearer ${userData.token}`;
+      }
+
+      const response = await fetch(url, { headers });
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
-      if (data === undefined || data.length === 0) {
+      const notificationsData = Array.isArray(data)
+        ? data
+        : Array.isArray(data?.notifications)
+          ? data.notifications
+          : [];
+
+      if (notificationsData.length === 0) {
         setNotifications([]);
         return;
       }
-      setNotifications(data[0].notifications);
+      setNotifications(notificationsData);
     } catch (error) {
       console.error("Error al obtener notificaciones:", error);
       setNotifications([]);
@@ -89,7 +111,7 @@ export function UserProvider({ children }) {
     try {
       setIsLoading(true);
       console.log("Iniciando sesión con:", { username, email, password });
-      const response = await fetch('http://localhost:8080/api/auth/login', {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -121,8 +143,8 @@ export function UserProvider({ children }) {
 
       // Cargar favoritos y notificaciones
       await Promise.all([
-        getFavorites(userData)
-        // getNotifications(userData.id)
+        getFavorites(userData),
+        getNotifications(userData)
       ]);
 
       setIsLoading(false);
@@ -157,8 +179,8 @@ export function UserProvider({ children }) {
           if (!savedFavorites || !savedNotifications) {
             // Pasar el objeto `user` parseado en lugar del estado `userData` (que aún no se ha actualizado)
             await Promise.all([
-              getFavorites(user)
-              // getNotifications(user)
+              getFavorites(user),
+              getNotifications(user)
             ]);
           }
         }

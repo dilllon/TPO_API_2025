@@ -2,12 +2,12 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useProducts } from './ProductContext';
 
 const CartContext = createContext();
+const PURCHASES_API_URL = import.meta.env.VITE_PURCHASES_API_URL ?? 'http://localhost:8080/purchases';
 
 export function CartProvider({ children }) {
   const { getProductById, hasDiscount, calculateDiscountedPrice, isLoading } = useProducts();
   const [removing, setRemoving] = useState(new Set());
   const ANIM_MS = 220;
-  const API_URL = 'http://localhost:9000';
 
   const [products, setProducts] = useState(() => {
     try {
@@ -60,7 +60,7 @@ export function CartProvider({ children }) {
   }
 
   async function savePurchase(purchase) {
-    const res = await fetch(`http://localhost:8080/purchases`, {
+    const res = await fetch(PURCHASES_API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(purchase)
