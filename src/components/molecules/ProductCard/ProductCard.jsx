@@ -14,14 +14,16 @@ function ProductCard({ product, onClick, variant = 'default' }) {
   const { addToFavorites, removeFromFavorites, favorites } = useFavorites();
   const [showAuthAlert, setShowAuthAlert] = useState(false);
 
-  const isFavorite = favorites.some((fav) => fav.id === product.id);
+  const isFavorite = favorites.some(
+    (fav) => (fav?.productId ?? fav?.product?.id ?? fav?.id) === product.id
+  );
 
   const handleProductClick = () => {
     navigate(`/products/${product.id}`);
   };
 
   const onAddToCart = (e) => {
-    e.stopPropagation(); // Evita que se active la navegación
+    e.stopPropagation(); // Evita que se active la navegacion
 
     if (onClick) {
       onClick(product);
@@ -56,10 +58,10 @@ function ProductCard({ product, onClick, variant = 'default' }) {
     ? product.images[0]
     : product?.image;
 
-  const resolvedImage = mainImage || '/no-image-placeholder.png';
+  const resolvedImage = mainImage || '/placeholder-product.svg';
 
   const handleImageError = (event) => {
-    event.currentTarget.src = '/no-image-placeholder.png';
+    event.currentTarget.src = '/placeholder-product.svg';
   };
 
   return (
@@ -115,7 +117,7 @@ function ProductCard({ product, onClick, variant = 'default' }) {
     <AuthAlert
       isVisible={showAuthAlert}
       onClose={() => setShowAuthAlert(false)}
-      message="Debes iniciar sesión para agregar productos a favoritos."
+      message="Debes iniciar sesion para agregar productos a favoritos."
     />
     </div>
   );

@@ -15,13 +15,13 @@ createRoot(document.getElementById('root')).render(
   <>
     <ProductsProvider>
       <SearchProvider>
-        <FavoritesProvider>
-          <UserProvider>
+        <UserProvider>
+          <FavoritesProvider>
             <CartProvider>
               <App />
             </CartProvider>
-          </UserProvider>
-        </FavoritesProvider>
+          </FavoritesProvider>
+        </UserProvider>
       </SearchProvider>
     </ProductsProvider>
     <ToastContainer />
