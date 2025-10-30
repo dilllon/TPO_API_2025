@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./Filter.css";
 
-function Filter({ categories, onFilter }) {
+function Filter({ categories = [], onFilter, onReset }) {
     const [selectedCategory, setSelectedCategory] = useState("");
     const [minPrice, setMinPrice] = useState("");
     const [maxPrice, setMaxPrice] = useState("");
@@ -18,7 +18,9 @@ function Filter({ categories, onFilter }) {
         };
 
         const handler = setTimeout(() => {
-            onFilter(newFilter);
+            if (typeof onFilter === "function") {
+                onFilter(newFilter);
+            }
         }, 500);
 
         return () => clearTimeout(handler);
@@ -85,6 +87,9 @@ function Filter({ categories, onFilter }) {
                         setMaxPrice("");
                         setInStock(false);
                         setHasDiscount(false);
+                        if (typeof onReset === "function") {
+                            onReset();
+                        }
                     }}>
                     Reestablecer filtros
                 </button>
