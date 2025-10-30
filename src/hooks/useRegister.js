@@ -1,62 +1,49 @@
 import { useState } from 'react';
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080/api';
+import { API_BASE_URL } from '@/config/api';
 
 export function useRegister() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Función para verificar si el usuario ya existe
-  // Nota: la validación de existencia de usuario se delega al backend.
+  // FunciÃ³n para verificar si el usuario ya existe
+  // Nota: la validaciÃ³n de existencia de usuario se delega al backend.
 
-  // Función principal para registrar usuario
+  // FunciÃ³n principal para registrar usuario
   const registerUser = async (userData) => {
     setIsLoading(true);
     setError(null);
 
     try {
-      // Crear objeto de usuario con formato de la base de datos
-      const newUser = {
+      const registerPayload = {
         username: userData.username,
         email: userData.email,
         password: userData.password,
-        role: "buyer", // Por defecto todos son compradores
         firstName: userData.firstName,
         lastName: userData.lastName,
-        phone: userData.phone || "", // Opcional
-        address: {
-          street: userData.address || "",
-          city: "",
-          province: "",
-          zipCode: "",
-          country: "Argentina"
-        },
-        createdAt: new Date().toISOString(),
-        lastLogin: null,
-        isActive: true,
-        imageUrl: "https://picsum.photos/50"
+        phone: userData.phone || "",
+        role: "USER"
       };
 
-      // Enviar datos al backend real
-      const response = await fetch(`${API_BASE_URL}/users/register`, {
+      const response = await fetch(`${API_BASE_URL}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newUser)
+        body: JSON.stringify(registerPayload)
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Error al registrar usuario');
+        const errorData = await response.json().catch(() => null);
+        const message = errorData?.message || errorData?.error || 'Error al registrar usuario';
+        throw new Error(message);
       }
 
-      const createdUser = await response.json();
+      const authData = await response.json();
       
       setIsLoading(false);
       return {
         success: true,
-        user: createdUser,
+        auth: authData,
         message: 'Usuario registrado exitosamente'
       };
 
@@ -71,7 +58,7 @@ export function useRegister() {
     }
   };
 
-  // Función para limpiar errores
+  // FunciÃ³n para limpiar errores
   const clearError = () => {
     setError(null);
   };

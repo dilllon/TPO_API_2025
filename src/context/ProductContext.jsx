@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { API_BASE_URL } from '@/config/api';
 
 const ProductsContext = createContext(null);
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8080/api";
 
 export function ProductsProvider({ children }) {
   const [productsData, setProducts] = useState([]);
@@ -37,7 +37,7 @@ export function ProductsProvider({ children }) {
     fetchProducts();
   }, []);
 
-  // Función para obtener todas las categorías únicas
+  // FunciÃ³n para obtener todas las categorÃ­as Ãºnicas
   const getCategories = () => {
     const uniqueCategories = [...new Set(productsData.map(product => product.category))];
     return uniqueCategories.map(category => ({
@@ -55,17 +55,17 @@ export function ProductsProvider({ children }) {
   }
   
   
-  // Función para obtener productos por categoría
+  // FunciÃ³n para obtener productos por categorÃ­a
   const getProductsByCategory = (categoryName) => {
     return productsData.filter(product => product.category === categoryName);
   };
   
-  // Función para obtener un producto por ID
+  // FunciÃ³n para obtener un producto por ID
   const getProductById = (id) => {
     return productsData.find(product => product.id == id);
   };
   
-  // Función para obtener productos organizados por categorías (para el grid)
+  // FunciÃ³n para obtener productos organizados por categorÃ­as (para el grid)
   const getProductsGroupedByCategory = () => {
     const categories = getCategories();
     return categories.map(({ label: categoryName }) => ({
@@ -90,7 +90,7 @@ export function ProductsProvider({ children }) {
     }));
   };
 
-  // Función para buscar productos por título
+  // FunciÃ³n para buscar productos por tÃ­tulo
   const searchProducts = (searchTerm) => {
     if (!searchTerm) return productsData;
     
@@ -102,13 +102,13 @@ export function ProductsProvider({ children }) {
     );
   };
   
-  // Función para calcular el precio con descuento
+  // FunciÃ³n para calcular el precio con descuento
   const calculateDiscountedPrice = (product) => {
     if (!product.discount) return product.price;
     return Math.round(product.price * (1 - product.discount / 100));
   };
   
-  // Función para verificar si un producto tiene descuento
+  // FunciÃ³n para verificar si un producto tiene descuento
   const hasDiscount = (product) => {
     return product.discount !== undefined && (product.discount > 0);
   };

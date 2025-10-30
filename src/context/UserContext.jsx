@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { API_BASE_URL } from '@/config/api';
 
 const UserContext = createContext(null);
 
 const roleToEdit = ["admin", "seller"];
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8080/api";
 
 export function UserProvider({ children }) {
   // Inicializar estados con los valores guardados en localStorage
@@ -27,9 +27,9 @@ export function UserProvider({ children }) {
 
   const getFavorites = async (userData) => {
     try {
-      // Guard: si no hay userData o id, no intentar la petición
+      // Guard: si no hay userData o id, no intentar la peticiÃ³n
       if (!userData || !userData.id) {
-        console.warn('getFavorites: userData o userData.id ausente, abortando petición');
+        console.warn('getFavorites: userData o userData.id ausente, abortando peticiÃ³n');
         setFavorites([]);
         return;
       }
@@ -68,7 +68,7 @@ export function UserProvider({ children }) {
   const getNotifications = async (userData) => {
     try {
       if (!userData || !userData.id) {
-        console.warn('getNotifications: userData o userData.id ausente, abortando petición');
+        console.warn('getNotifications: userData o userData.id ausente, abortando peticiÃ³n');
         setNotifications([]);
         return;
       }
@@ -110,7 +110,7 @@ export function UserProvider({ children }) {
   const login = async (username=null, email=null, password) => {
     try {
       setIsLoading(true);
-      console.log("Iniciando sesión con:", { username, email, password });
+      console.log("Iniciando sesiÃ³n con:", { username, email, password });
       const response = await fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -127,7 +127,7 @@ export function UserProvider({ children }) {
       // console.log("Respuesta del servidor:", user);
 
       if (!userData ) {
-        setError("Credenciales inválidas");
+        setError("Credenciales invÃ¡lidas");
         return null;
       }
 
@@ -150,16 +150,16 @@ export function UserProvider({ children }) {
       setIsLoading(false);
       return userData;
     } catch (error) {
-      console.error("Error al iniciar sesión:", error);
+      console.error("Error al iniciar sesiÃ³n:", error);
       setIsLoading(false);
-      setError("Credenciales inválidas");
+      setError("Credenciales invÃ¡lidas");
       return null;
     }
   };
 
 
 
-  // Efecto optimizado para inicialización y sincronización con localStorage
+  // Efecto optimizado para inicializaciÃ³n y sincronizaciÃ³n con localStorage
   useEffect(() => {
     const initializeUser = async () => {
       try {
@@ -177,7 +177,7 @@ export function UserProvider({ children }) {
           const savedNotifications = localStorage.getItem('userNotifications');
 
           if (!savedFavorites || !savedNotifications) {
-            // Pasar el objeto `user` parseado en lugar del estado `userData` (que aún no se ha actualizado)
+            // Pasar el objeto `user` parseado en lugar del estado `userData` (que aÃºn no se ha actualizado)
             await Promise.all([
               getFavorites(user),
               getNotifications(user)
@@ -208,12 +208,12 @@ export function UserProvider({ children }) {
         localStorage.removeItem('isAuthenticated');
       }
       
-      // Sincronizar favorites (permitir arrays vacíos)
+      // Sincronizar favorites (permitir arrays vacÃ­os)
       if (favorites !== null) {
         localStorage.setItem('userFavorites', JSON.stringify(favorites));
       }
       
-      // Sincronizar notifications (permitir arrays vacíos)
+      // Sincronizar notifications (permitir arrays vacÃ­os)
       if (notifications !== null) {
         localStorage.setItem('userNotifications', JSON.stringify(notifications));
       }
@@ -228,7 +228,7 @@ export function UserProvider({ children }) {
     setNotifications([]);
     setError(null);
     
-    // Limpiar localStorage de forma más eficiente
+    // Limpiar localStorage de forma mÃ¡s eficiente
     const keysToRemove = ['userData', 'isAuthenticated', 'userFavorites', 'userNotifications'];
     keysToRemove.forEach(key => localStorage.removeItem(key));
   };

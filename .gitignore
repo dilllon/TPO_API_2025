@@ -17,9 +17,10 @@ dist-ssr/
 # Archivos de entorno
 # Contienen variables de entorno y secretos.
 # Crea un archivo .env.example para que otros sepan qué variables se necesitan.
-.env
-.env.local
-.env.*.local
+## Los comento porque total no tienen nada sensible
+# .env
+# .env.local
+# .env.*.local
 
 # Archivos de caché y temporales
 .npm
