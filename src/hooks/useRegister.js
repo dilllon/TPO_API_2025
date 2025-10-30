@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080/api';
+
 export function useRegister() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  
 
   // Función para verificar si el usuario ya existe
   // Nota: la validación de existencia de usuario se delega al backend.
@@ -15,10 +15,6 @@ export function useRegister() {
     setError(null);
 
     try {
-      // Nota: no se verifica localmente si el usuario existe; el backend retorna errores apropiados.
-
-
-
       // Crear objeto de usuario con formato de la base de datos
       const newUser = {
         username: userData.username,
@@ -41,8 +37,8 @@ export function useRegister() {
         imageUrl: "https://picsum.photos/50"
       };
 
-      // Enviar datos a JSON Server
-      const response = await fetch('http://localhost:8080/api/users/register', {
+      // Enviar datos al backend real
+      const response = await fetch(`${API_BASE_URL}/users/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
