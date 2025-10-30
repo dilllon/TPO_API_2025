@@ -1,7 +1,42 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { API_BASE_URL } from '@/config/api';
 
 const ProductsContext = createContext(null);
+
+const buildSearchParams = (filters = {}) => {
+  const params = new URLSearchParams();
+  const appendIfDefined = (key, value) => {
+    if (value === undefined || value === null || value === "") {
+      return;
+    }
+    params.append(key, value);
+  };
+
+  if (filters.title && typeof filters.title === "string" && filters.title.trim() !== "") {
+    appendIfDefined("title", filters.title.trim());
+  }
+
+  if (filters.category) {
+    appendIfDefined("category", filters.category);
+  }
+
+  if (filters.brand) {
+    appendIfDefined("brand", filters.brand);
+  }
+
+  appendIfDefined("minPrice", filters.minPrice);
+  appendIfDefined("maxPrice", filters.maxPrice);
+
+  if (filters.hasStock !== undefined) {
+    appendIfDefined("hasStock", filters.hasStock);
+  }
+
+  if (filters.hasDiscount !== undefined) {
+    appendIfDefined("hasDiscount", filters.hasDiscount);
+  }
+
+  return params;
+};
 
 export function ProductsProvider({ children }) {
   const [productsData, setProducts] = useState([]);
@@ -37,14 +72,33 @@ export function ProductsProvider({ children }) {
     fetchProducts();
   }, []);
 
-  // FunciÃ³n para obtener todas las categorÃ­as Ãºnicas
+  // FunciÃƒÂ³n para obtener todas las categorÃƒÂ­as ÃƒÂºnicas
   const getCategories = () => {
-    const uniqueCategories = [...new Set(productsData.map(product => product.category))];
+    const uniqueCategories = [...new Set(
+      productsData
+        .map(product => product?.category)
+        .filter(Boolean)
+    )];
     return uniqueCategories.map(category => ({
       label: category,
-      href: `#category-${category.toLowerCase()}`
+      href: `#category-${category.toLowerCase().replace(/\s+/g, "-")}`
     }));
   };
+
+  const getCategoryNames = useCallback(() => {
+    const names = new Set();
+    productsData.forEach(product => {
+      if (product?.category) {
+        names.add(product.category);
+      }
+    });
+    return Array.from(names).sort((a, b) =>
+      (a ?? "").localeCompare(b ?? "", "es-AR", {
+        sensitivity: "base",
+        numeric: true,
+      })
+    );
+  }, [productsData]);
 
   const canEdit = (id, userId) => {
     return productsData.find(product => product.id == id && product.userId == userId) ? true : false;
@@ -55,17 +109,17 @@ export function ProductsProvider({ children }) {
   }
   
   
-  // FunciÃ³n para obtener productos por categorÃ­a
+  // FunciÃƒÂ³n para obtener productos por categorÃƒÂ­a
   const getProductsByCategory = (categoryName) => {
     return productsData.filter(product => product.category === categoryName);
   };
   
-  // FunciÃ³n para obtener un producto por ID
+  // FunciÃƒÂ³n para obtener un producto por ID
   const getProductById = (id) => {
     return productsData.find(product => product.id == id);
   };
   
-  // FunciÃ³n para obtener productos organizados por categorÃ­as (para el grid)
+  // FunciÃƒÂ³n para obtener productos organizados por categorÃƒÂ­as (para el grid)
   const getProductsGroupedByCategory = () => {
     const categories = getCategories();
     return categories.map(({ label: categoryName }) => ({
@@ -90,25 +144,44 @@ export function ProductsProvider({ children }) {
     }));
   };
 
-  // FunciÃ³n para buscar productos por tÃ­tulo
-  const searchProducts = (searchTerm) => {
-    if (!searchTerm) return productsData;
-    
-    return productsData.filter(product => 
-      product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.brand.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  };
-  
-  // FunciÃ³n para calcular el precio con descuento
+  const searchProducts = useCallback(async (filters = {}, signal) => {
+    try {
+      const params = buildSearchParams(filters);
+      const queryString = params.toString();
+      const endpoint = queryString
+        ? `${API_BASE_URL}/products/search?${queryString}`
+        : `${API_BASE_URL}/products`;
+
+      const response = await fetch(endpoint, { signal });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        const message = errorData?.message || errorData?.error || `HTTP error! status: ${response.status}`;
+        throw new Error(message);
+      }
+
+      const data = await response.json();
+
+      if (!Array.isArray(data)) {
+        throw new Error('Los datos recibidos no son un array');
+      }
+
+      return data;
+    } catch (error) {
+      if (error.name === 'AbortError') {
+        throw error;
+      }
+      console.error("Error al buscar productos:", error);
+      throw error;
+    }
+  }, [API_BASE_URL]);
+  // FunciÃƒÂ³n para calcular el precio con descuento
   const calculateDiscountedPrice = (product) => {
     if (!product.discount) return product.price;
     return Math.round(product.price * (1 - product.discount / 100));
   };
   
-  // FunciÃ³n para verificar si un producto tiene descuento
+  // FunciÃƒÂ³n para verificar si un producto tiene descuento
   const hasDiscount = (product) => {
     return product.discount !== undefined && (product.discount > 0);
   };
@@ -202,7 +275,8 @@ export function ProductsProvider({ children }) {
       productsData, 
       isLoading,
       error,
-      getCategories, 
+      getCategories,
+      getCategoryNames,
       getProductsByCategory, 
       getProductById, 
       getProductsGroupedByCategory, 

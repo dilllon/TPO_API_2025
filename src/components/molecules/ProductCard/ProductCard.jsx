@@ -52,6 +52,16 @@ function ProductCard({ product, onClick, variant = 'default' }) {
   const productHasDiscount = hasDiscount(product);
   const discountedPrice = calculateDiscountedPrice(product);
 
+  const mainImage = Array.isArray(product?.images) && product.images.length > 0
+    ? product.images[0]
+    : product?.image;
+
+  const resolvedImage = mainImage || '/no-image-placeholder.png';
+
+  const handleImageError = (event) => {
+    event.currentTarget.src = '/no-image-placeholder.png';
+  };
+
   return (
     <div className={`product-card ${variant}`}>
       {productHasDiscount && (
@@ -69,9 +79,11 @@ function ProductCard({ product, onClick, variant = 'default' }) {
            </button>
         </div>
         <img
-          src={product.image}
+          src={resolvedImage}
           alt={product.title}
           className="product-image"
+          loading="lazy"
+          onError={handleImageError}
         />
         <div className="card-description-wrapper">
           <div className="price-container">
@@ -110,3 +122,4 @@ function ProductCard({ product, onClick, variant = 'default' }) {
 }
 
 export default ProductCard;
+
