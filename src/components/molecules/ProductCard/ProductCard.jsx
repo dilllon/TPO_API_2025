@@ -64,10 +64,17 @@ function ProductCard({ product, onClick, variant = 'default' }) {
     event.currentTarget.src = '/placeholder-product.svg';
   };
 
+  const isOwner = isAuthenticated && userData?.id && product?.userId === userData.id;
+
   return (
     <div className={`product-card ${variant}`}>
       {productHasDiscount && (
         <div className="discount-badge">-{product.discount}%</div>
+      )}
+      {isOwner && (
+        <div className="owner-badge" aria-label="Producto propio">
+          Tu producto
+        </div>
       )}
       <div className="product-clickable-area" onClick={handleProductClick}>
         <div className="product-card-header">

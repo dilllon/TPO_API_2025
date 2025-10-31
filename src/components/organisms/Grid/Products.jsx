@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useProducts } from "../../../context/ProductContext";
 import CarouselProducts from "../../molecules/CarouselProducts/CarouselProducts";
 import ProductCard from "../../molecules/ProductCard/ProductCard";
-import { useUser } from "@/context/UserContext";
 import Filter from "../Filter/Filter";
 import "./Products.css";
 import { useSearch } from "../../../context/SearchContext";
@@ -33,8 +32,6 @@ function ProductsGrid({ onAddToCart }) {
     searchProducts,
     getCategoryNames,
   } = useProducts();
-  const { userData, isAuthenticated } = useUser();
-  const userId = userData?.id;
   const { searchTerm } = useSearch();
 
   const [activeFilter, setActiveFilter] = useState(DEFAULT_FILTER);
@@ -131,10 +128,6 @@ function ProductsGrid({ onAddToCart }) {
     const groups = new Map();
 
     displayProducts.forEach((product) => {
-      if (isAuthenticated && userId && product?.userId === userId) {
-        return;
-      }
-
       const categoryName = product?.category ?? "Otros";
       if (!groups.has(categoryName)) {
         groups.set(categoryName, []);
@@ -148,7 +141,7 @@ function ProductsGrid({ onAddToCart }) {
         products: orderProducts(products),
       }))
       .filter(({ products }) => products.length > 0);
-  }, [displayProducts, isAuthenticated, userId]);
+  }, [displayProducts]);
 
   const showLoading = isLoading || isFiltering;
   const showError = showLoading ? null : (filterError ?? error);

@@ -1,4 +1,4 @@
-.product-card {
+﻿.product-card {
   border: none;
   padding: 1.5rem;
   border-radius: 12px;
@@ -62,7 +62,7 @@
   line-height: 1.4;
 
   display: -webkit-box;
-  -webkit-line-clamp: 2;      /* Máximo 2 líneas */
+  -webkit-line-clamp: 2;      /* MÃ¡ximo 2 lÃ­neas */
   line-clamp: 2;              /* Standard property */
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -327,3 +327,30 @@
   width: auto;
   min-height: 100px;
 }
+.owner-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: linear-gradient(135deg, #0891b2, #0ea5e9);
+  color: #ecfeff;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  z-index: 2;
+  box-shadow: 0 4px 12px rgba(8, 145, 178, 0.25);
+  text-transform: uppercase;
+}
+
+.owner-badge::before {
+  content: 'o';
+  margin-right: 6px;
+  font-size: 0.65rem;
+  opacity: 0.9;
+}
+
+.owner-badge + .discount-badge {
+  top: 42px;
+}
+
