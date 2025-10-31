@@ -21,9 +21,13 @@ function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Datos de muestra para el perfil de usuario.
+  const resolvedAvatar =
+    (userData && (userData.imageUrl || userData.image_url)) ||
+    'https://via.placeholder.com/150';
+
   const loggedUser = {
     userName: userData ? userData.username : 'Invitado',
-    imageUrl: userData ? userData.imageUrl : 'https://via.placeholder.com/150', // URL de Iron Man
+    imageUrl: resolvedAvatar,
   };
 
   return (

@@ -42,8 +42,14 @@ export default function Profile() {
     user.username ||
     'Usuario';
   const handle = user.username || user.email || 'usuario';
-  const bannerUrl = user.bannerUrl || 'https://picsum.photos/seed/profile-banner/1000/300';
-  const avatarUrl = user.imageUrl || 'https://picsum.photos/seed/profile-avatar/200/200';
+  const bannerUrl =
+    user.bannerUrl ||
+    user.banner_url ||
+    'https://picsum.photos/seed/profile-banner/1000/300';
+  const avatarUrl =
+    user.imageUrl ||
+    user.image_url ||
+    'https://picsum.photos/seed/profile-avatar/200/200';
   const favoritesCount = Array.isArray(user.favorites)
     ? user.favorites.length
     : Number(user.favorites ?? 0);
