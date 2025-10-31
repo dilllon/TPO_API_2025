@@ -5,6 +5,112 @@ const UserContext = createContext(null);
 
 const roleToEdit = ["admin", "seller"];
 
+const normalizeUserMediaFields = (data = {}) => {
+  if (!data || typeof data !== "object") {
+    return {};
+  }
+
+  const normalized = { ...data };
+
+  if (
+    Object.prototype.hasOwnProperty.call(data, "image_url") &&
+    !Object.prototype.hasOwnProperty.call(normalized, "imageUrl")
+  ) {
+    normalized.imageUrl = data.image_url;
+  }
+
+  if (
+    Object.prototype.hasOwnProperty.call(data, "banner_url") &&
+    !Object.prototype.hasOwnProperty.call(normalized, "bannerUrl")
+  ) {
+    normalized.bannerUrl = data.banner_url;
+  }
+
+  return normalized;
+};
+
+const mergeUserPayloads = (authPayload, profilePayload) => {
+  const base = normalizeUserMediaFields(authPayload);
+  const profile = normalizeUserMediaFields(profilePayload);
+
+  const merged = {
+    ...base,
+    ...profile,
+  };
+
+  merged.token = base.token ?? profile.token ?? merged.token ?? null;
+  merged.id = base.id ?? profile.id ?? merged.id ?? null;
+  merged.type = base.type ?? merged.type ?? profile.type ?? 'Bearer';
+
+  if (!merged.imageUrl && base.imageUrl) {
+    merged.imageUrl = base.imageUrl;
+  }
+
+  if (!merged.bannerUrl && base.bannerUrl) {
+    merged.bannerUrl = base.bannerUrl;
+  }
+
+  return merged;
+};
+
+const buildAuthHeaderValue = (token, tokenType) => {
+  if (!token || typeof token !== 'string') {
+    return null;
+  }
+
+  const trimmedToken = token.trim();
+  if (!trimmedToken) {
+    return null;
+  }
+
+  if (trimmedToken.toLowerCase().startsWith('bearer ')) {
+    return trimmedToken;
+  }
+
+  const prefix =
+    typeof tokenType === 'string' && tokenType.trim().length > 0
+      ? tokenType.trim()
+      : 'Bearer';
+
+  return `${prefix} ${trimmedToken}`;
+};
+
+const fetchUserProfile = async ({ token, tokenType, userId }) => {
+  const authHeader = buildAuthHeaderValue(token, tokenType);
+  if (!authHeader) {
+    return null;
+  }
+
+  const headers = {
+    Accept: 'application/json',
+    Authorization: authHeader,
+  };
+
+  const endpoints = [];
+  if (userId !== null && userId !== undefined) {
+    endpoints.push(`${API_BASE_URL}/users/${userId}`);
+  }
+  endpoints.push(`${API_BASE_URL}/auth/me`);
+
+  for (const url of endpoints) {
+    try {
+      const response = await fetch(url, { method: 'GET', headers });
+      if (response.ok) {
+        const payload = await response.json();
+        return normalizeUserMediaFields(payload);
+      }
+
+      console.warn(
+        `fetchUserProfile: el endpoint ${url} devolvio estado ${response.status}`
+      );
+    } catch (error) {
+      console.warn(`fetchUserProfile: error al llamar ${url}`, error);
+    }
+  }
+
+  return null;
+};
+
 const normalizeFavoriteRecords = (rawList, fallbackUserId = null) => {
   if (!Array.isArray(rawList)) {
     return [];
@@ -45,8 +151,17 @@ const normalizeFavoriteRecords = (rawList, fallbackUserId = null) => {
 export function UserProvider({ children }) {
   // Inicializar estados con los valores guardados en localStorage
   const [userData, setUserData] = useState(() => {
-    const saved = localStorage.getItem('userData');
-    return saved ? JSON.parse(saved) : null;
+    const saved = localStorage.getItem("userData");
+    if (!saved) {
+      return null;
+    }
+
+    try {
+      return normalizeUserMediaFields(JSON.parse(saved));
+    } catch (parseError) {
+      console.warn("No se pudo parsear userData desde localStorage", parseError);
+      return null;
+    }
   });
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -84,8 +199,10 @@ export function UserProvider({ children }) {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       };
-      if (userInfo.token) {
-        headers.Authorization = `Bearer ${userInfo.token}`;
+
+      const authHeader = buildAuthHeaderValue(userInfo.token, userInfo.type);
+      if (authHeader) {
+        headers.Authorization = authHeader;
       }
 
       console.debug('getFavorites - fetch', { url, headers });
@@ -123,11 +240,13 @@ export function UserProvider({ children }) {
 
       const url = `${API_BASE_URL}/notifications/user/${userInfo.id}`;
       const headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       };
-      if (userInfo.token) {
-        headers['Authorization'] = `Bearer ${userInfo.token}`;
+
+      const authHeader = buildAuthHeaderValue(userInfo.token, userInfo.type);
+      if (authHeader) {
+        headers.Authorization = authHeader;
       }
 
       const response = await fetch(url, { headers });
@@ -165,13 +284,16 @@ export function UserProvider({ children }) {
     }
 
     try {
+      const authHeader = buildAuthHeaderValue(userData.token, userData.type);
+      const headers = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        ...(authHeader ? { Authorization: authHeader } : {}),
+      };
+
       const response = await fetch(`${API_BASE_URL}/favorites/user/${userData.id}`, {
         method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          ...(userData.token ? { Authorization: `Bearer ${userData.token}` } : {}),
-        },
+        headers,
         body: JSON.stringify({ productId: product.id }),
       });
 
@@ -233,14 +355,17 @@ export function UserProvider({ children }) {
     }
 
     try {
+      const authHeader = buildAuthHeaderValue(userData.token, userData.type);
+      const deleteHeaders = {
+        Accept: 'application/json',
+        ...(authHeader ? { Authorization: authHeader } : {}),
+      };
+
       const response = await fetch(
         `${API_BASE_URL}/favorites/user/${userData.id}/favorite/${favoriteEntry.id}`,
         {
           method: 'DELETE',
-          headers: {
-            Accept: 'application/json',
-            ...(userData.token ? { Authorization: `Bearer ${userData.token}` } : {}),
-          },
+          headers: deleteHeaders,
         }
       );
 
@@ -258,53 +383,61 @@ export function UserProvider({ children }) {
       return { success: false, error: err.message || 'No se pudo eliminar el favorito.' };
     }
   };
-  const login = async (username=null, email=null, password) => {
+  const login = async (username = null, email = null, password) => {
+    setIsLoading(true);
+
     try {
-      setIsLoading(true);
       console.log("Iniciando sesion con:", { username, email, password });
       const response = await fetch(`${API_BASE_URL}/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        usernameOrEmail: username || email,
-        password: password
-      })
-});
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          usernameOrEmail: username || email,
+          password: password,
+        }),
+      });
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const userData = await response.json();
-      // console.log("Respuesta del servidor:", user);
+      const authPayload = await response.json();
 
-      if (!userData ) {
+      if (!authPayload) {
         setError("Credenciales invalidas");
         return null;
       }
 
-   
-      
+      const profilePayload = await fetchUserProfile({
+        token: authPayload.token,
+        tokenType: authPayload.type,
+        userId: authPayload.id,
+      });
+
+      const mergedUser = mergeUserPayloads(authPayload, profilePayload);
+      const normalizedUser = normalizeUserMediaFields(mergedUser);
+
       // Guardar en localStorage
-      localStorage.setItem('userData', JSON.stringify(userData));
-      localStorage.setItem('isAuthenticated', 'true');
-      
-      setUserData(userData);
+      localStorage.setItem("userData", JSON.stringify(normalizedUser));
+      localStorage.setItem("isAuthenticated", "true");
+
+      setUserData(normalizedUser);
       setIsAuthenticated(true);
       setError(null);
 
       // Cargar favoritos y notificaciones
       await Promise.all([
-        getFavorites(userData),
-        getNotifications(userData)
+        getFavorites(normalizedUser),
+        getNotifications(normalizedUser),
       ]);
 
-      setIsLoading(false);
-      return userData;
+      return normalizedUser;
     } catch (error) {
       console.error("Error al iniciar sesion:", error);
-      setIsLoading(false);
       setError("Credenciales invalidas");
       return null;
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -319,9 +452,20 @@ export function UserProvider({ children }) {
         const savedAuth = localStorage.getItem('isAuthenticated');
         
         if (savedUserData && savedAuth === 'true') {
-          const user = JSON.parse(savedUserData);
+          let user = normalizeUserMediaFields(JSON.parse(savedUserData));
           setUserData(user);
           setIsAuthenticated(true);
+
+          const refreshedProfile = await fetchUserProfile({
+            token: user.token,
+            tokenType: user.type,
+            userId: user.id,
+          });
+
+          if (refreshedProfile) {
+            user = mergeUserPayloads(user, refreshedProfile);
+            setUserData(user);
+          }
 
           // Solo cargar datos remotos si no los tenemos en localStorage
           const savedFavorites = localStorage.getItem('userFavorites');
@@ -352,7 +496,7 @@ export function UserProvider({ children }) {
     if (!isLoading) {
       // Sincronizar userData e isAuthenticated
       if (userData && isAuthenticated) {
-        localStorage.setItem('userData', JSON.stringify(userData));
+        localStorage.setItem('userData', JSON.stringify(normalizeUserMediaFields(userData)));
         localStorage.setItem('isAuthenticated', 'true');
       } else if (!isAuthenticated) {
         localStorage.removeItem('userData');
