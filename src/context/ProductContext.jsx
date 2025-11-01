@@ -3,6 +3,28 @@ import { API_BASE_URL } from '@/config/api';
 
 const ProductsContext = createContext(null);
 
+const buildAuthHeaderValue = (token, tokenType) => {
+  if (!token || typeof token !== 'string') {
+    return null;
+  }
+
+  const trimmedToken = token.trim();
+  if (!trimmedToken) {
+    return null;
+  }
+
+  if (trimmedToken.toLowerCase().startsWith('bearer ')) {
+    return trimmedToken;
+  }
+
+  const prefix =
+    typeof tokenType === 'string' && tokenType.trim().length > 0
+      ? tokenType.trim()
+      : 'Bearer';
+
+  return `${prefix} ${trimmedToken}`;
+};
+
 const buildSearchParams = (filters = {}) => {
   const params = new URLSearchParams();
   const appendIfDefined = (key, value) => {
@@ -190,11 +212,27 @@ export function ProductsProvider({ children }) {
   const updateProduct = async (updated) => {
     try {
       console.log("Actualizando producto:", JSON.stringify(updated));
+      
+      const savedUserData = localStorage.getItem('userData');
+      let authHeader = null;
+      
+      if (savedUserData) {
+        try {
+          const userData = JSON.parse(savedUserData);
+          authHeader = buildAuthHeaderValue(userData.token, userData.type);
+        } catch (error) {
+          console.warn('Error al parsear userData:', error);
+        }
+      }
+
+      const headers = {
+        'Content-Type': 'application/json',
+        ...(authHeader ? { Authorization: authHeader } : {}),
+      };
+
       const response = await fetch(`${API_BASE_URL}/products/${updated.id}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers,
         body: JSON.stringify(updated)
       });
 
@@ -219,12 +257,26 @@ export function ProductsProvider({ children }) {
 
   const addProduct = async (product) => {
     try {
-      // Enviar el producto al backend real
+      const savedUserData = localStorage.getItem('userData');
+      let authHeader = null;
+      
+      if (savedUserData) {
+        try {
+          const userData = JSON.parse(savedUserData);
+          authHeader = buildAuthHeaderValue(userData.token, userData.type);
+        } catch (error) {
+          console.warn('Error al parsear userData:', error);
+        }
+      }
+
+      const headers = {
+        'Content-Type': 'application/json',
+        ...(authHeader ? { Authorization: authHeader } : {}),
+      };
+
       const response = await fetch(`${API_BASE_URL}/products`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers,
         body: JSON.stringify(product)
       });
 
