@@ -47,7 +47,7 @@
   padding: 0.75rem 0.9rem;
   border-radius: 10px;
   border: 1px solid rgba(148, 163, 184, 0.25);
-  background-color: rgba(15, 23, 42, 0.6);
+  background-color: rgb(38 39 45);
   color: var(--white);
   font-size: 0.95rem;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
