@@ -11,6 +11,52 @@ import './ProductsView.css';
 import AuthAlert from '../../molecules/AuthAlert/AuthAlert';
 import { toast } from 'react-toastify';
 import ConfirmModal from '../../atoms/ConfirmModal/ConfirmModal';
+import { API_BASE_URL } from '../../../config/api';
+
+const buildAuthHeaderValue = (token, type) => {
+  if (!token || typeof token !== 'string') {
+    return null;
+  }
+
+  const trimmedToken = token.trim();
+  if (!trimmedToken) {
+    return null;
+  }
+
+  if (trimmedToken.toLowerCase().startsWith('bearer ')) {
+    return trimmedToken;
+  }
+
+  const prefix =
+    typeof type === 'string' && type.trim().length > 0
+      ? type.trim()
+      : 'Bearer';
+
+  return `${prefix} ${trimmedToken}`;
+};
+
+const resolveTokenInfo = (userData) => {
+  if (userData?.token) {
+    return { token: userData.token, type: userData.type };
+  }
+
+  if (typeof window !== 'undefined') {
+    try {
+      const saved = window.localStorage.getItem('userData');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return {
+          token: parsed?.token ?? null,
+          type: parsed?.type ?? null,
+        };
+      }
+    } catch (error) {
+      console.warn('ProductsView: no se pudo leer userData desde localStorage', error);
+    }
+  }
+
+  return { token: null, type: null };
+};
 
 function ProductsView() {
   const { id } = useParams();
@@ -121,28 +167,50 @@ function ProductsView() {
   const confirmDelete = async () => {
     setIsDeleting(true);
     setShowDeleteModal(false);
-    
+
     try {
-      const success = await deleteProduct(product.id);
-      
-      if (success) {
-        console.log('Producto eliminado exitosamente');
-        toast.success('¡Producto eliminado exitosamente!', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-        // Redirigir después de mostrar la notificación
-        navigate('/products/my-products');
-      } else {
-        throw new Error('Error al eliminar el producto');
+      if (!product?.id) {
+        throw new Error('Producto invalido.');
       }
+
+      const { token, type } = resolveTokenInfo(user);
+      const authHeader = buildAuthHeaderValue(token, type);
+
+      if (!authHeader) {
+        throw new Error('No se encontro un token valido para eliminar el producto.');
+      }
+
+      const response = await fetch(`${API_BASE_URL}/products/${product.id}`, {
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          Authorization: authHeader,
+        },
+      });
+
+      if (!response.ok) {
+        const errorPayload = await response.json().catch(() => null);
+        const message =
+          errorPayload?.message ||
+          errorPayload?.error ||
+          `No se pudo eliminar el producto (HTTP ${response.status})`;
+        throw new Error(message);
+      }
+
+      await deleteProduct(product.id);
+
+      toast.success('Producto eliminado exitosamente.', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      navigate('/products/my-products');
     } catch (error) {
       console.error('Error al eliminar el producto:', error);
-      toast.error('Error al eliminar el producto. Por favor, intenta de nuevo.', {
+      toast.error(error?.message || 'Error al eliminar el producto. Por favor, intenta de nuevo.', {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -389,3 +457,5 @@ function ProductsView() {
 }
 
 export default ProductsView;
+
+
