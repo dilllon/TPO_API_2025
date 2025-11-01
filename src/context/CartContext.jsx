@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useProducts } from './ProductContext';
 
 const CartContext = createContext();
-const PURCHASES_API_URL = import.meta.env.VITE_PURCHASES_API_URL ?? 'http://localhost:8080/purchases';
+const PURCHASES_API_URL = import.meta.env.VITE_PURCHASES_API_URL ?? 'http://localhost:8080/api/purchases';
 
 export function CartProvider({ children }) {
   const { getProductById, hasDiscount, calculateDiscountedPrice, isLoading } = useProducts();
@@ -59,15 +59,26 @@ export function CartProvider({ children }) {
     });
   }
 
-  async function savePurchase(purchase) {
+  async function savePurchase(purchaseItems) {
+    const token = localStorage.getItem('token');
+
     const res = await fetch(PURCHASES_API_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(purchase)
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify({ items: purchaseItems })
     });
 
     if (!res.ok) {
-      throw new Error('Error guardando la compra');
+      let msg = 'Error guardando la compra';
+      try {
+        const err = await res.json();
+        if (err?.message) msg = err.message;
+      } catch {
+        throw new Error(msg);
+      }
     }
 
     return res.json(); // devuelve la compra guardada
@@ -77,14 +88,14 @@ export function CartProvider({ children }) {
 
   const totalPrice = products.reduce((a, p) => {
     if (isLoading) return a;
-    
+
     const product = getProductById(p.id);
     if (!product) return a;
-    
+
     const finalPrice = hasDiscount(product)
       ? calculateDiscountedPrice(product)
       : product.price;
-      
+
     return a + finalPrice * (p.qty || 1);
   }, 0);
 

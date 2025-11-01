@@ -34,27 +34,12 @@ function Cart() {
     }
 
     try {
-      // Actualizar el stock de cada producto
-      for (const cartItem of products) {
-        const fullProduct = getProductById(cartItem.id);
-        if (fullProduct) {
-          const updatedProduct = {
-            ...fullProduct,
-            stock: fullProduct.stock - cartItem.qty,
-            updatedAt: new Date().toISOString()
-          };
-          
-          await updateProduct(updatedProduct);
-        }
-      }
-
-      // Guardar la compra
-      let itemsjson = buildPurchaseItems(products, { getProductById, hasDiscount, calculateDiscountedPrice });
-      await savePurchase({
-        userId: userData.id,
-        purchases: itemsjson,
-        date: new Date().toISOString()
-      });
+      // construye la compra
+      const itemsForApi = products.map(p => ({
+        productId: p.id,
+        qty: p.qty || 1,
+      }));
+      await savePurchase(itemsForApi);
 
       // Limpiar carrito
       localStorage.setItem('cartItems', '[]');
@@ -65,12 +50,12 @@ function Cart() {
           newValue: '[]',
         }),
       );
-      
+
       clearCart();
       setShowPopup(false);
 
       // Mostrar mensaje de éxito
-      toast.success('¡Compra realizada con éxito! El stock ha sido actualizado.', {
+      toast.success('¡Compra realizada con éxito!', {
         position: "top-right",
         autoClose: 4000,
         hideProgressBar: false,
