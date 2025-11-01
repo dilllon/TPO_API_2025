@@ -81,17 +81,39 @@ function AddProductView() {
         return;
       }
       
-      // Preparar payload mínimo (el backend genera timestamps, ratings, etc.)
+      // Preparar los datos del producto para la API
       const newProduct = {
         title: productData.name,
         description: productData.description,
         price: parseFloat(productData.price),
         stock: parseInt(productData.stock),
+        category: productData.category,
+        brand: productData.brand || "Generic",
+        warranty: productData.warranty || "1 año",
+        weight: productData.weight || "N/A",
+        dimensions: productData.dimensions || "N/A",
+        discount: productData.discount ? parseInt(productData.discount) : undefined,
+        image: productData.image !== undefined && productData.image !== null && productData.image !== '' ? `/src/assets/images/productos/${productData.image.name}` : '/src/assets/images/productos/default.jpg',
+        images: [
+          productData.image !== undefined && productData.image !== null && productData.image !== ''  ? `/src/assets/images/productos/${productData.image.name}` : '/src/assets/images/productos/default.jpg',
+          ...(productData.additionalImages !== undefined && productData.additionalImages !== null && productData.additionalImages !== ''  ? productData.additionalImages.map(img => `/src/assets/images/productos/${img.name}`) : [])
+        ],
+        features: productData.features !== undefined && productData.features !== null && productData.features !== ''  
+          ? productData.features.split(',').map(f => f.trim()).filter(f => f.length > 0)
+          : [],
+        tags: productData.tags !== undefined && productData.tags !== null && productData.tags !== ''  
+          ? productData.tags.split(',').map(t => t.trim().toLowerCase()).filter(t => t.length > 0)
+          : [productData.category.toLowerCase()],
         categoryId,
         userId: userData.id,
-        brand: productData.brand || "Generic",
-        discount: productData.discount ? parseInt(productData.discount) : undefined,
-        image: productData.image ? `/src/assets/images/productos/${productData.image.name}` : '/src/assets/images/productos/default.jpg',
+        sellerUsername: userData.username,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        isActive: true,
+        rating: {
+          average: 0,
+          count: 0
+        }
       };
 
       // Usar la función del contexto para agregar el producto
