@@ -250,7 +250,7 @@ export function UserProvider({ children }) {
       }
 
       const response = await fetch(url, { headers });
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -408,6 +408,8 @@ export function UserProvider({ children }) {
         return null;
       }
 
+      localStorage.setItem("token", authPayload.token);
+
       const profilePayload = await fetchUserProfile({
         token: authPayload.token,
         tokenType: authPayload.type,
@@ -450,7 +452,7 @@ export function UserProvider({ children }) {
         setIsLoading(true);
         const savedUserData = localStorage.getItem('userData');
         const savedAuth = localStorage.getItem('isAuthenticated');
-        
+
         if (savedUserData && savedAuth === 'true') {
           let user = normalizeUserMediaFields(JSON.parse(savedUserData));
           setUserData(user);
@@ -529,13 +531,13 @@ export function UserProvider({ children }) {
   };
 
   return (
-    <UserContext.Provider value={{ 
-      userData, 
-      isLoading, 
-      error, 
-      isAuthenticated, 
-      login, 
-      logout, 
+    <UserContext.Provider value={{
+      userData,
+      isLoading,
+      error,
+      isAuthenticated,
+      login,
+      logout,
       notifications,
       favorites,
       addFavorite,
