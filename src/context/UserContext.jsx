@@ -518,16 +518,24 @@ export function UserProvider({ children }) {
   }, [userData, isAuthenticated, favorites, notifications, isLoading]);
 
   const logout = () => {
-    // Limpiar el estado en un solo batch
     setUserData(null);
     setIsAuthenticated(false);
     setFavorites([]);
     setNotifications([]);
     setError(null);
 
-    // Limpiar localStorage de forma mas eficiente
-    const keysToRemove = ['userData', 'isAuthenticated', 'userFavorites', 'userNotifications'];
-    keysToRemove.forEach(key => localStorage.removeItem(key));
+    const keysToRemove = [
+      'userData',
+      'isAuthenticated',
+      'userFavorites',
+      'userNotifications',
+      'token',
+      'cartItems'
+    ];
+    keysToRemove.forEach((key) => localStorage.removeItem(key));
+
+    // localStorage.setItem('cartItems', '[]');
+    window.dispatchEvent(new CustomEvent('cart:clear'));
   };
 
   return (

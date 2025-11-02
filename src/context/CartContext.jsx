@@ -5,32 +5,33 @@ const CartContext = createContext();
 const PURCHASES_API_URL = import.meta.env.VITE_PURCHASES_API_URL ?? 'http://localhost:8080/api/purchases';
 
 export function CartProvider({ children }) {
-  const { getProductById, hasDiscount, calculateDiscountedPrice, isLoading } = useProducts();
+  const { getProductById, hasDiscount, calculateDiscountedPrice, isLoading, refreshProducts } = useProducts();
   const [removing, setRemoving] = useState(new Set());
   const ANIM_MS = 220;
 
   const [products, setProducts] = useState(() => {
     try {
       const items = JSON.parse(localStorage.getItem('cartItems') || '[]');
-      return items.map(item => ({
+      return items.map((item) => ({
         ...item,
-        id: typeof item.id === 'string' ? parseInt(item.id) : item.id
+        id: typeof item.id === 'string' ? parseInt(item.id, 10) : item.id,
       }));
     } catch {
       return [];
     }
   });
 
-  // Sincronizar estado con localStorage (solo para otras pestañas)
   useEffect(() => {
     const onStorage = (e) => {
       if (e.key === 'cartItems' && e.storageArea === localStorage) {
         try {
           const items = JSON.parse(e.newValue || '[]');
-          setProducts(items.map(item => ({
-            ...item,
-            id: typeof item.id === 'string' ? parseInt(item.id) : item.id
-          })));
+          setProducts(
+            items.map((item) => ({
+              ...item,
+              id: typeof item.id === 'string' ? parseInt(item.id, 10) : item.id,
+            })),
+          );
         } catch (error) {
           console.error('Error syncing cart from storage:', error);
           setProducts([]);
@@ -42,19 +43,30 @@ export function CartProvider({ children }) {
     return () => window.removeEventListener('storage', onStorage);
   }, []);
 
+  useEffect(() => {
+    const handleCartClear = () => {
+      setProducts([]);
+      localStorage.setItem('cartItems', '[]');
+    };
 
+    window.addEventListener('cart:clear', handleCartClear);
+    return () => window.removeEventListener('cart:clear', handleCartClear);
+  }, []);
 
-  function buildPurchaseItems(cartItems, { getProductById, hasDiscount, calculateDiscountedPrice }) {
-    return cartItems.map(ci => {
-      const prod = getProductById(ci.id);
-      const unit = hasDiscount(prod) ? calculateDiscountedPrice(prod) : prod.price;
+  function buildPurchaseItems(cartItems, utilities) {
+    const { getProductById: getProduct, hasDiscount: checkDiscount, calculateDiscountedPrice: calcDiscounted } =
+      utilities;
+
+    return cartItems.map((cartItem) => {
+      const product = getProduct(cartItem.id);
+      const unitPrice = checkDiscount(product) ? calcDiscounted(product) : product.price;
+
       return {
-        // el id interno se asigna más abajo
-        productId: prod.id,
-        title: prod.title,
-        pricePaid: Number(unit),       // precio unitario pagado
-        qty: Math.max(1, ci.qty || 1),
-        thumbnail: prod.thumbnail || prod.image || ''
+        productId: product.id,
+        title: product.title,
+        pricePaid: Number(unitPrice),
+        qty: Math.max(1, cartItem.qty || 1),
+        thumbnail: product.thumbnail || product.image || '',
       };
     });
   }
@@ -66,9 +78,9 @@ export function CartProvider({ children }) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
-      body: JSON.stringify({ items: purchaseItems })
+      body: JSON.stringify({ items: purchaseItems }),
     });
 
     if (!res.ok) {
@@ -81,35 +93,37 @@ export function CartProvider({ children }) {
       }
     }
 
-    return res.json(); // devuelve la compra guardada
+    const savedPurchase = await res.json();
+
+    try {
+      await refreshProducts();
+    } catch (error) {
+      console.warn('No se pudo refrescar el catalogo de productos despu�s de la compra:', error);
+    }
+
+    return savedPurchase;
   }
 
-  const totalItems = products.reduce((a, p) => a + (p.qty || 1), 0);
+  const totalItems = products.reduce((acc, product) => acc + (product.qty || 1), 0);
 
-  const totalPrice = products.reduce((a, p) => {
-    if (isLoading) return a;
+  const totalPrice = products.reduce((acc, productInCart) => {
+    if (isLoading) return acc;
 
-    const product = getProductById(p.id);
-    if (!product) return a;
+    const product = getProductById(productInCart.id);
+    if (!product) return acc;
 
-    const finalPrice = hasDiscount(product)
-      ? calculateDiscountedPrice(product)
-      : product.price;
+    const finalPrice = hasDiscount(product) ? calculateDiscountedPrice(product) : product.price;
 
-    return a + finalPrice * (p.qty || 1);
+    return acc + finalPrice * (productInCart.qty || 1);
   }, 0);
 
   const addToCart = (product, quantity = 1) => {
-    setProducts(prevProducts => {
-      const existingItem = prevProducts.find(item => item.id === product.id);
+    setProducts((prevProducts) => {
+      const existingItem = prevProducts.find((item) => item.id === product.id);
       let updatedCart;
 
       if (existingItem) {
-        updatedCart = prevProducts.map(item =>
-          item.id === product.id
-            ? { ...item, qty: (item.qty || 1) + quantity }
-            : item
-        );
+        updatedCart = prevProducts.map((item) => (item.id === product.id ? { ...item, qty: (item.qty || 1) + quantity } : item));
       } else {
         updatedCart = [...prevProducts, { ...product, qty: quantity }];
       }
@@ -120,16 +134,16 @@ export function CartProvider({ children }) {
   };
 
   const removeFromCart = (id) => {
-    setRemoving(prev => new Set(prev).add(id));
+    setRemoving((prev) => new Set(prev).add(id));
 
     setTimeout(() => {
-      setProducts(prevProducts => {
-        const updatedCart = prevProducts.filter(item => item.id !== id);
+      setProducts((prevProducts) => {
+        const updatedCart = prevProducts.filter((item) => item.id !== id);
         localStorage.setItem('cartItems', JSON.stringify(updatedCart));
         return updatedCart;
       });
 
-      setRemoving(prev => {
+      setRemoving((prev) => {
         const next = new Set(prev);
         next.delete(id);
         return next;
@@ -138,10 +152,8 @@ export function CartProvider({ children }) {
   };
 
   const updateQuantity = (id, newQty) => {
-    setProducts(prevProducts => {
-      const updatedCart = prevProducts.map(item =>
-        item.id === id ? { ...item, qty: Math.max(1, newQty) } : item
-      );
+    setProducts((prevProducts) => {
+      const updatedCart = prevProducts.map((item) => (item.id === id ? { ...item, qty: Math.max(1, newQty) } : item));
 
       localStorage.setItem('cartItems', JSON.stringify(updatedCart));
       return updatedCart;
@@ -154,24 +166,26 @@ export function CartProvider({ children }) {
   };
 
   const getCartItemById = (id) => {
-    return products.find(item => item.id === id);
+    return products.find((item) => item.id === id);
   };
 
   return (
-    <CartContext.Provider value={{
-      products,
-      totalItems,
-      totalPrice,
-      addToCart,
-      removeFromCart,
-      updateQuantity,
-      clearCart,
-      getCartItemById,
-      removing,
-      isLoading,
-      buildPurchaseItems,
-      savePurchase
-    }}>
+    <CartContext.Provider
+      value={{
+        products,
+        totalItems,
+        totalPrice,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        clearCart,
+        getCartItemById,
+        removing,
+        isLoading,
+        buildPurchaseItems,
+        savePurchase,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
@@ -180,7 +194,7 @@ export function CartProvider({ children }) {
 export function useCart() {
   const context = useContext(CartContext);
   if (!context) {
-    throw new Error("useCart debe usarse dentro de un CartProvider");
+    throw new Error('useCart debe usarse dentro de un CartProvider');
   }
   return context;
 }

@@ -34,6 +34,20 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
+.mypurchases-thumb {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f4f4f4;
+  border-radius: 6px;
+  color: #555;
+  font-weight: 600;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+}
+
 .mypurchases-thumb img {
   width: 80px;
   height: 80px;
@@ -55,6 +69,17 @@
   margin: 2px 0;
   font-size: 0.9rem;
   color: #555;
+}
+
+.mypurchases-loading,
+.mypurchases-error {
+  text-align: center;
+  padding: 24px 0;
+  font-size: 0.95rem;
+}
+
+.mypurchases-error {
+  color: #b91c1c;
 }
 
 .mypurchases-empty {
