@@ -1,4 +1,8 @@
-const DEFAULT_API_BASE_URL = 'http://localhost:8080/api';
+// En producción (Docker), usar ruta relativa para que nginx haga el proxy
+// En desarrollo, usar localhost:8080
+const DEFAULT_API_BASE_URL = import.meta.env.MODE === 'production' 
+  ? '/api' 
+  : 'http://localhost:8080/api';
 
 const normalizeValue = (value, fallback) => {
   if (typeof value !== 'string') return fallback;
